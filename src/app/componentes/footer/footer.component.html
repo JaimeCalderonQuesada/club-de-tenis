@@ -32,9 +32,17 @@
 
     </section>
     <!-- Section: Social media -->
-    <form #formContacto="ngModel">
-      <label>Nombre:</label>
-        <input type="text" name="nombre" #nombreContacto="ngModel">
+    <form #formContacto (ngSubmit)="onSubmit()">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" #nombreContacto [(ngModel)]="nombre">
+
+        <label>Correo:</label>
+        <input type="email" name="email" #emailContacto [(ngModel)]="email">
+
+        <label>Mensaje:</label>
+        <input type="text" name="mensaje" #mensajeContacto [(ngModel)]="mensaje">
+
+        <input type="submit" value="Enviar">
     </form>
     <!-- Copyright -->
       <section >
