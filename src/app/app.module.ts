@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './componentes/nav/nav.component';
@@ -11,7 +10,7 @@ import { TorneosComponent } from './componentes/torneos/torneos.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { SociosComponent } from './componentes/socios/socios.component';
 import { SesionComponent } from './componentes/sesion/sesion.component';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,12 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
+  exports:[
+
   ],
   providers: [],
   bootstrap: [AppComponent]
