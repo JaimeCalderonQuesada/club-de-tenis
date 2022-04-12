@@ -1,0 +1,31 @@
+#nav{
+  background-color: var(--main-bg-color);
+  font-family:Roboto;
+  font-weight: bold;
+}
+
+a{
+  color: var(--color-nav) ;
+  font-size: 25px;
+  text-shadow: 0.1em 0.1em 0.1em black;
+}
+
+a:hover{
+  color:var(--color-nav-hover);
+}
+
+a:focus{
+  color:var(--color-nav-hover);
+
+}
+
+.flex{
+  width: 100%;
+  display:flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#logo{
+  margin-left: 5%;
+}

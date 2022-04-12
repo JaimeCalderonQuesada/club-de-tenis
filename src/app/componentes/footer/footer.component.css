@@ -1,0 +1,20 @@
+#footer{
+  background-color: var(--main-bg-color);
+  font-family:Roboto;
+  font-weight: bold;
+  color: var(--color-nav) ;
+  font-size: 20px;
+  text-shadow: 0.1em 0.1em 0.1em black;
+}
+
+a{
+  font-size: 25px;
+  color: var(--color-nav) ;
+}
+a:hover{
+  color:var(--color-nav-hover);
+}
+
+a:focus{
+  color:var(--color-nav-hover);
+}

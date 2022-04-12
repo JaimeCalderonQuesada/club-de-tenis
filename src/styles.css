@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+:root {
+  --main-bg-color: #e28000;
+  --color-nav: #009846;
+  --color-nav-hover:#48c26c;
+}
+@font-face {
+  font-family: Roboto;
+  src: url(assets/font/Roboto-Regular.ttf) format("opentype");
+}
