@@ -40,25 +40,31 @@
 
     </div>
     <!-- Section: Social media -->
-    <form #formContacto (ngSubmit)="onSubmit()" class="row m-0 p-0">
-        <div class="col-12 col-md-6 d-flex justify-content-center">
-          <input id="nombre" type="text" name="nombre" placeholder="Nombre" class="form-control" #nombreContacto [(ngModel)]="nombre">
+    <form #formContacto="ngForm" (ngSubmit)="onSubmit()" class="row m-0 p-0">
+        <div class="col-12 col-md-6 d-flex justify-content-center position-relative">
+            <input id="nombre" type="text" name="nombre" placeholder="Nombre" class="form-control" #nombreContacto="ngModel" [(ngModel)]="contacto.name" required>
+            <span class="position-absolute" style="color: red;" *ngIf="nombreContacto.touched && !nombreContacto.valid">
+              El nombre es obligatorio
+            </span>
         </div>
 
 
-        <div class="col-12 col-md-6 d-flex justify-content-center">
-          <div id="divEmail" class="input-group">
-            <span class="input-group-text">@</span>
-            <input type="email" class="form-control" name="email" placeholder="Email" #emailContacto [(ngModel)]="email">
-          </div>
+        <div class="col-12 col-md-6 d-flex justify-content-center position-relative">
+            <input id="email" type="email" class="form-control" name="email" placeholder="Email" #emailContacto="ngModel" [(ngModel)]="contacto.email" required>
+            <span class="position-absolute" style="color: red;" *ngIf="emailContacto.touched && !emailContacto.valid">
+                El email es obligatorio
+            </span>
         </div>
 
-        <div class="col-12 col-md-8 d-flex justify-content-center">
-          <textarea id="area" name="mensaje" placeholder="Mensaje" rows="5" class="form-control" #mensajeContacto [(ngModel)]="mensaje"></textarea>
+        <div class="col-12 col-md-8 d-flex justify-content-center position-relative">
+          <textarea id="area" name="mensaje" placeholder="Mensaje" rows="5" class="form-control" #mensajeContacto="ngModel" [(ngModel)]="contacto.mensaje" required></textarea>
+          <span class="position-absolute top-50" style="color: red;" *ngIf="mensajeContacto.touched && !mensajeContacto.valid">
+            El mensaje es obligatorio
+          </span>
         </div>
 
         <div id="divBoton" class="col-12 col-md-4 d-flex align-items-center justify-content-center">
-          <input id="boton" type="submit" value="Enviar Mensaje" class="btn btn-success">
+          <input id="boton" type="submit" value="Enviar Mensaje" [disabled]="!formContacto.form.valid" class="btn btn-success">
         </div>
     </form>
     <!-- Copyright -->

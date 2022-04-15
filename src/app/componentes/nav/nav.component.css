@@ -29,3 +29,7 @@ a:focus{
 #logo{
   margin-left: 5%;
 }
+
+.activado{
+  color:var(--color-nav-hover);
+}

@@ -11,6 +11,7 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { SociosComponent } from './componentes/socios/socios.component';
 import { SesionComponent } from './componentes/sesion/sesion.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   exports:[
 

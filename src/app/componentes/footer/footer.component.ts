@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Contacto } from 'src/app/clases/contacto';
+import { ContactoService } from 'src/app/services/contacto/contacto.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,17 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  public nombre!:string;
-  public email!:string;
-  public mensaje!:string;
+  public contacto:Contacto;
 
-
-  constructor() { }
+  constructor(private _servicioContacto:ContactoService) {
+    this.contacto = new Contacto(0,'','','');
+   }
 
   ngOnInit(): void {
   }
 
   onSubmit(){
-    console.log(this.nombre + this.email + this.mensaje)
+
+    this._servicioContacto.insertarContacto(this.contacto).subscribe();
+    console.log(this.contacto);
   }
 }

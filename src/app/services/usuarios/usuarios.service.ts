@@ -7,7 +7,7 @@ import { User } from 'src/app/clases/user';
 })
 export class UsuariosService {
 
-  private url:string = "http://localhost/dist/api/";
+  private url:string = "http://localhost/club-de-tenis/api/";
   public $user: Subject<User> = new Subject<User>();
   public user!: User;
   public users!:User[];
