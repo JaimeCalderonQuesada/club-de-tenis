@@ -18,3 +18,22 @@ a:hover{
 a:focus{
   color:var(--color-nav-hover);
 }
+
+#nombre{
+  width: 75%;
+}
+
+#divEmail{
+  width: 75%;
+  margin:2%;
+}
+#area{
+  width: 81%;
+  margin-top: 2%;
+}
+#boton{
+  width: 80%;
+}
+#divBoton{
+  padding:2%;
+}

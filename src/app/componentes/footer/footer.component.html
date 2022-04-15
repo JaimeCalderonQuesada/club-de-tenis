@@ -1,54 +1,71 @@
-<footer id="footer" class="text-center footer" >
+<footer id="footer" class="footer container-fluid p-0 m-0" >
   <!-- Grid container -->
-  <div class="container">
     <!-- Section: Social media -->
-    <section>
+    <div class="row m-0">
+
+      <div class="col-12  col-md-4 col-lg-3 d-flex justify-content-center">
+        <h4 class="p-2">Telf: 615 65 86 21</h4>
+      </div>
+      <div class="col-12  col-md-8 col-lg-6 d-flex justify-content-center">
+        <h4 class="p-2 ">Email: clubdetenisjaime@gmail.com</h4>
+      </div>
+      <div class="col-12  col-md-12 col-lg-3 d-flex justify-content-center">
       <!-- Facebook -->
       <a
-        class="btn btn-link btn-floating btn-lg m-2 "
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-facebook"></i
+      class="btn btn-link btn-floating btn-lg "
+      href="#!"
+      role="button"
+      data-mdb-ripple-color="dark"
+      ><i class="bi bi-facebook"></i
       ></a>
 
       <!-- Twitter -->
       <a
-        class="btn btn-link btn-floating btn-lg m-2"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-twitter"></i
+      class="btn btn-link btn-floating btn-lg"
+      href="#!"
+      role="button"
+      data-mdb-ripple-color="dark"
+      ><i class="bi bi-twitter"></i
       ></a>
 
       <!-- Instagram -->
       <a
-        class="btn btn-link btn-floating btn-lg m-2"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-instagram"></i
+      class="btn btn-link btn-floating btn-lg"
+      href="#!"
+      role="button"
+      data-mdb-ripple-color="dark"
+      ><i class="bi bi-instagram"></i
       ></a>
+      </div>
 
-    </section>
+    </div>
     <!-- Section: Social media -->
-    <form #formContacto (ngSubmit)="onSubmit()">
-        <label>Nombre:</label>
-        <input type="text" name="nombre" #nombreContacto [(ngModel)]="nombre">
+    <form #formContacto (ngSubmit)="onSubmit()" class="row m-0 p-0">
+        <div class="col-12 col-md-6 d-flex justify-content-center">
+          <input id="nombre" type="text" name="nombre" placeholder="Nombre" class="form-control" #nombreContacto [(ngModel)]="nombre">
+        </div>
 
-        <label>Correo:</label>
-        <input type="email" name="email" #emailContacto [(ngModel)]="email">
 
-        <label>Mensaje:</label>
-        <input type="text" name="mensaje" #mensajeContacto [(ngModel)]="mensaje">
+        <div class="col-12 col-md-6 d-flex justify-content-center">
+          <div id="divEmail" class="input-group">
+            <span class="input-group-text">@</span>
+            <input type="email" class="form-control" name="email" placeholder="Email" #emailContacto [(ngModel)]="email">
+          </div>
+        </div>
 
-        <input type="submit" value="Enviar">
+        <div class="col-12 col-md-8 d-flex justify-content-center">
+          <textarea id="area" name="mensaje" placeholder="Mensaje" rows="5" class="form-control" #mensajeContacto [(ngModel)]="mensaje"></textarea>
+        </div>
+
+        <div id="divBoton" class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+          <input id="boton" type="submit" value="Enviar Mensaje" class="btn btn-success">
+        </div>
     </form>
     <!-- Copyright -->
-      <section >
+      <div class="text-center">
         <p class="p-2 m-0">© 2022 Copyright: Club De Tenis Jaime, Carrer Blas Infante, 14, 03560 El Campello, Alacant</p>
-      </section>
+      </div>
     <!-- Copyright -->
-  </div>
+
   <!-- Grid container -->
 </footer>
