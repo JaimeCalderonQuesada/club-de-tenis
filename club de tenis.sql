@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 CREATE TABLE IF NOT EXISTS torneos (
      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-     nombre varchar(100)  NOT NULL,
+     name varchar(100)  NOT NULL,
      localidad varchar(100) NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
@@ -30,11 +30,11 @@ CREATE TABLE IF NOT EXISTS inscribir (
      torneo_id int(10) UNSIGNED NOT NULL,
      usuario_id int(10) UNSIGNED NOT NULL,
      PRIMARY KEY (torneo_id,usuario_id),
-     CONSTRAINT `fk_inscribir_usuarios` 
-        FOREIGN KEY (usuario_id) REFERENCES usuarios (id) 
+     CONSTRAINT `fk_inscribir_usuarios`
+        FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
         ON UPDATE CASCADE,
-    CONSTRAINT `fk_inscribir_torneos` 
-        FOREIGN KEY (torneo_id) REFERENCES torneos (id) 
+    CONSTRAINT `fk_inscribir_torneos`
+        FOREIGN KEY (torneo_id) REFERENCES torneos (id)
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
@@ -71,16 +71,16 @@ CREATE TABLE IF NOT EXISTS contactos(
 ) ENGINE = InnoDB;
 
 ALTER TABLE reservas
-ADD CONSTRAINT `fk_reservas_pistas` 
-        FOREIGN KEY (pista_id) REFERENCES pistas (id) 
+ADD CONSTRAINT `fk_reservas_pistas`
+        FOREIGN KEY (pista_id) REFERENCES pistas (id)
         ON UPDATE CASCADE;
 
 ALTER TABLE reservas
-ADD CONSTRAINT `fk_reservas_horarios` 
-        FOREIGN KEY (horario_id) REFERENCES horarios (id) 
+ADD CONSTRAINT `fk_reservas_horarios`
+        FOREIGN KEY (horario_id) REFERENCES horarios (id)
         ON UPDATE CASCADE;
 
 ALTER TABLE reservas
-ADD CONSTRAINT `fk_reservas_usuarios` 
-        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) 
+ADD CONSTRAINT `fk_reservas_usuarios`
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         ON UPDATE CASCADE;

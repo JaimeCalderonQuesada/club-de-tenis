@@ -97,7 +97,7 @@ if (isset($_GET["borrarContacto"])){
 //Inserta un nuevo torneo
 if(isset($_GET["torneo"])){
     $data = json_decode(file_get_contents("php://input"));
-    $nombre=$data->nombre;
+    $nombre=$data->name;
     $localidad=$data->localidad;
         if($nombre!=""){
 
