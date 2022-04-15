@@ -43,19 +43,13 @@ CREATE TABLE IF NOT EXISTS pistas (
      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
      name varchar(100)  NOT NULL,
      descripcion varchar(100)  NOT NULL,
-     disponibilidad int(1) NOT NULL,
-     reserva_id int(10) UNSIGNED NOT NULL,
-     horario_id int(10) UNSIGNED NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS horarios (
      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-     name varchar(100)  NOT NULL,
      hora varchar(100)  NOT NULL,
      duracion varchar(100)  NOT NULL,
-     reserva_id int(10) UNSIGNED NOT NULL,
-     pista_id int(10) UNSIGNED NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
@@ -64,28 +58,17 @@ CREATE TABLE IF NOT EXISTS reservas (
      feha date NOT NULL,
      pista_id int(10) UNSIGNED NOT NULL,
      horario_id int(10) UNSIGNED NOT NULL,
+     usuario_id int(10) UNSIGNED NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
-ALTER TABLE pistas
-ADD CONSTRAINT `fk_pistas_reservas` 
-        FOREIGN KEY (reserva_id) REFERENCES reservas (id) 
-        ON UPDATE CASCADE;
-
-ALTER TABLE pistas
-ADD CONSTRAINT `fk_pistas_horarios` 
-        FOREIGN KEY (horario_id) REFERENCES horarios (id) 
-        ON UPDATE CASCADE;
-
-ALTER TABLE horarios
-ADD CONSTRAINT `fk_horarios_reservas` 
-        FOREIGN KEY (reserva_id) REFERENCES reservas (id) 
-        ON UPDATE CASCADE;
-
-ALTER TABLE horarios
-ADD CONSTRAINT `fk_horarios_pistas` 
-        FOREIGN KEY (pista_id) REFERENCES pistas (id) 
-        ON UPDATE CASCADE;
+CREATE TABLE IF NOT EXISTS contactos(
+     id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+     name varchar(100)  NOT NULL,
+     email varchar(100)  NOT NULL,
+     mensaje varchar(255)  NOT NULL,
+     PRIMARY KEY (id)
+) ENGINE = InnoDB;
 
 ALTER TABLE reservas
 ADD CONSTRAINT `fk_reservas_pistas` 
@@ -95,4 +78,9 @@ ADD CONSTRAINT `fk_reservas_pistas`
 ALTER TABLE reservas
 ADD CONSTRAINT `fk_reservas_horarios` 
         FOREIGN KEY (horario_id) REFERENCES horarios (id) 
+        ON UPDATE CASCADE;
+
+ALTER TABLE reservas
+ADD CONSTRAINT `fk_reservas_usuarios` 
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) 
         ON UPDATE CASCADE;
