@@ -1,6 +1,6 @@
-#footer{
+
+.footer{
   background-color: var(--main-bg-color);
-  font-family:Roboto;
   font-weight: bold;
   color: var(--color-nav) ;
   font-size: 20px;

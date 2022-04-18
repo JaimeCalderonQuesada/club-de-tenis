@@ -1,77 +1,77 @@
-<footer id="footer" class="footer container-fluid p-0 m-0" >
-  <!-- Grid container -->
-    <!-- Section: Social media -->
-    <div class="row m-0">
+<footer class="footer container-fluid p-0 m-0" >
+    <!-- Grid container -->
+      <!-- Section: Social media -->
+      <div class="row m-0">
 
-      <div class="col-12  col-md-4 col-lg-3 d-flex justify-content-center">
-        <h4 class="p-2">Telf: 615 65 86 21</h4>
+        <div class="col-12  col-md-4 col-lg-3 d-flex justify-content-center">
+          <h4 class="p-2">Telf: 615 65 86 21</h4>
+        </div>
+        <div class="col-12  col-md-8 col-lg-6 d-flex justify-content-center">
+          <h4 class="p-2 ">Email: clubdetenisjaime@gmail.com</h4>
+        </div>
+        <div class="col-12  col-md-12 col-lg-3 d-flex justify-content-center">
+        <!-- Facebook -->
+        <a
+        class="btn btn-link btn-floating btn-lg "
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="bi bi-facebook"></i
+        ></a>
+
+        <!-- Twitter -->
+        <a
+        class="btn btn-link btn-floating btn-lg"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="bi bi-twitter"></i
+        ></a>
+
+        <!-- Instagram -->
+        <a
+        class="btn btn-link btn-floating btn-lg"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="bi bi-instagram"></i
+        ></a>
+        </div>
+
       </div>
-      <div class="col-12  col-md-8 col-lg-6 d-flex justify-content-center">
-        <h4 class="p-2 ">Email: clubdetenisjaime@gmail.com</h4>
-      </div>
-      <div class="col-12  col-md-12 col-lg-3 d-flex justify-content-center">
-      <!-- Facebook -->
-      <a
-      class="btn btn-link btn-floating btn-lg "
-      href="#!"
-      role="button"
-      data-mdb-ripple-color="dark"
-      ><i class="bi bi-facebook"></i
-      ></a>
+      <!-- Section: Social media -->
+      <form #formContacto="ngForm" (ngSubmit)="onSubmit()" class="row m-0 p-0">
+          <div class="col-12 col-md-6 d-flex justify-content-center position-relative mb-2 mb-md-0">
+              <input id="nombre" type="text" name="nombre" placeholder="Nombre" class="form-control" #nombreContacto="ngModel" [(ngModel)]="contacto.name" required>
+              <span class="position-absolute" style="color: red;" *ngIf="nombreContacto.touched && !nombreContacto.valid">
+                El nombre es obligatorio
+              </span>
+          </div>
 
-      <!-- Twitter -->
-      <a
-      class="btn btn-link btn-floating btn-lg"
-      href="#!"
-      role="button"
-      data-mdb-ripple-color="dark"
-      ><i class="bi bi-twitter"></i
-      ></a>
 
-      <!-- Instagram -->
-      <a
-      class="btn btn-link btn-floating btn-lg"
-      href="#!"
-      role="button"
-      data-mdb-ripple-color="dark"
-      ><i class="bi bi-instagram"></i
-      ></a>
-      </div>
+          <div class="col-12 col-md-6 d-flex justify-content-center position-relative">
+              <input id="email" type="email" class="form-control" name="email" placeholder="Email" #emailContacto="ngModel" [(ngModel)]="contacto.email" required>
+              <span class="position-absolute" style="color: red;" *ngIf="emailContacto.touched && !emailContacto.valid">
+                  El email es obligatorio
+              </span>
+          </div>
 
-    </div>
-    <!-- Section: Social media -->
-    <form #formContacto="ngForm" (ngSubmit)="onSubmit()" class="row m-0 p-0">
-        <div class="col-12 col-md-6 d-flex justify-content-center position-relative">
-            <input id="nombre" type="text" name="nombre" placeholder="Nombre" class="form-control" #nombreContacto="ngModel" [(ngModel)]="contacto.name" required>
-            <span class="position-absolute" style="color: red;" *ngIf="nombreContacto.touched && !nombreContacto.valid">
-              El nombre es obligatorio
+          <div class="col-12 col-md-8 d-flex justify-content-center position-relative">
+            <textarea id="area" name="mensaje" placeholder="Mensaje" rows="5" class="form-control" #mensajeContacto="ngModel" [(ngModel)]="contacto.mensaje" required></textarea>
+            <span class="position-absolute top-50" style="color: red;" *ngIf="mensajeContacto.touched && !mensajeContacto.valid">
+              El mensaje es obligatorio
             </span>
+          </div>
+
+          <div id="divBoton" class="col-12 col-md-4 d-flex align-items-center justify-content-center justify-content-md-start">
+            <input id="boton" type="submit" value="Enviar Mensaje" [disabled]="!formContacto.form.valid" class="btn btn-success">
+          </div>
+      </form>
+      <!-- Copyright -->
+        <div class="text-center">
+          <p class="p-3 m-0">© 2022 Copyright: Club De Tenis Jaime, Carrer Blas Infante, 14, 03560 El Campello, Alacant</p>
         </div>
+      <!-- Copyright -->
 
-
-        <div class="col-12 col-md-6 d-flex justify-content-center position-relative">
-            <input id="email" type="email" class="form-control" name="email" placeholder="Email" #emailContacto="ngModel" [(ngModel)]="contacto.email" required>
-            <span class="position-absolute" style="color: red;" *ngIf="emailContacto.touched && !emailContacto.valid">
-                El email es obligatorio
-            </span>
-        </div>
-
-        <div class="col-12 col-md-8 d-flex justify-content-center position-relative">
-          <textarea id="area" name="mensaje" placeholder="Mensaje" rows="5" class="form-control" #mensajeContacto="ngModel" [(ngModel)]="contacto.mensaje" required></textarea>
-          <span class="position-absolute top-50" style="color: red;" *ngIf="mensajeContacto.touched && !mensajeContacto.valid">
-            El mensaje es obligatorio
-          </span>
-        </div>
-
-        <div id="divBoton" class="col-12 col-md-4 d-flex align-items-center justify-content-center">
-          <input id="boton" type="submit" value="Enviar Mensaje" [disabled]="!formContacto.form.valid" class="btn btn-success">
-        </div>
-    </form>
-    <!-- Copyright -->
-      <div class="text-center">
-        <p class="p-2 m-0">© 2022 Copyright: Club De Tenis Jaime, Carrer Blas Infante, 14, 03560 El Campello, Alacant</p>
-      </div>
-    <!-- Copyright -->
-
-  <!-- Grid container -->
-</footer>
+    <!-- Grid container -->
+  </footer>

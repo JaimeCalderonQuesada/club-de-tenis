@@ -1,1 +1,75 @@
-<p>registro works!</p>
+<div class="container-fluid">
+  <h1>FORMULARIO INSCRIPCIÓN</h1>
+  <div class="d-flex justify-content-center">
+  <form novalidate #formContacto="ngForm" (ngSubmit)="onSubmit(formContacto)" class="row m-0 p-0">
+    <h2>DATOS PERSONALES</h2>
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+        <input type="text" name="nombre" placeholder="Nombre" class="form-control" #nombreUsuario="ngModel" [(ngModel)]="usuario.name" required>
+        <span class="position-absolute" style="color: red;" *ngIf="nombreUsuario.touched && !nombreUsuario.valid">
+          El nombre es obligatorio
+        </span>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+        <input type="email" class="form-control" name="email" placeholder="Email" #emailUsuario="ngModel" [(ngModel)]="usuario.email" required>
+        <span class="position-absolute" style="color: red;" *ngIf="emailUsuario.touched && !emailUsuario.valid">
+            El email es obligatorio
+        </span>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+      <input type="text" name="dni" placeholder="DNI" class="form-control" #dniUsuario="ngModel" [(ngModel)]="usuario.dni" required>
+      <span class="position-absolute" style="color: red;" *ngIf="dniUsuario.touched && !dniUsuario.valid">
+        El dni es obligatorio
+      </span>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+      <input type="text" name="movil" placeholder="Movil" class="form-control" #movilUsuario="ngModel" [(ngModel)]="usuario.movil" required>
+      <span class="position-absolute" style="color: red;" *ngIf="movilUsuario.touched && !movilUsuario.valid">
+        El Movil es obligatorio
+      </span>
+    </div>
+
+    <label for="fecha">Fecha de nacimiento:</label>
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+      <input type="date" name="fecha" class="form-control" #fechaUsuario="ngModel" [(ngModel)]="usuario.feha" required>
+      <span class="position-absolute" style="color: red;" *ngIf="fechaUsuario.touched && !fechaUsuario.valid">
+        La fecha es obligatoria
+      </span>
+    </div>
+
+    <div class="col-12 d-flex justify-content-flex-start position-relative p-2">
+      <label class="me-2">Sexo:</label>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="mujer" name="sexo" value="mujer" #sexoUsuario="ngModel" [(ngModel)]="usuario.sexo" required>Mujer
+        <label class="form-check-label" for="mujer"></label>
+      </div>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="hombre" name="sexo" value="hombre" #sexoUsuario="ngModel" [(ngModel)]="usuario.sexo" required>Hombre
+        <label class="form-check-label" for="hombre"></label>
+      </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+      <input type="password" name="password" placeholder="Contraseña" class="form-control" #passwordUsuario="ngModel" [(ngModel)]="usuario.password" required>
+      <span class="position-absolute" style="color: red;" *ngIf="passwordUsuario.touched && !passwordUsuario.valid">
+        La contraseña es obligatoria
+      </span>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+      <input type="password" name="password2" placeholder="Confirmar Contraseña" class="form-control" #password2="ngModel" [(ngModel)]="password" required>
+      <span class="position-absolute" style="color: red;" *ngIf="password2.touched && passwordUsuario !=password2 ">
+        Las contraseñas no son iguales
+      </span>
+    </div>
+
+
+    <div  class="col-12 d-flex justify-content-center p-3">
+      <input  type="submit" value="Registrarse" [disabled]="!formContacto.form.valid" class="btn btn-success">
+    </div>
+  </form>
+
+  </div>
+</div>

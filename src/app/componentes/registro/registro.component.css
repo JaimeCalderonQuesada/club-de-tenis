@@ -1,0 +1,9 @@
+h1{
+  font-weight: bold;
+  color: var(--color-nav);
+  text-align: center;
+  margin: 2%;
+}
+form{
+  width: 50%;
+}
