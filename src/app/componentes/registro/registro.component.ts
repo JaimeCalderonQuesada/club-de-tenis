@@ -10,10 +10,12 @@ import { User } from 'src/app/clases/user';
 export class RegistroComponent implements OnInit {
   public usuario:User;
   public password!:string;
+  public foco:boolean;
 
   constructor() {
     document.title = "Registro";
     this.usuario = new User(0,'','','',0,'','','','');
+    this.foco = false;
   }
 
   ngOnInit(): void {

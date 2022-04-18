@@ -4,17 +4,32 @@
   <form novalidate #formContacto="ngForm" (ngSubmit)="onSubmit(formContacto)" class="row m-0 p-0">
     <h2>DATOS PERSONALES</h2>
     <div class="col-12 d-flex justify-content-center position-relative p-2">
-        <input type="text" name="nombre" placeholder="Nombre" class="form-control" #nombreUsuario="ngModel" [(ngModel)]="usuario.name" required>
-        <span class="position-absolute" style="color: red;" *ngIf="nombreUsuario.touched && !nombreUsuario.valid">
-          El nombre es obligatorio
-        </span>
+      <div class="row p-0 m-0 w-100">
+        <input type="text" name="nombre" placeholder="Nombre" class="form-control col-12" minlength="5" #nombreUsuario="ngModel" [(ngModel)]="usuario.name" required [ngClass]="{'is-valid': !nombreUsuario.invalid, 'is-invalid': nombreUsuario.invalid}">
+        <div class="invalid-feedback col-12 " *ngIf="nombreUsuario.invalid && (nombreUsuario.dirty || nombreUsuario.touched)">
+          <span *ngIf="nombreUsuario.getError('minlength')">
+            Introduzca un nombre de pila con 5 caracteres mínimo
+          </span>
+          <span *ngIf="nombreUsuario.getError('required')">
+            Introduzca un nombre de pila válido por favor
+          </span>
+        </div>
+      </div>
+
     </div>
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
-        <input type="email" class="form-control" name="email" placeholder="Email" #emailUsuario="ngModel" [(ngModel)]="usuario.email" required>
-        <span class="position-absolute" style="color: red;" *ngIf="emailUsuario.touched && !emailUsuario.valid">
-            El email es obligatorio
-        </span>
+      <div class="row p-0 m-0 w-100">
+        <input type="email" class="form-control col-12" name="email" placeholder="Email" #emailUsuario="ngModel" [(ngModel)]="usuario.email" required [ngClass]="{'is-valid': !emailUsuario.invalid, 'is-invalid': emailUsuario.invalid}" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$">
+        <div class="invalid-feedback col-12 pb-2" *ngIf="emailUsuario.invalid && (emailUsuario.dirty || emailUsuario.touched)">
+          <span *ngIf="emailUsuario.getError('required')">
+            Introduzca un correo electrónico válido por favor.
+          </span>
+          <span *ngIf="emailUsuario.errors && emailUsuario.getError('pattern')">
+            El correo electrónico no sigue el formato correcto. Sigue este ejemplo: anartz@gmail.com
+          </span>
+        </div>
+      </div>
     </div>
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">

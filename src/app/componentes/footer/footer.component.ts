@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, NgForm } from '@angular/forms';
 import { Contacto } from 'src/app/clases/contacto';
 import { ContactoService } from 'src/app/services/contacto/contacto.service';
 
@@ -11,8 +12,10 @@ export class FooterComponent implements OnInit {
 
   public contacto:Contacto;
 
-  constructor(private _servicioContacto:ContactoService) {
+  constructor(private _servicioContacto:ContactoService, private _fb: FormBuilder) {
     this.contacto = new Contacto(0,'','','');
+
+
    }
 
   ngOnInit(): void {
