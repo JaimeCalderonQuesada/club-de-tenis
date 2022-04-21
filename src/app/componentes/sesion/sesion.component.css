@@ -1,0 +1,42 @@
+h1{
+    font-weight: bold;
+    color: var(--main-bg-color);
+    text-align: center;
+    padding: 2%;
+    text-shadow: 1px 1px 1px black;
+  }
+form{
+    width: 50%;
+  }
+.errores{
+    color: red;
+    text-shadow: 1px 1px 1px black;
+    padding-top: 1%;
+  }
+#con{
+    background-color: var(--color-nav);
+    padding-top: 10%;
+    padding-bottom: 10%;
+  }
+.btn{
+    background-color: var(--main-bg-color);
+    color: white;
+    border: 1px solid;
+    border-color: var(--naranja3);
+  }
+
+.btn:hover{
+    background-color: var(--naranja2);
+  }
+
+a{
+  color: var(--main-bg-color);
+  text-shadow: 1px 1px 1px black;
+  width: 30%;
+}
+
+a:hover{
+  color: var(--naranja3);
+  text-shadow: 0.1em 0.1em 0.1em black;
+
+}

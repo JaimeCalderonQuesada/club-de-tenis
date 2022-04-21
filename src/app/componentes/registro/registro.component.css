@@ -1,9 +1,28 @@
 h1{
   font-weight: bold;
-  color: var(--color-nav);
+  color: var(--main-bg-color);
   text-align: center;
-  margin: 2%;
+  padding: 2%;
+  text-shadow: 1px 1px 1px black;
 }
 form{
   width: 50%;
+}
+.errores{
+  color: red;
+  text-shadow: 1px 1px 1px black;
+  padding-top: 1%;
+}
+#con{
+  background-color: var(--color-nav);
+}
+.btn{
+  background-color: var(--main-bg-color);
+  color: white;
+  border: 1px solid;
+  border-color: var(--naranja3);
+}
+
+.btn:hover{
+  background-color: var(--naranja2);
 }

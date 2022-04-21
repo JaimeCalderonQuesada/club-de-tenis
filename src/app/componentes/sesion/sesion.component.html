@@ -1,1 +1,39 @@
-<p>sesion works!</p>
+<ng-template [ngIf]="!user" [ngIfElse]="userexiste">
+<div id="con" class="container-fluid">
+    <h1>INICIAR SESIÓN</h1>
+    <div class="d-flex justify-content-center">
+    <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
+      <div class="col-12 d-flex justify-content-center position-relative p-2">
+        <div class="row p-0 m-0 w-100">
+          <input type="email" class="form-control col-12" name="email" placeholder="Email" #email required formControlName="email" [ngClass]="{'is-valid': !options.get('email')?.invalid, 'is-invalid': options.get('email')?.dirty && options.get('email')?.invalid}" >
+          <div class="col-12 errores" *ngIf="options.get('email')?.dirty && this.options.get('email')?.errors">
+            {{erroresEmail()}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 d-flex justify-content-center position-relative p-2">
+        <div class="row p-0 m-0 w-100">
+        <input type="password" name="password" placeholder="Contraseña" class="form-control col-12" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+        <div class="col-12 errores" *ngIf="options.get('password')?.dirty && this.options.get('password')?.errors">
+          {{erroresPassword()}}
+        </div>
+        </div>
+      </div>
+
+      <div class="col-12 p-2 ms-5">
+        <a class="nav-link" routerLink="/registro">¿Registrarse?</a>
+      </div>
+
+      <div  class="col-12 d-flex justify-content-center p-3">
+        <input  type="submit" value="Iniciar Sesión" [disabled]="options.invalid" class="btn">
+      </div>
+    </form>
+
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #userexiste>
+
+</ng-template>

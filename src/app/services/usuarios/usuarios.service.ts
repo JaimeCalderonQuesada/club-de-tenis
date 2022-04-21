@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, Subject, throwError } from 'rxjs';
 import { User } from 'src/app/clases/user';
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,11 @@ export class UsuariosService {
 
   private url:string = "http://localhost/club-de-tenis/api/";
   public $user: Subject<User> = new Subject<User>();
-  public user!: User;
-  public users!:User[];
-
+  public user?: User;
+  public users?:User[];
+  public existe:BehaviorSubject<boolean>= new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient) {
+    
   }
 
   insertarUser(user:User): Observable<any>{

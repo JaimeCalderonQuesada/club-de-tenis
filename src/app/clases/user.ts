@@ -1,13 +1,10 @@
 export class User {
-  constructor(
-    public id:number,
-    public name:string,
-    public password:string,
-    public email:string,
-    public tipe:number,
-    public sexo:string ,
-    public movil:string ,
-    public dni:string ,
-    public feha:string
-  ){}
+    public name?:string;
+    public password?:string;
+    public email?:string;
+    public tipo?:number;
+    public sexo?:string;
+    public movil?:string;
+    public dni?:string;
+    public fecha?:Date;
 }

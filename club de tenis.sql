@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS usuarios (
     sexo varchar(20) NOT NULL,
     movil varchar(20) NOT NULL,
     dni varchar(20) NOT NULL,
-    feha date NOT NULL,
+    fecha date NOT NULL,
     email varchar(100) NOT NULL,
-    tipe int(1) NOT NULL,
+    tipo int(1) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (dni),
     UNIQUE (email)
@@ -46,18 +46,10 @@ CREATE TABLE IF NOT EXISTS pistas (
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS horarios (
-     id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-     hora varchar(100)  NOT NULL,
-     duracion varchar(100)  NOT NULL,
-     PRIMARY KEY (id)
-) ENGINE = InnoDB;
-
 CREATE TABLE IF NOT EXISTS reservas (
      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
      feha date NOT NULL,
      pista_id int(10) UNSIGNED NOT NULL,
-     horario_id int(10) UNSIGNED NOT NULL,
      usuario_id int(10) UNSIGNED NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
@@ -73,11 +65,6 @@ CREATE TABLE IF NOT EXISTS contactos(
 ALTER TABLE reservas
 ADD CONSTRAINT `fk_reservas_pistas`
         FOREIGN KEY (pista_id) REFERENCES pistas (id)
-        ON UPDATE CASCADE;
-
-ALTER TABLE reservas
-ADD CONSTRAINT `fk_reservas_horarios`
-        FOREIGN KEY (horario_id) REFERENCES horarios (id)
         ON UPDATE CASCADE;
 
 ALTER TABLE reservas

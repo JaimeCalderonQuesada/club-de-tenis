@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/clases/user';
+import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 
 @Component({
   selector: 'app-nav',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  public user?:Boolean;
+  constructor(private _usuariosService:UsuariosService) { }
 
-  constructor() { }
 
   ngOnInit(): void {
+   this._usuariosService.existe.subscribe(res=>this.user=res)
+    this.user = JSON.parse(sessionStorage.getItem('user')!);
   }
 
 }

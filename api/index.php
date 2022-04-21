@@ -35,17 +35,15 @@ if(isset($_GET["insertar"])){
     $dni = $data->dni;
     $fecha = $data->fecha;
     $tipo = $data->tipo;
-        if(($correo!="")&&($nombre!="")){
+    if(($correo!="")&&($nombre!="")){
+        try{
+            $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO usuarios(name,password,sexo,movil,dni,fecha,email,tipo) VALUES('$nombre','$pas','$sexo','$movil','$dni','$fecha','$correo',$tipo) ");
 
-        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO usuarios(name,password,sexo,movil,dni,fecha,email,tipe) VALUES('$nombre','$pas','$sexo','$movil','$dni','$fecha','$correo',$tipo) ");
-        if(mysqli_error($conexionBD)){
-
-            echo json_encode(["success"=>0]);
-        }else{
-            echo json_encode(["success"=>1]);
+        }catch(mysqli_sql_exception $e){
+            echo json_encode($e->getCode());
             exit();
         }
-        }
+    }
 }
 
 // Consulta los usuarios

@@ -1,18 +1,14 @@
-<div class="container-fluid">
+<ng-template [ngIf]="!user" [ngIfElse]="userexiste">
+<div id="con" class="container-fluid">
   <h1>FORMULARIO INSCRIPCIÓN</h1>
   <div class="d-flex justify-content-center">
-  <form novalidate #formContacto="ngForm" (ngSubmit)="onSubmit(formContacto)" class="row m-0 p-0">
+  <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
     <h2>DATOS PERSONALES</h2>
     <div class="col-12 d-flex justify-content-center position-relative p-2">
       <div class="row p-0 m-0 w-100">
-        <input type="text" name="nombre" placeholder="Nombre" class="form-control col-12" minlength="5" #nombreUsuario="ngModel" [(ngModel)]="usuario.name" required [ngClass]="{'is-valid': !nombreUsuario.invalid, 'is-invalid': nombreUsuario.invalid}">
-        <div class="invalid-feedback col-12 " *ngIf="nombreUsuario.invalid && (nombreUsuario.dirty || nombreUsuario.touched)">
-          <span *ngIf="nombreUsuario.getError('minlength')">
-            Introduzca un nombre de pila con 5 caracteres mínimo
-          </span>
-          <span *ngIf="nombreUsuario.getError('required')">
-            Introduzca un nombre de pila válido por favor
-          </span>
+        <input type="tel" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !options.get('name')?.invalid, 'is-invalid': options.get('name')?.dirty && options.get('name')?.invalid}">
+        <div class="col-12 errores" *ngIf="options.get('name')?.dirty && this.options.get('name')?.errors">
+          {{errores()}}
         </div>
       </div>
 
@@ -20,71 +16,89 @@
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
       <div class="row p-0 m-0 w-100">
-        <input type="email" class="form-control col-12" name="email" placeholder="Email" #emailUsuario="ngModel" [(ngModel)]="usuario.email" required [ngClass]="{'is-valid': !emailUsuario.invalid, 'is-invalid': emailUsuario.invalid}" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$">
-        <div class="invalid-feedback col-12 pb-2" *ngIf="emailUsuario.invalid && (emailUsuario.dirty || emailUsuario.touched)">
-          <span *ngIf="emailUsuario.getError('required')">
-            Introduzca un correo electrónico válido por favor.
-          </span>
-          <span *ngIf="emailUsuario.errors && emailUsuario.getError('pattern')">
-            El correo electrónico no sigue el formato correcto. Sigue este ejemplo: anartz@gmail.com
-          </span>
+        <input type="email" class="form-control col-12" name="email" placeholder="Email" #email required formControlName="email" [ngClass]="{'is-valid': !options.get('email')?.invalid, 'is-invalid': options.get('email')?.dirty && options.get('email')?.invalid}" >
+        <div class="col-12 errores" *ngIf="options.get('email')?.dirty && this.options.get('email')?.errors">
+          {{erroresEmail()}}
         </div>
       </div>
     </div>
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
-      <input type="text" name="dni" placeholder="DNI" class="form-control" #dniUsuario="ngModel" [(ngModel)]="usuario.dni" required>
-      <span class="position-absolute" style="color: red;" *ngIf="dniUsuario.touched && !dniUsuario.valid">
-        El dni es obligatorio
-      </span>
+      <div class="row p-0 m-0 w-100">
+      <input type="text" name="dni" placeholder="DNI" class="form-control col-12" #dni required formControlName="dni" [ngClass]="{'is-valid': !options.get('dni')?.invalid, 'is-invalid': options.get('dni')?.dirty && options.get('dni')?.invalid}">
+      <div class="col-12 errores" *ngIf="options.get('dni')?.dirty && this.options.get('dni')?.errors">
+        {{erroresDni()}}
+      </div>
+      </div>
     </div>
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
-      <input type="text" name="movil" placeholder="Movil" class="form-control" #movilUsuario="ngModel" [(ngModel)]="usuario.movil" required>
-      <span class="position-absolute" style="color: red;" *ngIf="movilUsuario.touched && !movilUsuario.valid">
-        El Movil es obligatorio
-      </span>
+      <div class="row p-0 m-0 w-100">
+      <input type="text" name="movil" placeholder="Movil" class="form-control col-12" #movil formControlName="movil" required [ngClass]="{'is-valid': !options.get('movil')?.invalid, 'is-invalid': options.get('movil')?.dirty && options.get('movil')?.invalid}">
+      <div class="col-12 errores" *ngIf="options.get('movil')?.dirty && this.options.get('movil')?.errors">
+        {{erroresMovil()}}
+      </div>
+      </div>
     </div>
 
     <label for="fecha">Fecha de nacimiento:</label>
     <div class="col-12 d-flex justify-content-center position-relative p-2">
-      <input type="date" name="fecha" class="form-control" #fechaUsuario="ngModel" [(ngModel)]="usuario.feha" required>
-      <span class="position-absolute" style="color: red;" *ngIf="fechaUsuario.touched && !fechaUsuario.valid">
-        La fecha es obligatoria
-      </span>
+      <div class="row p-0 m-0 w-100">
+      <input type="date" name="fecha" class="form-control col-12" #fecha formControlName="fecha" required [ngClass]="{'is-valid': !options.get('fecha')?.invalid, 'is-invalid': options.get('fecha')?.dirty && options.get('fecha')?.invalid}">
+      <div class="col-12 errores" *ngIf="options.get('fecha')?.touched && this.options.get('fecha')?.errors">
+        {{erroresFecha()}}
+      </div>
+      </div>
     </div>
 
-    <div class="col-12 d-flex justify-content-flex-start position-relative p-2">
-      <label class="me-2">Sexo:</label>
-      <div class="form-check">
-        <input type="radio" class="form-check-input" id="mujer" name="sexo" value="mujer" #sexoUsuario="ngModel" [(ngModel)]="usuario.sexo" required>Mujer
-        <label class="form-check-label" for="mujer"></label>
-      </div>
-      <div class="form-check">
-        <input type="radio" class="form-check-input" id="hombre" name="sexo" value="hombre" #sexoUsuario="ngModel" [(ngModel)]="usuario.sexo" required>Hombre
-        <label class="form-check-label" for="hombre"></label>
+    <div class="col-12 p-2">
+      <div class="row p-0 m-0 w-100">
+        <div class="position-relative col-12">
+          <label for="sexo" class="me-2">Eliga su Sexo:</label>
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="mujer" name="sexo" value="mujer" #sexo formControlName="sexo" required>Mujer
+            <label class="form-check-label" for="mujer"></label>
+          </div>
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="hombre" name="sexo" value="hombre" #sexo formControlName="sexo" required>Hombre
+            <label class="form-check-label" for="hombre"></label>
+          </div>
+        </div>
+
+        <div class="col-12 errores" *ngIf="options.get('name')?.dirty && options.get('sexo')?.errors">
+          {{erroresSexo()}}
+        </div>
       </div>
     </div>
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
-      <input type="password" name="password" placeholder="Contraseña" class="form-control" #passwordUsuario="ngModel" [(ngModel)]="usuario.password" required>
-      <span class="position-absolute" style="color: red;" *ngIf="passwordUsuario.touched && !passwordUsuario.valid">
-        La contraseña es obligatoria
-      </span>
+      <div class="row p-0 m-0 w-100">
+      <input type="password" name="password" placeholder="Contraseña" class="form-control col-12" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+      <div class="col-12 errores" *ngIf="options.get('password')?.dirty && this.options.get('password')?.errors">
+        {{erroresPassword()}}
+      </div>
+      </div>
     </div>
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
-      <input type="password" name="password2" placeholder="Confirmar Contraseña" class="form-control" #password2="ngModel" [(ngModel)]="password" required>
-      <span class="position-absolute" style="color: red;" *ngIf="password2.touched && passwordUsuario !=password2 ">
-        Las contraseñas no son iguales
-      </span>
+      <div class="row p-0 m-0 w-100">
+      <input type="password" name="password2" placeholder="Confirme su Contraseña" class="form-control col-12" #password2 formControlName="password2" required [ngClass]="{'is-valid': !options.get('password2')?.invalid, 'is-invalid': options.get('password2')?.dirty && options.get('password2')?.invalid}">
+      <div class="col-12 errores" *ngIf="options.get('password2')?.dirty && this.options.get('password2')?.errors">
+        {{erroresPassword2()}}
+      </div>
+      </div>
     </div>
 
 
     <div  class="col-12 d-flex justify-content-center p-3">
-      <input  type="submit" value="Registrarse" [disabled]="!formContacto.form.valid" class="btn btn-success">
+      <input  type="submit" value="Registrarse" [disabled]="options.invalid" class="btn">
     </div>
   </form>
 
   </div>
 </div>
+</ng-template>
+
+<ng-template #userexiste>
+
+</ng-template>
