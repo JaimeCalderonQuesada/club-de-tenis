@@ -47,11 +47,9 @@ CREATE TABLE IF NOT EXISTS pistas (
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS reservas (
-     id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-     feha date NOT NULL,
+     fecha datetime NOT NULL,
      pista_id int(10) UNSIGNED NOT NULL,
-     usuario_id int(10) UNSIGNED NOT NULL,
-     PRIMARY KEY (id)
+     usuario_id int(10) UNSIGNED NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS contactos(

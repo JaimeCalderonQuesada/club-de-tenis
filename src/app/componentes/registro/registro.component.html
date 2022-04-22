@@ -100,5 +100,68 @@
 </ng-template>
 
 <ng-template #userexiste>
+  <div *ngIf="!ver" class="container-fluid">
+    <h1>RESERVAR PISTA</h1>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-2 pb-2">
+    <div class="col" *ngFor="let pista of pistas">
+      <div class="card">
+      <!-- <img class="card-img-top" src="../static/imagenes/cesped.jpg"> -->
+      <div class="card-body">
+        <h4 class="card-title">{{pista.name}}</h4>
+        <p class="card-text">{{pista.descripcion}}</p>
+        <button class="btn btn-success" (click)="abrirCalendario(pista.id)">Reservar</button>
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
 
+  <div *ngIf="ver" class="container-fluid">
+    <h1>RESERVAR FECHA</h1>
+    <div class="row">
+      <div class="col-12 pb-2 d-flex justify-content-center">
+      <div class="btn-group">
+        <ng-template [ngIf]="view == CalendarView.Month" [ngIfElse]="dia">
+          <button [disabled]="dis" (click)="mesAnterior()" class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+            Mes Anterior
+          </button>
+        </ng-template>
+        <ng-template #dia>
+          <button [disabled]="disable" (click)="diaAnterior()" class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+            Día Anterior
+          </button>
+        </ng-template>
+          <button class="btn" (click)="setView(CalendarView.Month)" mwlCalendarToday [(viewDate)]="viewDate">
+              Mes Actual
+          </button>
+          <ng-template [ngIf]="view == CalendarView.Month" [ngIfElse]="dia1">
+            <button class="btn" (click)="mesSiguiente()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+              Mes Posterior
+            </button>
+          </ng-template>
+          <ng-template #dia1>
+            <button class="btn" (click)="diaSiguiente()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+              Día Posterior
+            </button>
+          </ng-template>
+      </div>
+      </div>
+      <div class="col-12 d-flex justify-content-center pb-2 ">
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      </div>
+      
+    
+    <div class="col-12 pb-2"  [ngSwitch]="view">
+      <mwl-calendar-month-view (dayClicked)="dayClicked($event.day)" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events">
+      </mwl-calendar-month-view>
+  
+      <mwl-calendar-day-view [refresh]="refresh" [hourDuration]="60" [hourSegments]="1" [dayStartHour]="8-0" (hourSegmentClicked)="horaClicked($event.date)" *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events">
+      </mwl-calendar-day-view>
+    </div>
+    <div class="col-12 d-flex justify-content-center pb-2">
+      <button class="btn w-30" (click)="voler()" >Elegir pista</button>
+    </div>
+  </div>
+  </div>
+  
 </ng-template>

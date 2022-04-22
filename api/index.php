@@ -212,41 +212,15 @@ if (isset($_GET["borrarPista"])){
     else{  echo json_encode(["success"=>0]); }
 }
 
-
-// Inserta un nuevo horario
-if(isset($_GET["horario"])){
-    $data = json_decode(file_get_contents("php://input"));
-    $hora=$data->hora;
-    $duracion=$data->duracion;
-        if(($hora!="")&&($duracion!="")){
-
-    $sqlPosts = mysqli_query($conexionBD,"INSERT INTO horarios(hora,duracion) VALUES('$hora','$duracion') ");
-    echo json_encode(["success"=>1]);
-        }
-    exit();
-}
-
-// Consulta todos los horarios
-if (isset($_GET["horarios"])){
-    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM horarios");
-    if(mysqli_num_rows($sqlEmpleaados) > 0){
-        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
-        echo json_encode($empleaados);
-        exit();
-    }
-    else{  echo json_encode(["success"=>0]); }
-}
-
 //Insertar una nueva reserva
 if(isset($_GET["reserva"])){
   $data = json_decode(file_get_contents("php://input"));
   $fecha=$data->fecha;
-  $pista_id=$data->pista_id;
-  $horario_id=$data->horario_id;
-  $usuario_id=$data->usuario_id;
-      if($torneo_id){
+  $pistaid=$data->pistaid;
+  $usuarioid=$data->usuarioid;
+      if($fecha!=""){
 
-      $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO reservas(fecha,pista_id,horario_id,usuario_id) VALUES('$fecha',$pista_id,$horario_id,$usuario_id) ");
+      $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO reservas(fecha,pista_id,usuario_id) VALUES('$fecha',$pistaid,$usuarioid) ");
       if(mysqli_error($conexionBD)){
 
           echo json_encode(["success"=>0]);

@@ -4,6 +4,7 @@ h1{
   text-align: center;
   padding: 2%;
   text-shadow: 1px 1px 1px black;
+  
 }
 form{
   width: 50%;
@@ -13,9 +14,7 @@ form{
   text-shadow: 1px 1px 1px black;
   padding-top: 1%;
 }
-#con{
-  background-color: var(--color-nav);
-}
+
 .btn{
   background-color: var(--main-bg-color);
   color: white;
@@ -25,4 +24,10 @@ form{
 
 .btn:hover{
   background-color: var(--naranja2);
+}
+.btn:focus {
+  box-shadow: 0 0 0 0 ;
+}
+.container-fluid{
+  background-color: var(--color-nav);
 }

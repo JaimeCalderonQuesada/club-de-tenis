@@ -3,6 +3,12 @@ import { FormBuilder, FormGroup, NgForm, Validators, ValidationErrors, AbstractC
 import { User } from 'src/app/clases/user';
 import { UsuariosService } from '../../services/usuarios/usuarios.service';
 import { Router } from '@angular/router';
+import { PistaService } from '../../services/pista/pista.service';
+import { Pista } from 'src/app/clases/pista';
+import { CalendarView,CalendarEvent, CalendarUtils, CalendarMonthViewDay  } from 'angular-calendar';
+import { Subject } from 'rxjs';
+import { Reserva } from '../../clases/reserva';
+import { ReservaService } from '../../services/reserva/reserva.service';
 
 @Component({
   selector: 'app-registro',
@@ -10,16 +16,29 @@ import { Router } from '@angular/router';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
-  public usuario:User;
+  public ver:Boolean = false;
+  public usuario:User = new User();
   public options!: FormGroup;
   public fechaActual:Date;
-  public user?:User;
+  public user:User;
+  public pistas?:Pista[];
 
-  constructor(private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router) {
+  public disable:Boolean=false;
+  public dis:Boolean=false;
+  public refresh: Subject<void> = new Subject<void>();
+  public viewDate: Date = new Date();
+  public view: CalendarView = CalendarView.Month;
+  public CalendarView = CalendarView;
+  public eventSnapSize:number=1;
+  public events: CalendarEvent[] = [];
+  public r!:boolean;
+  public reserva:Reserva=new Reserva();
+  public idPista?:number;
+
+  constructor(private _reservaService:ReservaService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
     this.fechaActual = new Date();
-    document.title = "Registro";
-    this.usuario = new User();
+
     this.options = this.fb.group({
       name: ["",[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
       password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
@@ -35,7 +54,20 @@ export class RegistroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = JSON.parse(sessionStorage.getItem('user')!);
+    if(sessionStorage.length>0){
+      this.user = JSON.parse(sessionStorage.getItem('user'))[0];
+    }
+
+
+    console.log(this.user)
+    if(this.user){
+      document.title = "Reservar Pista";
+      this._pistaService.getPistas().subscribe(res=>this.pistas=res);
+
+    }else{
+      document.title = "Registro";
+    }
+
   }
 
   MustMatch(controlName:string,matchingControlName:string) {
@@ -143,4 +175,133 @@ export class RegistroComponent implements OnInit {
     );
   }
 
+  abrirCalendario(index:number){
+    console.log(index);
+    this.idPista = index;
+
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }else{
+      this.dis = false;
+    }
+    this._reservaService.getReservas().subscribe((res:any)=>{
+      this.events = [];
+      if(res.length>0){
+        for(let i=0;i<res.length;i++){
+          console.log(res[i].pista_id)
+          if(res[i].pista_id == index){
+
+            this.events.push({start:new Date(res[i].fecha),title:'RESERVADO',color: {
+              primary: "#e3bc08",
+              secondary: "#e3bc08"
+            }
+          });
+          }
+
+        }
+        this.ver = true;
+      }
+
+    },
+    error=>{
+      this.ver = true;
+    })
+
+  }
+  mesSiguiente(){
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }else{
+      this.dis = false;
+    }
+  }
+  mesAnterior(){
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }else{
+      this.dis = false;
+    }
+  }
+  diaSiguiente(){
+    if(this.viewDate < new Date()){
+      this.disable = true;
+    }else{
+      this.disable = false;
+    }
+  }
+  diaAnterior(){
+    if(this.viewDate < new Date()){
+      this.disable = true;
+    }else{
+      this.disable = false;
+    }
+  }
+  voler(){
+    this.ver = false;
+  }
+  setView(view: CalendarView) {
+    this.view = view;
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }else{
+      this.dis = false;
+    }
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    console.log(new Date().getTime());
+    console.log(date.getTime());
+    let day = new Date();
+    day.setDate(new Date().getDate()-1)
+    //this.events.push({start:date,title:'new event'});
+    if(date.getTime() < day.getTime()){
+      alert("No se puede reservar.")
+    }else{
+      this.viewDate = date;
+      this.setView(CalendarView.Day);
+    }
+    if(this.viewDate < new Date()){
+      this.disable = true;
+    }else{
+      this.disable = false;
+    }
+  }
+
+
+  horaClicked(hora:Date){
+    this.r = false;
+    for (let index = 0; index < this.events.length; index++) {
+      let ho = this.events[index].start.getHours();
+      console.log(ho)
+      console.log(hora.getHours())
+      if( ho === hora.getHours()){
+        this.r = true;
+        break;
+      }
+    }
+    console.log(this.r)
+    if(!this.r){
+      if(confirm("Seguro que quieres reservar?")){
+        console.log(hora.getFullYear()+"-"+(hora.getMonth()+1)+"-"+hora.getDate()+" "+hora.getHours()+":"+hora.getMinutes()+0+":"+hora.getSeconds()+0)
+       this.reserva.fecha = ""+hora.getFullYear()+"-"+(hora.getMonth()+1)+"-"+hora.getDate()+" "+hora.getHours()+":"+hora.getMinutes()+0+":"+hora.getSeconds()+0+"";
+       this.reserva.pistaid = this.idPista;
+       this.reserva.usuarioid = this.user.id;
+       this._reservaService.insertarReserva(this.reserva).subscribe(
+         result => {
+        // Handle result
+        console.log(result);
+        this.events.push({start:hora,title:'RESERVADO',color: {
+          primary: "#e3bc08",
+          secondary: "#e3bc08"
+        }});
+        this.refresh.next();
+      },
+      error => {
+        console.log(error)
+      })
+      }
+
+    }
+
+  }
 }
