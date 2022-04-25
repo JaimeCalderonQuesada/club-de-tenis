@@ -20,7 +20,7 @@
             <a class="nav-link" routerLink="registro" [routerLinkActive]="'activado'">Registro</a>
           </ng-template>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item " *ngIf="user">
           <a class="nav-link" routerLink="socios" [routerLinkActive]="'activado'">Socios</a>
         </li>
         <li class="nav-item">

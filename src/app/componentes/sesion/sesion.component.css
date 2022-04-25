@@ -4,6 +4,7 @@ h1{
     text-align: center;
     padding: 2%;
     text-shadow: 1px 1px 1px black;
+    margin: 0px;
   }
 form{
     width: 50%;
@@ -28,15 +29,73 @@ form{
 .btn:hover{
     background-color: var(--naranja2);
   }
-
-a{
+  .btn:focus {
+    box-shadow: 0 0 0 0 ;
+  }
+#a{
   color: var(--main-bg-color);
   text-shadow: 1px 1px 1px black;
-  width: 30%;
 }
 
-a:hover{
+#a:hover{
   color: var(--naranja3);
-  text-shadow: 0.1em 0.1em 0.1em black;
+  text-shadow: 1px 1px 1px black;
 
+}
+.datagrid table { 
+  border-collapse: collapse; text-align: center; width: 100%; 
+  
+} 
+.datagrid {
+  background: #fff; overflow: hidden;
+  padding:2%;
+}
+.datagrid table td, .datagrid table th { 
+  padding: 4px 10px; 
+  border: 1px solid #009846;
+}
+.datagrid table thead th {
+  background-color:#009846; color:#FFFFFF; font-size: 15px; font-weight: bold;  
+  
+} 
+
+.datagrid table tbody tr td { 
+  color: #009846; font-size: 14px;
+}
+.datagrid table tbody td a{ 
+  margin-left: 2%;
+}
+
+.datagrid table tbody td a:hover{ 
+  font-size: 18px;
+}
+
+.datagrid table tbody .alt td { 
+  background: #FFFFFF; color: #009846; 
+}
+
+.input{
+  width: 70%;
+  margin: 0px;
+}
+
+@media screen and (max-width: 525px) {
+  .datagrid table { 
+    display: flex;
+    border: 0px solid #009846;
+  }
+  .datagrid table thead{ 
+    width: 25%; 
+   
+  }
+  .datagrid table tbody{ 
+    width: 75%; 
+ 
+  }
+  .datagrid table tr {
+    display: flex;
+    flex-direction: column;
+    
+  } 
+  
 }

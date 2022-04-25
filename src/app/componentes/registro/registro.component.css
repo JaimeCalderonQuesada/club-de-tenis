@@ -4,7 +4,7 @@ h1{
   text-align: center;
   padding: 2%;
   text-shadow: 1px 1px 1px black;
-  
+
 }
 form{
   width: 50%;
@@ -30,4 +30,18 @@ form{
 }
 .container-fluid{
   background-color: var(--color-nav);
+  min-height: 62vh;
+}
+::ng-deep .disabled{
+  opacity: 0.5;
+  pointer-events: none ;
+}
+a{
+  color: var(--main-bg-color);
+  text-shadow: 1px 1px 1px black;
+}
+
+a:hover{
+  color: var(--naranja3);
+  text-shadow: 1px 1px 1px black;
 }

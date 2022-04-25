@@ -14,6 +14,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgxPayPalModule } from 'ngx-paypal';
+import { PasarelaComponent } from './componentes/modales/pasarela/pasarela.component';
+import { SharedmoduleModule } from './sharedmodule.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +29,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     TorneosComponent,
     RegistroComponent,
     SociosComponent,
-    SesionComponent
+    SesionComponent,
+    PasarelaComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +41,11 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     CalendarModule.forRoot({
       provide:DateAdapter,
       useFactory:adapterFactory,
-    })
+    }),
+    NgxPayPalModule,
+    SharedmoduleModule,
+    BrowserAnimationsModule,
+    
   ],
   exports:[
 

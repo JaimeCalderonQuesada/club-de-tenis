@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { User } from 'src/app/clases/user';
 import { UsuariosService } from '../../services/usuarios/usuarios.service';
 import { Router } from '@angular/router';
 import { PistaService } from '../../services/pista/pista.service';
 import { Pista } from 'src/app/clases/pista';
-import { CalendarView,CalendarEvent, CalendarUtils, CalendarMonthViewDay  } from 'angular-calendar';
+import { CalendarView,CalendarEvent, CalendarUtils, CalendarMonthViewDay, CalendarWeekViewBeforeRenderEvent  } from 'angular-calendar';
 import { Subject } from 'rxjs';
 import { Reserva } from '../../clases/reserva';
 import { ReservaService } from '../../services/reserva/reserva.service';
+import { PasarelaComponent } from '../modales/pasarela/pasarela.component';
+import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-registro',
@@ -16,12 +18,17 @@ import { ReservaService } from '../../services/reserva/reserva.service';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
+
+  public payPalConfig: any;
+  public showPaypalButtons: boolean;
+
   public ver:Boolean = false;
   public usuario:User = new User();
   public options!: FormGroup;
   public fechaActual:Date;
   public user:User;
-  public pistas?:Pista[];
+  public pistas:Pista[];
+  public correcto:Boolean=false;
 
   public disable:Boolean=false;
   public dis:Boolean=false;
@@ -33,9 +40,11 @@ export class RegistroComponent implements OnInit {
   public events: CalendarEvent[] = [];
   public r!:boolean;
   public reserva:Reserva=new Reserva();
-  public idPista?:number;
-
-  constructor(private _reservaService:ReservaService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
+  public idPista:number;
+  public dayTypesStored: any;
+  public horaReserva:Date;
+ 
+  constructor(public dialog: MatDialog,private _reservaService:ReservaService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
     this.fechaActual = new Date();
 
@@ -54,8 +63,10 @@ export class RegistroComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'))[0];
+      
     }
 
 
@@ -69,7 +80,9 @@ export class RegistroComponent implements OnInit {
     }
 
   }
-
+  pay() {
+    this.showPaypalButtons = true;
+  }
   MustMatch(controlName:string,matchingControlName:string) {
     return(formGroup:FormGroup)=>{
       const control = formGroup.controls[controlName];
@@ -163,7 +176,7 @@ export class RegistroComponent implements OnInit {
       result => {
         // Handle result
         if(result === 1062){
-          alert("El dni o el email esta repetido.");
+          this.correcto = true;
         }else{
           this.options.reset();
           this.route.navigate(['/sesion']);
@@ -238,6 +251,7 @@ export class RegistroComponent implements OnInit {
   }
   voler(){
     this.ver = false;
+    this.viewDate = new Date();
   }
   setView(view: CalendarView) {
     this.view = view;
@@ -255,7 +269,7 @@ export class RegistroComponent implements OnInit {
     day.setDate(new Date().getDate()-1)
     //this.events.push({start:date,title:'new event'});
     if(date.getTime() < day.getTime()){
-      alert("No se puede reservar.")
+
     }else{
       this.viewDate = date;
       this.setView(CalendarView.Day);
@@ -269,28 +283,39 @@ export class RegistroComponent implements OnInit {
 
 
   horaClicked(hora:Date){
+
+    
     this.r = false;
+    this.horaReserva=hora;
     for (let index = 0; index < this.events.length; index++) {
-      let ho = this.events[index].start.getHours();
+      let ho = this.events[index].start.getTime();
       console.log(ho)
       console.log(hora.getHours())
-      if( ho === hora.getHours()){
+      if( ho == hora.getTime()){
         this.r = true;
         break;
       }
     }
-    console.log(this.r)
     if(!this.r){
-      if(confirm("Seguro que quieres reservar?")){
-        console.log(hora.getFullYear()+"-"+(hora.getMonth()+1)+"-"+hora.getDate()+" "+hora.getHours()+":"+hora.getMinutes()+0+":"+hora.getSeconds()+0)
-       this.reserva.fecha = ""+hora.getFullYear()+"-"+(hora.getMonth()+1)+"-"+hora.getDate()+" "+hora.getHours()+":"+hora.getMinutes()+0+":"+hora.getSeconds()+0+"";
+      const modalRef = this.dialog.open(PasarelaComponent);
+      modalRef.afterClosed().subscribe((response) => {
+  
+        if (response) {
+          this.crearReserva();
+        }
+  
+      });
+    }
+  }
+  crearReserva(){
+    this.reserva.fecha = ""+this.horaReserva.getFullYear()+"-"+(this.horaReserva.getMonth()+1)+"-"+this.horaReserva.getDate()+" "+this.horaReserva.getHours()+":"+this.horaReserva.getMinutes()+0+":"+this.horaReserva.getSeconds()+0+"";
        this.reserva.pistaid = this.idPista;
        this.reserva.usuarioid = this.user.id;
        this._reservaService.insertarReserva(this.reserva).subscribe(
          result => {
         // Handle result
         console.log(result);
-        this.events.push({start:hora,title:'RESERVADO',color: {
+        this.events.push({start:this.horaReserva,title:'RESERVADO',color: {
           primary: "#e3bc08",
           secondary: "#e3bc08"
         }});
@@ -299,9 +324,28 @@ export class RegistroComponent implements OnInit {
       error => {
         console.log(error)
       })
+  }
+  
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    console.log('beforeMonthViewRender is called');
+    let da = new Date();
+    da.setDate(new Date().getDate()-1)
+    body.forEach( day => {
+      if(day.date.getTime() < da.getTime()){
+        day.cssClass = 'disabled';
+
       }
 
-    }
+    });
 
+  }
+  beforeDayViewRender(body:CalendarWeekViewBeforeRenderEvent){
+    console.log(body)
+    if(body.header[0].day == 6){
+      body.hourColumns[0].hours.splice(6,3);
+    }
+    if(body.header[0].day == 0){
+      body.hourColumns[0].hours.splice(6,10);
+    }
   }
 }

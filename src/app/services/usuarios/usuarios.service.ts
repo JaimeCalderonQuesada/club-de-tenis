@@ -8,9 +8,6 @@ import { User } from 'src/app/clases/user';
 export class UsuariosService {
 
   private url:string = "http://localhost/club-de-tenis/api/";
-  public $user: Subject<User> = new Subject<User>();
-  public user?: User;
-  public users?:User[];
   public existe:BehaviorSubject<boolean>= new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient) {
     
@@ -30,26 +27,4 @@ export class UsuariosService {
     return this.http.get(this.url);
   }
 
-  setUser(user: User): void {
-    this.$user.next(user);
-    this.user = user;
-  }
-
-  setUsers(){
-    this.getUsuarios().subscribe(res=>{
-      this.users = res;
-    });
-  }
-
-  getUsers(){
-    return this.users;
-  }
-
-  getUser(): Observable<User> {
-    return this.$user;
-  }
-
-  checkUserExist(){
-    return this.user;
-  }
 }

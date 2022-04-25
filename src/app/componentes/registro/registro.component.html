@@ -1,4 +1,4 @@
-<ng-template [ngIf]="!user" [ngIfElse]="userexiste">
+<ng-template [ngIf]="!user">
 <div id="con" class="container-fluid">
   <h1>FORMULARIO INSCRIPCIÓN</h1>
   <div class="d-flex justify-content-center">
@@ -6,7 +6,7 @@
     <h2>DATOS PERSONALES</h2>
     <div class="col-12 d-flex justify-content-center position-relative p-2">
       <div class="row p-0 m-0 w-100">
-        <input type="tel" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !options.get('name')?.invalid, 'is-invalid': options.get('name')?.dirty && options.get('name')?.invalid}">
+        <input type="text" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !options.get('name')?.invalid, 'is-invalid': options.get('name')?.dirty && options.get('name')?.invalid}">
         <div class="col-12 errores" *ngIf="options.get('name')?.dirty && this.options.get('name')?.errors">
           {{errores()}}
         </div>
@@ -34,7 +34,7 @@
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
       <div class="row p-0 m-0 w-100">
-      <input type="text" name="movil" placeholder="Movil" class="form-control col-12" #movil formControlName="movil" required [ngClass]="{'is-valid': !options.get('movil')?.invalid, 'is-invalid': options.get('movil')?.dirty && options.get('movil')?.invalid}">
+      <input type="tel" name="movil" placeholder="Movil" class="form-control col-12" #movil formControlName="movil" required [ngClass]="{'is-valid': !options.get('movil')?.invalid, 'is-invalid': options.get('movil')?.dirty && options.get('movil')?.invalid}">
       <div class="col-12 errores" *ngIf="options.get('movil')?.dirty && this.options.get('movil')?.errors">
         {{erroresMovil()}}
       </div>
@@ -88,7 +88,12 @@
       </div>
       </div>
     </div>
-
+    <span class="col-12 errores" *ngIf="correcto">
+      El dni o el email esta repetido !!
+    </span>
+    <div class="col-12 p-2">
+      <a class="nav-link" routerLink="/sesion">¿Iniciar sesión?</a>
+    </div>
 
     <div  class="col-12 d-flex justify-content-center p-3">
       <input  type="submit" value="Registrarse" [disabled]="options.invalid" class="btn">
@@ -99,7 +104,7 @@
 </div>
 </ng-template>
 
-<ng-template #userexiste>
+<ng-template [ngIf]="user && user.tipo!=0">
   <div *ngIf="!ver" class="container-fluid">
     <h1>RESERVAR PISTA</h1>
     <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-2 pb-2">
@@ -149,19 +154,24 @@
       <div class="col-12 d-flex justify-content-center pb-2 ">
         <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
       </div>
-      
-    
+
+
     <div class="col-12 pb-2"  [ngSwitch]="view">
-      <mwl-calendar-month-view (dayClicked)="dayClicked($event.day)" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events">
+      <mwl-calendar-month-view (beforeViewRender)="beforeMonthViewRender($event)" (dayClicked)="dayClicked($event.day)" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events">
       </mwl-calendar-month-view>
-  
-      <mwl-calendar-day-view [refresh]="refresh" [hourDuration]="60" [hourSegments]="1" [dayStartHour]="8-0" (hourSegmentClicked)="horaClicked($event.date)" *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events">
+
+      <mwl-calendar-day-view (beforeViewRender)="beforeDayViewRender($event)" [refresh]="refresh" [hourDuration]="60" [hourSegments]="1" [dayStartHour]="8-0" (hourSegmentClicked)="horaClicked($event.date)" *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events">
       </mwl-calendar-day-view>
     </div>
     <div class="col-12 d-flex justify-content-center pb-2">
-      <button class="btn w-30" (click)="voler()" >Elegir pista</button>
+      <button class="btn w-30" (click)="voler();setView(CalendarView.Month)" >Elegir pista</button>
     </div>
   </div>
-  </div>
-  
+</div>
+
 </ng-template>
+
+<ng-template [ngIf]="user && user.tipo==0">
+
+</ng-template>
+
