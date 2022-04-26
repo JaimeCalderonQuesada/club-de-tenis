@@ -48,8 +48,10 @@ CREATE TABLE IF NOT EXISTS pistas (
 
 CREATE TABLE IF NOT EXISTS reservas (
      fecha datetime NOT NULL,
+     titulo varchar(100)  NOT NULL,
      pista_id int(10) UNSIGNED NOT NULL,
-     usuario_id int(10) UNSIGNED NOT NULL
+     usuario_id int(10) UNSIGNED NOT NULL,
+     PRIMARY KEY (fecha)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS contactos(
