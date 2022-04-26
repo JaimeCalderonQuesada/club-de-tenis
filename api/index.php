@@ -239,7 +239,7 @@ if (isset($_GET["borrarPista"])){
 if(isset($_GET["reserva"])){
   $data = json_decode(file_get_contents("php://input"));
   $fecha=$data->fecha;
-  $pistaid=$data->pistaid;
+  $pistaid=$data->pista_id;
   $usuarioid=$data->usuarioid;
       if($fecha!=""){
 
