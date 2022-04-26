@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ICreateOrderRequest } from "ngx-paypal";
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-pasarela',
   templateUrl: './pasarela.component.html',
@@ -8,10 +8,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class PasarelaComponent implements OnInit {
   public payPalConfig: any;
-  
-  constructor(public dialogRef: MatDialogRef<PasarelaComponent>) { }
+  public fecha:string;
+  constructor(public dialogRef: MatDialogRef<PasarelaComponent>, @Inject(MAT_DIALOG_DATA) public data:any) { }
 
   ngOnInit(): void {
+   this.fecha =  ""+this.data.hora.getFullYear()+"-"+(this.data.hora.getMonth()+1)+"-"+this.data.hora.getDate()+" "+this.data.hora.getHours()+":"+this.data.hora.getMinutes()+0+":"+this.data.hora.getSeconds()+0+"";
     this.payPalConfig = {
       currency: "EUR",
       clientId: "AbxPN5ExJln2llGIyj5v8vPg-Q4pJOVpyo5FjFisU7hD75Z8ExQ1JYpT-y81oEsgSNiB3FDd7EjTWLbD",

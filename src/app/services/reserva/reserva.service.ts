@@ -16,6 +16,9 @@ export class ReservaService {
   getReservas():Observable<any>{
     return this.http.get(this.url+"?reservas=1");
   }
+  getReserva(id:number):Observable<any>{
+    return this.http.get(this.url+"?reservasUsuario="+id);
+  }
   borrarReserva(id: any):Observable<any>{
     return this.http.delete(this.url+"?borrarPista="+id);
   }

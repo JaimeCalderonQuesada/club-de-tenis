@@ -1,8 +1,15 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ReservaService } from 'src/app/services/reserva/reserva.service';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
+import { Utils } from 'src/app/utils';
 import { User } from '../../clases/user';
+import { CambiarComponent } from '../modales/cambiar/cambiar.component';
+import { Reserva } from '../../clases/reserva';
+import { Pista } from 'src/app/clases/pista';
+import { PistaService } from 'src/app/services/pista/pista.service';
 
 
 @Component({
@@ -11,21 +18,22 @@ import { User } from '../../clases/user';
   styleUrls: ['./sesion.component.css']
 })
 export class SesionComponent implements OnInit {
-
+  public pistas:Pista[];
   public modificar:Boolean=false;
-
+  public reservas:Reserva[];
   public options!: FormGroup;
   public editar!: FormGroup;
   public user: User;
+  public usuario:User = new User();
   public correcto:Boolean=false;
 
-  constructor(private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
+  constructor(private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
       password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
       email: ["",[Validators.required,Validators.email,Validators.minLength(10),Validators.maxLength(100)]]
     });
-
+    
   }
 
   ngOnInit(): void {
@@ -34,72 +42,29 @@ export class SesionComponent implements OnInit {
       this.editar = this.fb.group({
         name: [this.user.name,[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
         email: [this.user.email,[Validators.required,Validators.email,Validators.minLength(10),Validators.maxLength(100)]],
-        movil:[this.user.movil,[Validators.required,Validators.pattern(/^[679]{1}[0-9]{8}$/)]],
-        dni:[this.user.dni,[Validators.required,Validators.pattern(/^(\d{8})([A-Z])$/)]]
+        movil:[this.user.movil,[Validators.required,Validators.pattern(/^[679]{1}[0-9]{8}$/)]]
       });
+      this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
+        this.reservas = res;
+        this._pistaService.getPistas().subscribe(resp=>{
+          this.pistas=resp;
+          for(let i=0;i<this.reservas.length;i++){
+            for(let index=0;index<this.pistas.length;index++){
+              if(this.reservas[i].pista_id == this.pistas[index].id){
+                this.reservas[i].nombre = this.pistas[index].name;
+              }
+            }
+          }
+        });
+      });
+      
+        
     }
+    
 
   }
 
-  erroresEmailLogin(){
-    if(this.options.get('email')?.hasError('minlength')){
-      return 'El email debe tener mínimo 10 caracteres.'
-    }
-    if(this.options.get('email')?.hasError('maxlength')){
-      return 'El email debe tener máximo 100 caracteres.'
-    }
-    if(this.options.get('email')?.hasError('email')){
-      return 'El email debe contener un @.'
-    }
-    return this.options.get('email')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  erroresPassword(){
-    if(this.options.get('password')?.hasError('maxlength')){
-      return 'El password debe tener máximo 100 caracteres.'
-    }
-    if(this.options.get('password')?.hasError('pattern')){
-      return 'El password debe tener un formato correcto.'
-    }
-    return this.options.get('password')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  errores(){
-    if(this.options.get('name')?.hasError('pattern')){
-      return 'Escriba un nombre y apellidos correcto.'
-    }
-    if(this.options.get('name')?.hasError('maxlength')){
-      return 'El máximo son 100 caracteres.'
-    }
-    return this.options.get('name')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  erroresEmail(){
-    if(this.options.get('email')?.hasError('minlength')){
-      return 'El email debe tener mínimo 10 caracteres.'
-    }
-    if(this.options.get('email')?.hasError('maxlength')){
-      return 'El email debe tener máximo 100 caracteres.'
-    }
-    if(this.options.get('email')?.hasError('email')){
-      return 'El email debe contener un @.'
-    }
-    return this.options.get('email')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  erroresDni(){
-    if(this.options.get('dni')?.hasError('pattern')){
-      return 'El dni debe tener 8 numeros y una letra.'
-    }
-    return this.options.get('dni')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  erroresMovil(){
-    if(this.options.get('movil')?.hasError('pattern')){
-      return 'El movil debe tener un formato correcto.'
-    }
-    return this.options.get('movil')?.hasError('required') ? 'Campo requerido' : '';
-  }
+  
 
 
   onSubmit(){
@@ -108,15 +73,13 @@ export class SesionComponent implements OnInit {
         // Handle result
         if(result){
           this.user = result;
-          console.log(result);
-          sessionStorage.setItem('user',JSON.stringify(result));
+          sessionStorage.setItem('user',JSON.stringify(this.user));
           this.options.reset();
           this.router.navigate(['/home']);
           this._usuariosService.existe.next(true);
         }
       },
       error => {
-        console.log(error)
         if(error){
           this.correcto = true;
         }
@@ -126,10 +89,31 @@ export class SesionComponent implements OnInit {
 
   }
   onSubmitEditar(){
-    this.modificar=false;
+   
+    this.usuario.name = this.editar.get('name')?.value;
+    this.usuario.email = this.editar.get('email')?.value;
+    this.usuario.movil = this.editar.get('movil')?.value;
+    
+    
+    this._usuariosService.modificarUser(this.usuario,this.user.id).subscribe(
+      result => {
+        // Handle result
+        this._usuariosService.getUsuario(this.user.id).subscribe(
+          (res:any)=>{
+            sessionStorage.removeItem('user');
+            sessionStorage.clear();
+            sessionStorage.setItem('user',JSON.stringify(res));
+            this.user = res[0];
+          }
+        )
+        this.modificar=false;
+      }
+    )
+    
   }
 
   logout(){
+    this._usuariosService.existe.next(false);
     this.user=undefined;
     sessionStorage.removeItem('user');
     sessionStorage.clear();
@@ -137,6 +121,19 @@ export class SesionComponent implements OnInit {
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
       });
+  }
+  abrirModal(){
+    const modalRef = this.dialog.open(CambiarComponent,{disableClose: true});
+    modalRef.afterClosed().subscribe((response) => {
+
+      if (response) {
+        
+      }
+
+    });
+  }
+  volver(){
+    this.modificar = false;
   }
 
 }

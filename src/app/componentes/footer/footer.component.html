@@ -44,8 +44,8 @@
           <div class="col-12 col-md-6 d-flex justify-content-center position-relative mb-2 mb-md-0">
             <div id="nombre" class="row m-0 p-0 mb-2">
               <input  type="text" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !options.get('name')?.invalid, 'is-invalid': options.get('name')?.dirty && options.get('name')?.invalid}">
-              <div class="col-12 pb-2 errores" *ngIf="options.get('name')?.dirty && this.options.get('name')?.errors">
-                  {{errores()}}
+              <div class="col-12 pb-2 errores" *ngIf="options.get('name')?.dirty && options.get('name')?.errors">
+                  {{utils.errores(options)}}
               </div>
             </div>
           </div>
@@ -53,8 +53,8 @@
           <div class="col-12 col-md-6 d-flex justify-content-center position-relative">
             <div id="email" class="row m-0 p-0 mb-2">
             <input type="email" class="form-control col-12" name="Email" placeholder="Email" #email formControlName="email" required [ngClass]="{'is-valid': !options.get('email')?.invalid, 'is-invalid': options.get('email')?.dirty && options.get('email')?.invalid}">
-            <div class="col-12 pb-2 errores" *ngIf="options.get('email')?.dirty && this.options.get('email')?.errors">
-              {{erroresEmail()}}
+            <div class="col-12 pb-2 errores" *ngIf="options.get('email')?.dirty && options.get('email')?.errors">
+              {{utils.erroresEmail(options)}}
             </div>
             </div>
           </div>
@@ -62,8 +62,8 @@
           <div class="col-12 col-md-8 d-flex justify-content-center position-relative">
             <div id="area" class="row m-0 p-0">
             <textarea  name="mensaje" placeholder="Mensaje" rows="5" class="form-control col-12" #mensaje required formControlName="mensaje" [ngClass]="{'is-valid': !options.get('mensaje')?.invalid, 'is-invalid': options.get('mensaje')?.dirty && options.get('mensaje')?.invalid}"></textarea>
-            <div class="col-12 errores" *ngIf="options.get('mensaje')?.dirty && this.options.get('mensaje')?.errors">
-              {{erroresMensaje()}}
+            <div class="col-12 errores" *ngIf="options.get('mensaje')?.dirty && options.get('mensaje')?.errors">
+              {{utils.erroresMensaje(options)}}
             </div>
             </div>
           </div>

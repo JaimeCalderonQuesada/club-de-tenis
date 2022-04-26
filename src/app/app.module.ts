@@ -18,6 +18,8 @@ import { NgxPayPalModule } from 'ngx-paypal';
 import { PasarelaComponent } from './componentes/modales/pasarela/pasarela.component';
 import { SharedmoduleModule } from './sharedmodule.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Utils } from './utils';
+import { CambiarComponent } from './componentes/modales/cambiar/cambiar.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RegistroComponent,
     SociosComponent,
     SesionComponent,
-    PasarelaComponent
+    PasarelaComponent,
+    CambiarComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   exports:[
 
   ],
-  providers: [],
+  providers: [Utils],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

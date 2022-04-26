@@ -38,6 +38,25 @@ CREATE TABLE IF NOT EXISTS inscribir (
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS clases (
+     id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+     fecha datetime NOT NULL,
+     tipo varchar(100)  NOT NULL,
+     pista_id int(10) UNSIGNED NOT NULL,
+     PRIMARY KEY (id)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS registrar (
+     clase_id int(10) UNSIGNED NOT NULL,
+     usuario_id int(10) UNSIGNED NOT NULL,
+     PRIMARY KEY (clase_id,usuario_id),
+     CONSTRAINT `fk_registrar_usuarios`
+        FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
+        ON UPDATE CASCADE,
+    CONSTRAINT `fk_registrar_clases`
+        FOREIGN KEY (clase_id) REFERENCES clases (id)
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS pistas (
      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -48,7 +67,6 @@ CREATE TABLE IF NOT EXISTS pistas (
 
 CREATE TABLE IF NOT EXISTS reservas (
      fecha datetime NOT NULL,
-     titulo varchar(100)  NOT NULL,
      pista_id int(10) UNSIGNED NOT NULL,
      usuario_id int(10) UNSIGNED NOT NULL,
      PRIMARY KEY (fecha)
@@ -70,4 +88,9 @@ ADD CONSTRAINT `fk_reservas_pistas`
 ALTER TABLE reservas
 ADD CONSTRAINT `fk_reservas_usuarios`
         FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON UPDATE CASCADE;
+
+ALTER TABLE clases
+ADD CONSTRAINT `fk_clases_pistas`
+        FOREIGN KEY (pista_id) REFERENCES pistas (id)
         ON UPDATE CASCADE;

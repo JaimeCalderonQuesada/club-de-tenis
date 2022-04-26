@@ -23,8 +23,15 @@ export class UsuariosService {
     );
   }
 
+  modificarUser(user:User,id:number): Observable<any>{
+    return this.http.put(this.url+"?actualizarUsuario="+id,user);
+  }
   getUsuarios():Observable<any>{
     return this.http.get(this.url);
+  }
+
+  getUsuario(id:number):Observable<any>{
+    return this.http.get(this.url+"?usuario="+id);
   }
 
 }

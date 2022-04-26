@@ -11,6 +11,8 @@ import { Reserva } from '../../clases/reserva';
 import { ReservaService } from '../../services/reserva/reserva.service';
 import { PasarelaComponent } from '../modales/pasarela/pasarela.component';
 import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
+import { Utils } from 'src/app/utils';
+import { ClaseService } from 'src/app/services/clase/clase.service';
 
 @Component({
   selector: 'app-registro',
@@ -18,7 +20,7 @@ import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
-
+  
   public payPalConfig: any;
   public showPaypalButtons: boolean;
 
@@ -44,7 +46,7 @@ export class RegistroComponent implements OnInit {
   public dayTypesStored: any;
   public horaReserva:Date;
  
-  constructor(public dialog: MatDialog,private _reservaService:ReservaService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
+  constructor(public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
     this.fechaActual = new Date();
 
@@ -68,9 +70,6 @@ export class RegistroComponent implements OnInit {
       this.user = JSON.parse(sessionStorage.getItem('user'))[0];
       
     }
-
-
-    console.log(this.user)
     if(this.user){
       document.title = "Reservar Pista";
       this._pistaService.getPistas().subscribe(res=>this.pistas=res);
@@ -98,70 +97,9 @@ export class RegistroComponent implements OnInit {
     }
   }
 
-  errores(){
-    if(this.options.get('name')?.hasError('pattern')){
-      return 'Escriba un nombre y apellidos correcto.'
-    }
-    if(this.options.get('name')?.hasError('maxlength')){
-      return 'El máximo son 100 caracteres.'
-    }
-    return this.options.get('name')?.hasError('required') ? 'Campo requerido' : '';
-  }
 
-  erroresEmail(){
-    if(this.options.get('email')?.hasError('minlength')){
-      return 'El email debe tener mínimo 10 caracteres.'
-    }
-    if(this.options.get('email')?.hasError('maxlength')){
-      return 'El email debe tener máximo 100 caracteres.'
-    }
-    if(this.options.get('email')?.hasError('email')){
-      return 'El email debe contener un @.'
-    }
-    return this.options.get('email')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  erroresDni(){
-    if(this.options.get('dni')?.hasError('pattern')){
-      return 'El dni debe tener 8 numeros y una letra.'
-    }
-    return this.options.get('dni')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  erroresMovil(){
-    if(this.options.get('movil')?.hasError('pattern')){
-      return 'El movil debe tener un formato correcto.'
-    }
-    return this.options.get('movil')?.hasError('required') ? 'Campo requerido' : '';
-  }
-  erroresFecha(){
-    if(this.options.get('fecha')?.hasError('max')){
-      return 'Debes tener más de 10 años.'
-    }
-    if(this.options.get('fecha')?.hasError('min')){
-      return 'Debes tener menos de 100 años.'
-    }
-    return this.options.get('fecha')?.hasError('required') ? 'Campo requerido' : '';
-  }
-  erroresSexo(){
-    return this.options.get('sexo')?.hasError('required') ? 'Campo requerido' : '';
-  }
-  erroresPassword(){
-    if(this.options.get('password')?.hasError('maxlength')){
-      return 'El password debe tener máximo 100 caracteres.'
-    }
-    if(this.options.get('password')?.hasError('pattern')){
-      return 'El password debe tener un formato correcto.'
-    }
-    return this.options.get('password')?.hasError('required') ? 'Campo requerido' : '';
-  }
-
-  erroresPassword2(){
-    if(this.options.get('password2')?.hasError('MustMatch')){
-      return 'Las contraseñas no son iguales.'
-    }
-    return this.options.get('password2')?.hasError('required') ? 'Campo requerido' : '';
-  }
+  
+  
 
   onSubmit(){
     this.usuario.tipo = 1;
@@ -181,15 +119,11 @@ export class RegistroComponent implements OnInit {
           this.options.reset();
           this.route.navigate(['/sesion']);
         }
-      },
-      error => {
-        console.log(error)
       }
     );
   }
 
   abrirCalendario(index:number){
-    console.log(index);
     this.idPista = index;
 
     if(this.viewDate.getMonth() == new Date().getMonth()){
@@ -197,30 +131,67 @@ export class RegistroComponent implements OnInit {
     }else{
       this.dis = false;
     }
+    this.addReservas(index);
+    if(index==1){
+      this.addClases(index);
+    }
+    this.ver = true;
+    
+  }
+
+  addReservas(index:number){
     this._reservaService.getReservas().subscribe((res:any)=>{
       this.events = [];
       if(res.length>0){
         for(let i=0;i<res.length;i++){
-          console.log(res[i].pista_id)
           if(res[i].pista_id == index){
 
-            this.events.push({start:new Date(res[i].fecha),title:'RESERVADO',color: {
-              primary: "#e3bc08",
-              secondary: "#e3bc08"
+            if(new Date(res[i].fecha) < new Date()){
+
+            }else{
+              this.events.push({start:new Date(res[i].fecha),title:"RESERVADO",color: {
+                primary: "#e3bc08",
+                secondary: "#e3bc08"
+              }
+              });
             }
-          });
+            
           }
 
         }
-        this.ver = true;
+        
       }
 
-    },
-    error=>{
-      this.ver = true;
-    })
-
+    });
   }
+
+
+  addClases(index:number){
+    this._claseService.getClases().subscribe((res:any)=>{
+      this.events = [];
+      if(res.length>0){
+        for(let i=0;i<res.length;i++){
+          if(res[i].pista_id == index){
+
+            if(new Date(res[i].fecha) < new Date()){
+
+            }else{
+              this.events.push({start:new Date(res[i].fecha),title:res[i].tipo,color: {
+                primary: "#e3bc08",
+                secondary: "#e3bc08"
+              }
+              });
+            }
+            
+          }
+
+        }
+        
+      }
+
+    });
+  }
+
   mesSiguiente(){
     if(this.viewDate.getMonth() == new Date().getMonth()){
       this.dis = true;
@@ -263,8 +234,6 @@ export class RegistroComponent implements OnInit {
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    console.log(new Date().getTime());
-    console.log(date.getTime());
     let day = new Date();
     day.setDate(new Date().getDate()-1)
     //this.events.push({start:date,title:'new event'});
@@ -289,15 +258,13 @@ export class RegistroComponent implements OnInit {
     this.horaReserva=hora;
     for (let index = 0; index < this.events.length; index++) {
       let ho = this.events[index].start.getTime();
-      console.log(ho)
-      console.log(hora.getHours())
       if( ho == hora.getTime()){
         this.r = true;
         break;
       }
     }
     if(!this.r){
-      const modalRef = this.dialog.open(PasarelaComponent);
+      const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
       modalRef.afterClosed().subscribe((response) => {
   
         if (response) {
@@ -308,43 +275,40 @@ export class RegistroComponent implements OnInit {
     }
   }
   crearReserva(){
-    this.reserva.fecha = ""+this.horaReserva.getFullYear()+"-"+(this.horaReserva.getMonth()+1)+"-"+this.horaReserva.getDate()+" "+this.horaReserva.getHours()+":"+this.horaReserva.getMinutes()+0+":"+this.horaReserva.getSeconds()+0+"";
-       this.reserva.pistaid = this.idPista;
-       this.reserva.usuarioid = this.user.id;
-       this._reservaService.insertarReserva(this.reserva).subscribe(
+      this.reserva.fecha = ""+this.horaReserva.getFullYear()+"-"+(this.horaReserva.getMonth()+1)+"-"+this.horaReserva.getDate()+" "+this.horaReserva.getHours()+":"+this.horaReserva.getMinutes()+0+":"+this.horaReserva.getSeconds()+0+"";
+      this.reserva.pista_id = this.idPista;
+      this.reserva.usuarioid = this.user.id;
+      this._reservaService.insertarReserva(this.reserva).subscribe(
          result => {
         // Handle result
-        console.log(result);
-        this.events.push({start:this.horaReserva,title:'RESERVADO',color: {
+        this.events.push({start:this.horaReserva,title:"RESERVADO",color: {
           primary: "#e3bc08",
           secondary: "#e3bc08"
         }});
         this.refresh.next();
-      },
-      error => {
-        console.log(error)
       })
   }
   
   beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
-    console.log('beforeMonthViewRender is called');
+    
     let da = new Date();
     da.setDate(new Date().getDate()-1)
     body.forEach( day => {
       if(day.date.getTime() < da.getTime()){
         day.cssClass = 'disabled';
-
+      }else{
+        
       }
 
     });
-
   }
   beforeDayViewRender(body:CalendarWeekViewBeforeRenderEvent){
-    console.log(body)
+    
     if(body.header[0].day == 6){
-      body.hourColumns[0].hours.splice(6,3);
-    }
-    if(body.header[0].day == 0){
+      body.hourColumns[0].hours[6].segments[0].cssClass = 'disabled';
+      body.hourColumns[0].hours[7].segments[0].cssClass = 'disabled';
+      body.hourColumns[0].hours[8].segments[0].cssClass = 'disabled';
+    }else if(body.header[0].day == 0){
       body.hourColumns[0].hours.splice(6,10);
     }
   }

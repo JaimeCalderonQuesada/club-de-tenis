@@ -6,6 +6,12 @@ h1{
     text-shadow: 1px 1px 1px black;
     margin: 0px;
   }
+.titulo{
+  display: inline-block;
+}
+#cerrar{
+  margin: 2% 2% 0 0;
+}
 form{
     width: 50%;
   }

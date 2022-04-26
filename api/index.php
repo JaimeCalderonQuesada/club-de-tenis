@@ -1,8 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: access");
-header("Access-Control-Allow-Methods: GET,POST,PUT,DELETE");
-header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET,POST,OPTIONS,DELETE,PUT");
+header("Content-Type: application/json, charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Conecta a la base de datos  con usuario, contraseña y nombre de la BD
@@ -55,6 +54,30 @@ if (isset($_GET["usuariosVer"])){
       exit();
   }
   else{  echo json_encode(["success"=>0]); }
+}
+
+// Actualizar usuario
+if(isset($_GET["actualizarUsuario"])){
+
+    $data = json_decode(file_get_contents("php://input"));
+    $name=$data->name;
+    $movil=$data->movil;
+    $email=$data->email;
+
+    $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `usuarios` SET `name`='$name', `movil`='$movil', `email`='$email' WHERE `id`=".$_GET["actualizarUsuario"]);
+    echo json_encode(["success"=>1]);
+    exit();
+}
+
+// Consulta un usuario
+if (isset($_GET["usuario"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM `usuarios` WHERE `id` = ".$_GET["usuario"]);
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
 }
 
 // Inserta un nuevo formulario de contacto
@@ -244,6 +267,31 @@ if (isset($_GET["reservas"])){
   else{  echo json_encode(["success"=>0]); }
   }else{  echo json_encode("".mysqli_error($sql).",".mysqli_connect_error($conexionBD)); }
 }
+
+// Consulta reservas de un usuario
+if (isset($_GET["reservasUsuario"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM `reservas` WHERE `usuario_id` = ".$_GET["reservasUsuario"]);
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+// Consultar clases
+if (isset($_GET["clases"])){
+    $sql="SELECT * FROM clases";
+    if(mysqli_query($conexionBD,$sql)){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM clases");
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+    }else{  echo json_encode("".mysqli_error($sql).",".mysqli_connect_error($conexionBD)); }
+  }
 
 // // Consulta todos los posts de un usuario concreto
 // if (isset($_GET["tusPosts"])){

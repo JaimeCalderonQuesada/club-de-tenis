@@ -8,7 +8,7 @@
       <div class="row p-0 m-0 w-100">
         <input type="text" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !options.get('name')?.invalid, 'is-invalid': options.get('name')?.dirty && options.get('name')?.invalid}">
         <div class="col-12 errores" *ngIf="options.get('name')?.dirty && this.options.get('name')?.errors">
-          {{errores()}}
+          {{util.errores(options)}}
         </div>
       </div>
 
@@ -18,7 +18,7 @@
       <div class="row p-0 m-0 w-100">
         <input type="email" class="form-control col-12" name="email" placeholder="Email" #email required formControlName="email" [ngClass]="{'is-valid': !options.get('email')?.invalid, 'is-invalid': options.get('email')?.dirty && options.get('email')?.invalid}" >
         <div class="col-12 errores" *ngIf="options.get('email')?.dirty && this.options.get('email')?.errors">
-          {{erroresEmail()}}
+          {{util.erroresEmail(options)}}
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
       <div class="row p-0 m-0 w-100">
       <input type="text" name="dni" placeholder="DNI" class="form-control col-12" #dni required formControlName="dni" [ngClass]="{'is-valid': !options.get('dni')?.invalid, 'is-invalid': options.get('dni')?.dirty && options.get('dni')?.invalid}">
       <div class="col-12 errores" *ngIf="options.get('dni')?.dirty && this.options.get('dni')?.errors">
-        {{erroresDni()}}
+        {{util.erroresDni(options)}}
       </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
       <div class="row p-0 m-0 w-100">
       <input type="tel" name="movil" placeholder="Movil" class="form-control col-12" #movil formControlName="movil" required [ngClass]="{'is-valid': !options.get('movil')?.invalid, 'is-invalid': options.get('movil')?.dirty && options.get('movil')?.invalid}">
       <div class="col-12 errores" *ngIf="options.get('movil')?.dirty && this.options.get('movil')?.errors">
-        {{erroresMovil()}}
+        {{util.erroresMovil(options)}}
       </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
       <div class="row p-0 m-0 w-100">
       <input type="date" name="fecha" class="form-control col-12" #fecha formControlName="fecha" required [ngClass]="{'is-valid': !options.get('fecha')?.invalid, 'is-invalid': options.get('fecha')?.dirty && options.get('fecha')?.invalid}">
       <div class="col-12 errores" *ngIf="options.get('fecha')?.touched && this.options.get('fecha')?.errors">
-        {{erroresFecha()}}
+        {{util.erroresFecha(options)}}
       </div>
       </div>
     </div>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="col-12 errores" *ngIf="options.get('name')?.dirty && options.get('sexo')?.errors">
-          {{erroresSexo()}}
+          {{util.erroresSexo(options)}}
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@
       <div class="row p-0 m-0 w-100">
       <input type="password" name="password" placeholder="Contraseña" class="form-control col-12" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
       <div class="col-12 errores" *ngIf="options.get('password')?.dirty && this.options.get('password')?.errors">
-        {{erroresPassword()}}
+        {{util.erroresPassword(options)}}
       </div>
       </div>
     </div>
@@ -84,7 +84,7 @@
       <div class="row p-0 m-0 w-100">
       <input type="password" name="password2" placeholder="Confirme su Contraseña" class="form-control col-12" #password2 formControlName="password2" required [ngClass]="{'is-valid': !options.get('password2')?.invalid, 'is-invalid': options.get('password2')?.dirty && options.get('password2')?.invalid}">
       <div class="col-12 errores" *ngIf="options.get('password2')?.dirty && this.options.get('password2')?.errors">
-        {{erroresPassword2()}}
+        {{util.erroresPassword2(options)}}
       </div>
       </div>
     </div>
@@ -157,7 +157,7 @@
 
 
     <div class="col-12 pb-2"  [ngSwitch]="view">
-      <mwl-calendar-month-view (beforeViewRender)="beforeMonthViewRender($event)" (dayClicked)="dayClicked($event.day)" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events">
+      <mwl-calendar-month-view (beforeViewRender)="beforeMonthViewRender($event)" (dayClicked)="dayClicked($event.day);" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events">
       </mwl-calendar-month-view>
 
       <mwl-calendar-day-view (beforeViewRender)="beforeDayViewRender($event)" [refresh]="refresh" [hourDuration]="60" [hourSegments]="1" [dayStartHour]="8-0" (hourSegmentClicked)="horaClicked($event.date)" *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events">

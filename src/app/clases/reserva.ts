@@ -1,7 +1,7 @@
 
 export class Reserva {
-    fecha:string;
-    pistaid:number;
-    usuarioid:number;
-  
+    public nombre?:string;
+    public fecha:string;
+    public pista_id:number;
+    public usuarioid:number;
 }

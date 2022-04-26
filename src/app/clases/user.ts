@@ -1,11 +1,11 @@
 export class User {
-    id: number;
-    name: string;
-    password: string;
-    email: string;
-    tipo: number;
-    sexo: string;
-    movil: string;
-    dni: string;
-    fecha: Date;
+    public id: number;
+    public name: string;
+    public password: string;
+    public email: string;
+    public tipo: number;
+    public sexo: string;
+    public movil: string;
+    public dni: string;
+    public fecha: Date;
 }
