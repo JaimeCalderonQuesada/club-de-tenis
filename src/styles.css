@@ -18,3 +18,22 @@
 
 html, body { height: 100vh;margin: 0px; }
 body {  font-family: Roboto; }
+
+.alerta{
+  background-color: white;
+  color: red;
+  height: 100px !important;
+  text-align: center !important;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex!important;
+  border: 3px solid red !important;
+  border-radius: 20px !important;
+  font-weight:bold;
+  font-size: 40px !important;
+}
+.mat-button-wrapper {
+
+  color: red !important;
+
+}

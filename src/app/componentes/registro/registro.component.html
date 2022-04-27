@@ -108,15 +108,15 @@
   <div *ngIf="!ver" class="container-fluid pb-2">
     <h1>RESERVAR PISTA</h1>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
-    <div class="col" *ngFor="let pista of pistas">
+    <div class="col d-flex align-items-stretch" *ngFor="let pista of pistas">
       <div class="card">
       <img class="card-img-top img-fluid" [src]="pista.url">
       <div class="card-body">
         <h4 class="card-title">{{pista.name}}</h4>
         <p class="card-text">{{pista.descripcion}}</p>
-        <div class="text-center">
-          <button class="btn" (click)="abrirCalendario(pista.id)">Reservar</button>
-        </div>
+      </div>
+      <div class="card-footer text-center">
+        <button class="btn" (click)="abrirCalendario(pista.id)">Reservar</button>
       </div>
       </div>
     </div>

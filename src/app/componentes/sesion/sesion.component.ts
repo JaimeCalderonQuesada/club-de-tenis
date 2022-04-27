@@ -10,6 +10,8 @@ import { CambiarComponent } from '../modales/cambiar/cambiar.component';
 import { Reserva } from '../../clases/reserva';
 import { Pista } from 'src/app/clases/pista';
 import { PistaService } from 'src/app/services/pista/pista.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertaService } from '../../services/alerta/alerta.service';
 
 
 @Component({
@@ -27,7 +29,7 @@ export class SesionComponent implements OnInit {
   public usuario:User = new User();
   public correcto:Boolean=false;
   public verReservas:Boolean=false;
-  constructor(private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
+  constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
       password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
@@ -112,6 +114,7 @@ export class SesionComponent implements OnInit {
               sessionStorage.removeItem('user');
               sessionStorage.setItem('user',JSON.stringify(res[0]));
               this.user = res[0];
+              this._alertaService.openAlert('Perfil editado correctamente');
             }
           )
           this.modificar=false;
@@ -139,7 +142,7 @@ export class SesionComponent implements OnInit {
     modalRef.afterClosed().subscribe((response) => {
 
       if (response) {
-        
+        this._alertaService.openAlert('Contraseña guardada correctamente');
       }
 
     });
