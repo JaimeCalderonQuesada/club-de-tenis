@@ -105,16 +105,18 @@
 </ng-template>
 
 <ng-template [ngIf]="user && user.tipo!=0">
-  <div *ngIf="!ver" class="container-fluid">
+  <div *ngIf="!ver" class="container-fluid pb-2">
     <h1>RESERVAR PISTA</h1>
-    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-2 pb-2">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
     <div class="col" *ngFor="let pista of pistas">
       <div class="card">
-      <!-- <img class="card-img-top" src="../static/imagenes/cesped.jpg"> -->
+      <img class="card-img-top img-fluid" [src]="pista.url">
       <div class="card-body">
         <h4 class="card-title">{{pista.name}}</h4>
         <p class="card-text">{{pista.descripcion}}</p>
-        <button class="btn btn-success" (click)="abrirCalendario(pista.id)">Reservar</button>
+        <div class="text-center">
+          <button class="btn" (click)="abrirCalendario(pista.id)">Reservar</button>
+        </div>
       </div>
       </div>
     </div>
@@ -172,6 +174,44 @@
 </ng-template>
 
 <ng-template [ngIf]="user && user.tipo==0">
+  <div id="con" class="container-fluid">
+    <h1>AÑADIR PISTA</h1>
+    <div class="d-flex justify-content-center">
+    <form novalidate [formGroup]="nuevapista" (ngSubmit)="onSubmitPista()" class="row m-0 p-0">
+      <div class="col-12 d-flex justify-content-center position-relative p-2">
+        <div class="row p-0 m-0 w-100">
+          <input type="text" name="name" placeholder="Nombre" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !nuevapista.get('name')?.invalid, 'is-invalid': nuevapista.get('name')?.dirty && nuevapista.get('name')?.invalid}">
+          <div class="col-12 errores" *ngIf="nuevapista.get('name')?.dirty && this.nuevapista.get('name')?.errors">
+            {{util.errores(nuevapista)}}
+          </div>
+        </div>
+  
+      </div>
+  
+      <div class="col-12 d-flex justify-content-center position-relative p-2">
+        <div class="row p-0 m-0 w-100">
+        <input type="text" name="descripcion" placeholder="Descripcion" class="form-control col-12" #descripcion required formControlName="descripcion" [ngClass]="{'is-valid': !nuevapista.get('descripcion')?.invalid, 'is-invalid': nuevapista.get('descripcion')?.dirty && nuevapista.get('descripcion')?.invalid}">
+        <div class="col-12 errores" *ngIf="nuevapista.get('descripcion')?.dirty && nuevapista.get('descripcion')?.errors">
+          {{util.erroresDescripcion(nuevapista)}}
+        </div>
+        </div>
+      </div>
 
+      <div class="col-12 d-flex justify-content-center position-relative p-2">
+        <ngx-dropzone (change)="onSelect($event)">
+          <ngx-dropzone-label>¡Inserte la imagen aquí!</ngx-dropzone-label>
+          <ngx-dropzone-image-preview  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+          </ngx-dropzone-image-preview>
+        </ngx-dropzone>
+      </div>
+      <span class="col-12 errores text-center mb-2" *ngIf="nuevapista.get('imagen')?.errors">Campo requerido</span>
+      <div  class="col-12 d-flex justify-content-center pb-4">
+        <input  type="submit" value="Añadir" [disabled]="nuevapista.invalid" class="btn">
+      </div>
+    </form>
+  
+    </div>
+  </div>
 </ng-template>
 

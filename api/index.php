@@ -142,9 +142,10 @@ if(isset($_GET["torneo"])){
     $data = json_decode(file_get_contents("php://input"));
     $nombre=$data->name;
     $localidad=$data->localidad;
+    $imagen=$data->imagen;
         if($nombre!=""){
 
-        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO torneos(nombre,localidad) VALUES('$nombre','$localidad') ");
+        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO torneos(nombre,localidad,imagen) VALUES('$nombre','$localidad','$imagen') ");
         if(mysqli_error($conexionBD)){
 
             echo json_encode(["success"=>0]);
@@ -228,9 +229,10 @@ if(isset($_GET["pista"])){
     $data = json_decode(file_get_contents("php://input"));
     $name=$data->name;
     $descripcion=$data->descripcion;
+    $imagen=$data->imagen;
         if($name!=""){
 
-    $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO pistas(name,descripcion) VALUES('$name','$descripcion') ");
+    $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO pistas(name,descripcion,imagen) VALUES('$name','$descripcion','$imagen') ");
     echo json_encode(["success"=>1]);
         }
     exit();

@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS torneos (
      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
      name varchar(100)  NOT NULL,
      localidad varchar(100) NOT NULL,
+     imagen longblob NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
@@ -62,6 +63,7 @@ CREATE TABLE IF NOT EXISTS pistas (
      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
      name varchar(100)  NOT NULL,
      descripcion varchar(100)  NOT NULL,
+     imagen longblob NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 

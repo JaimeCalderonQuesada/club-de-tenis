@@ -13,6 +13,7 @@ import { PasarelaComponent } from '../modales/pasarela/pasarela.component';
 import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
 import { Utils } from 'src/app/utils';
 import { ClaseService } from 'src/app/services/clase/clase.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-registro',
@@ -27,6 +28,7 @@ export class RegistroComponent implements OnInit {
   public ver:Boolean = false;
   public usuario:User = new User();
   public options!: FormGroup;
+  public nuevapista!: FormGroup;
   public fechaActual:Date;
   public user:User;
   public pistas:Pista[];
@@ -45,8 +47,11 @@ export class RegistroComponent implements OnInit {
   public idPista:number;
   public dayTypesStored: any;
   public horaReserva:Date;
- 
-  constructor(public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
+  public files: File[] = [];
+  public imgDetails:any[]=[];
+  public pista:Pista=new Pista();
+
+  constructor(private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
     this.fechaActual = new Date();
 
@@ -62,6 +67,12 @@ export class RegistroComponent implements OnInit {
     },{
       validators:this.MustMatch('password','password2')
     });
+
+    this.nuevapista = this.fb.group({
+      name: ["",[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.']{10,})")]],
+      descripcion:["",[Validators.required,Validators.maxLength(100),Validators.minLength(10)]],
+      imagen:["",[Validators.required]]
+    });
   }
 
   ngOnInit(): void {
@@ -71,8 +82,18 @@ export class RegistroComponent implements OnInit {
       
     }
     if(this.user){
+     
+        this._pistaService.getPistas().subscribe(res=>{
+          this.pistas=res
+          console.log(res)
+          for(let i =0;i<this.pistas.length;i++){
+            this.pistas[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.pistas[i].imagen);
+            
+          }
+        });
+      
       document.title = "Reservar Pista";
-      this._pistaService.getPistas().subscribe(res=>this.pistas=res);
+      
 
     }else{
       document.title = "Registro";
@@ -97,8 +118,48 @@ export class RegistroComponent implements OnInit {
     }
   }
 
+  convertToBase64 = (file:File):Promise<string> => {
+    return new Promise<string> ((resolve,reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result!.toString());
+      reader.onerror = error => reject(error);
+    })
+  }
+  onSelect(event: any) {
+    this.files.push(...event.addedFiles);
+    if (this.files && this.files[0]) {
+      for(let i = 0; i < this.files.length; i++) {
+        this.convertToBase64(this.files[0])
+        .then((result: string) => {
+            const base64String = result.replace('data:', '')
+              .replace(/^.+,/, '');
+              this.imgDetails.push({ name:this.files[i].name, content:base64String });
+          });
+      }
+    }
+    if(this.imgDetails.length>=0){
+      this.nuevapista.get('imagen')?.setValue('hola');
+    }
+    
+  }
 
-  
+  onRemove(event: any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  onSubmitPista(){
+    this.pista.name = this.nuevapista.get('name')?.value;
+    this.pista.descripcion = this.nuevapista.get('descripcion')?.value;
+    this.pista.imagen = this.imgDetails[0].content;
+    this._pistaService.insertarPista(this.pista).subscribe(
+      result=>{
+        this.nuevapista.reset();
+        this.files = [];
+      }
+    );
+  }
   
 
   onSubmit(){

@@ -20,6 +20,7 @@ import { SharedmoduleModule } from './sharedmodule.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Utils } from './utils';
 import { CambiarComponent } from './componentes/modales/cambiar/cambiar.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { CambiarComponent } from './componentes/modales/cambiar/cambiar.componen
     NgxPayPalModule,
     SharedmoduleModule,
     BrowserAnimationsModule,
-    
+    NgxDropzoneModule
   ],
   exports:[
 

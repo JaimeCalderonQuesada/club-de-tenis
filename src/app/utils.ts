@@ -32,6 +32,16 @@ export class Utils{
         return options.get('mensaje')?.hasError('required') ? 'Campo requerido' : '';
       }
 
+      erroresDescripcion(options:FormGroup){
+        if(options.get('descripcion')?.hasError('minlength')){
+          return 'La descripción debe tener mínimo 10 caracteres.'
+        }
+        if(options.get('descripcion')?.hasError('maxlength')){
+          return 'La descripción debe tener máximo 255 caracteres.'
+        }
+        return options.get('descripcion')?.hasError('required') ? 'Campo requerido' : '';
+      }
+
       erroresEmailLogin(options:FormGroup){
         if(options.get('email')?.hasError('minlength')){
           return 'El email debe tener mínimo 10 caracteres.'
