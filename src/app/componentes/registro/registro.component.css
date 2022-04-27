@@ -29,7 +29,7 @@ form{
   box-shadow: 0 0 0 0 ;
 }
 .container-fluid{
-  background-color: var(--color-nav);
+  background-color: var(--color-nav-hover);
   min-height: 62vh;
 }
 ::ng-deep .disabled{
