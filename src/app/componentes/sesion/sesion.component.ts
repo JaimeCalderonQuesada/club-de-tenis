@@ -35,7 +35,7 @@ export class SesionComponent implements OnInit {
       password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
       email: ["",[Validators.required,Validators.email,Validators.minLength(10),Validators.maxLength(100)]]
     });
-    
+
   }
 
   ngOnInit(): void {
@@ -61,18 +61,18 @@ export class SesionComponent implements OnInit {
             this.verReservas=true;
           });
         }
-        
+
       },
       error=>{console.log(error)}
       );
-      
-        
+
+
     }
-    
+
 
   }
 
-  
+
 
 
   onSubmit(){
@@ -87,6 +87,7 @@ export class SesionComponent implements OnInit {
           this.options.reset();
           this.router.navigate(['/home']);
           this._usuariosService.existe.next(true);
+          this._alertaService.openAlert('Sesión iniciada correctamente');
         }
       },
       error => {
@@ -99,7 +100,7 @@ export class SesionComponent implements OnInit {
 
   }
   onSubmitEditar(){
-   
+
     this.usuario.name = this.editar.get('name')?.value;
     this.usuario.email = this.editar.get('email')?.value;
     this.usuario.movil = this.editar.get('movil')?.value;
@@ -122,9 +123,9 @@ export class SesionComponent implements OnInit {
         }
       )
     }
-    
-    
-    
+
+
+
   }
 
   logout(){

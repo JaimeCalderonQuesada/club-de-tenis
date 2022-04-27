@@ -14,6 +14,7 @@ import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
 import { Utils } from 'src/app/utils';
 import { ClaseService } from 'src/app/services/clase/clase.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AlertaService } from 'src/app/services/alerta/alerta.service';
 
 @Component({
   selector: 'app-registro',
@@ -21,7 +22,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
-  
+
   public payPalConfig: any;
   public showPaypalButtons: boolean;
 
@@ -51,7 +52,7 @@ export class RegistroComponent implements OnInit {
   public imgDetails:any[]=[];
   public pista:Pista=new Pista();
 
-  constructor(private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
+  constructor(private _alertaService:AlertaService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
     this.fechaActual = new Date();
 
@@ -76,24 +77,24 @@ export class RegistroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'));
-      
+
     }
     if(this.user){
-     
+
         this._pistaService.getPistas().subscribe(res=>{
           this.pistas=res
           console.log(res)
           for(let i =0;i<this.pistas.length;i++){
             this.pistas[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.pistas[i].imagen);
-            
+
           }
         });
-      
+
       document.title = "Reservar Pista";
-      
+
 
     }else{
       document.title = "Registro";
@@ -141,7 +142,7 @@ export class RegistroComponent implements OnInit {
     if(this.imgDetails.length>=0){
       this.nuevapista.get('imagen')?.setValue('hola');
     }
-    
+
   }
 
   onRemove(event: any) {
@@ -157,10 +158,11 @@ export class RegistroComponent implements OnInit {
       result=>{
         this.nuevapista.reset();
         this.files = [];
+        this._alertaService.openAlert('Pista añadida correctamente');
       }
     );
   }
-  
+
 
   onSubmit(){
     this.usuario.tipo = 1;
@@ -179,6 +181,7 @@ export class RegistroComponent implements OnInit {
         }else{
           this.options.reset();
           this.route.navigate(['/sesion']);
+          this._alertaService.openAlert('Usuario creado correctamente');
         }
       }
     );
@@ -197,7 +200,7 @@ export class RegistroComponent implements OnInit {
       this.addClases(index);
     }
     this.ver = true;
-    
+
   }
 
   addReservas(index:number){
@@ -216,11 +219,11 @@ export class RegistroComponent implements OnInit {
               }
               });
             }
-            
+
           }
 
         }
-        
+
       }
 
     });
@@ -243,11 +246,11 @@ export class RegistroComponent implements OnInit {
               }
               });
             }
-            
+
           }
 
         }
-        
+
       }
 
     });
@@ -314,7 +317,7 @@ export class RegistroComponent implements OnInit {
 
   horaClicked(hora:Date){
 
-    
+
     this.r = false;
     this.horaReserva=hora;
     for (let index = 0; index < this.events.length; index++) {
@@ -327,11 +330,11 @@ export class RegistroComponent implements OnInit {
     if(!this.r){
       const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
       modalRef.afterClosed().subscribe((response) => {
-  
+
         if (response) {
           this.crearReserva();
         }
-  
+
       });
     }
   }
@@ -349,22 +352,22 @@ export class RegistroComponent implements OnInit {
         this.refresh.next();
       })
   }
-  
+
   beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
-    
+
     let da = new Date();
     da.setDate(new Date().getDate()-1)
     body.forEach( day => {
       if(day.date.getTime() < da.getTime()){
         day.cssClass = 'disabled';
       }else{
-        
+
       }
 
     });
   }
   beforeDayViewRender(body:CalendarWeekViewBeforeRenderEvent){
-    
+
     if(body.header[0].day == 6){
       body.hourColumns[0].hours[6].segments[0].cssClass = 'disabled';
       body.hourColumns[0].hours[7].segments[0].cssClass = 'disabled';
