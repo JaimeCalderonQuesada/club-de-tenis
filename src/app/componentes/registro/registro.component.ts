@@ -67,7 +67,7 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {
     
     if(sessionStorage.length>0){
-      this.user = JSON.parse(sessionStorage.getItem('user'))[0];
+      this.user = JSON.parse(sessionStorage.getItem('user'));
       
     }
     if(this.user){

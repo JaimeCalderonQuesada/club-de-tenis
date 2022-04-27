@@ -10,13 +10,13 @@ $conexionBD = new mysqli($servidor, $usuario, $contrasenia, $nombreBaseDatos);
 
 // Comprueba datos de usuario para hacer login
 if(isset($_GET["login"])){
-    $pas = sha1($_GET["contrasenia"]);
+    $pas = md5($_GET["contrasenia"]);
     $sql="SELECT * FROM usuarios WHERE email='".$_GET["login"]."'AND password='".$pas."'";
     if(mysqli_query($conexionBD,$sql)){
         $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM usuarios WHERE email='".$_GET["login"]."'AND password='".$pas."'");
         if(mysqli_num_rows($sqlEmpleaados) > 0){
             $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
-            echo json_encode($empleaados);
+            echo json_encode([$empleaados,$_GET["contrasenia"]]);
             exit();
         } else {echo json_encode(["success"=>0]);}
     }else{  echo json_encode("".mysqli_error($sql).",".mysqli_connect_error($conexionBD)); }
@@ -28,7 +28,7 @@ if(isset($_GET["insertar"])){
     $nombre=$data->name;
     $correo=$data->email;
     $contrasenia=$data->password;
-    $pas = sha1($contrasenia);
+    $pas = md5($contrasenia);
     $sexo = $data->sexo;
     $movil = $data->movil;
     $dni = $data->dni;
@@ -69,12 +69,34 @@ if(isset($_GET["actualizarUsuario"])){
     exit();
 }
 
+// Actualizar contraseña usuario
+if(isset($_GET["actualizarCon"])){
+
+    $data = json_decode(file_get_contents("php://input"));
+    $pas= md5($data->password);
+
+    $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `usuarios` SET `password`='$pas' WHERE `id`=".$_GET["actualizarCon"]);
+    echo json_encode(["success"=>1]);
+    exit();
+}
 // Consulta un usuario
 if (isset($_GET["usuario"])){
     $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM `usuarios` WHERE `id` = ".$_GET["usuario"]);
     if(mysqli_num_rows($sqlEmpleaados) > 0){
         $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
         echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+// Consulta un usuario
+if (isset($_GET["usuarioCon"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT `password` FROM `usuarios` WHERE `id` = ".$_GET["usuarioCon"]);
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        $con = $_SESSION;
+        echo json_encode($con);
         exit();
     }
     else{  echo json_encode(["success"=>0]); }

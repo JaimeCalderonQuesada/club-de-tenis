@@ -26,7 +26,7 @@ export class SesionComponent implements OnInit {
   public user: User;
   public usuario:User = new User();
   public correcto:Boolean=false;
-
+  public verReservas:Boolean=false;
   constructor(private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
@@ -38,7 +38,7 @@ export class SesionComponent implements OnInit {
 
   ngOnInit(): void {
     if(sessionStorage.length>0){
-      this.user = JSON.parse(sessionStorage.getItem('user'))[0];
+      this.user = JSON.parse(sessionStorage.getItem('user'));
       this.editar = this.fb.group({
         name: [this.user.name,[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
         email: [this.user.email,[Validators.required,Validators.email,Validators.minLength(10),Validators.maxLength(100)]],
@@ -46,17 +46,23 @@ export class SesionComponent implements OnInit {
       });
       this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
         this.reservas = res;
-        this._pistaService.getPistas().subscribe(resp=>{
-          this.pistas=resp;
-          for(let i=0;i<this.reservas.length;i++){
-            for(let index=0;index<this.pistas.length;index++){
-              if(this.reservas[i].pista_id == this.pistas[index].id){
-                this.reservas[i].nombre = this.pistas[index].name;
+        if(this.reservas.length>0){
+          this._pistaService.getPistas().subscribe(resp=>{
+            this.pistas=resp;
+            for(let i=0;i<this.reservas.length;i++){
+              for(let index=0;index<this.pistas.length;index++){
+                if(this.reservas[i].pista_id == this.pistas[index].id){
+                  this.reservas[i].nombre = this.pistas[index].name;
+                }
               }
-            }
-          }
-        });
-      });
+            };
+            this.verReservas=true;
+          });
+        }
+        
+      },
+      error=>{console.log(error)}
+      );
       
         
     }
@@ -72,8 +78,10 @@ export class SesionComponent implements OnInit {
       result => {
         // Handle result
         if(result){
-          this.user = result;
+          console.log(result)
+          this.user = result[0][0];
           sessionStorage.setItem('user',JSON.stringify(this.user));
+          sessionStorage.setItem('con',JSON.stringify(result[1]));
           this.options.reset();
           this.router.navigate(['/home']);
           this._usuariosService.existe.next(true);
@@ -93,22 +101,26 @@ export class SesionComponent implements OnInit {
     this.usuario.name = this.editar.get('name')?.value;
     this.usuario.email = this.editar.get('email')?.value;
     this.usuario.movil = this.editar.get('movil')?.value;
+    if(this.user.name == this.usuario.name && this.user.email == this.usuario.email && this.user.movil == this.usuario.movil){
+      this.correcto =true;
+    }else{
+      this._usuariosService.modificarUser(this.usuario,this.user.id).subscribe(
+        result => {
+          // Handle result
+          this._usuariosService.getUsuario(this.user.id).subscribe(
+            (res:any)=>{
+              sessionStorage.removeItem('user');
+              sessionStorage.setItem('user',JSON.stringify(res[0]));
+              this.user = res[0];
+            }
+          )
+          this.modificar=false;
+          this.correcto =false;
+        }
+      )
+    }
     
     
-    this._usuariosService.modificarUser(this.usuario,this.user.id).subscribe(
-      result => {
-        // Handle result
-        this._usuariosService.getUsuario(this.user.id).subscribe(
-          (res:any)=>{
-            sessionStorage.removeItem('user');
-            sessionStorage.clear();
-            sessionStorage.setItem('user',JSON.stringify(res));
-            this.user = res[0];
-          }
-        )
-        this.modificar=false;
-      }
-    )
     
   }
 
@@ -123,7 +135,7 @@ export class SesionComponent implements OnInit {
       });
   }
   abrirModal(){
-    const modalRef = this.dialog.open(CambiarComponent,{disableClose: true});
+    const modalRef = this.dialog.open(CambiarComponent,{data:{user:this.user},disableClose: true});
     modalRef.afterClosed().subscribe((response) => {
 
       if (response) {
@@ -134,6 +146,7 @@ export class SesionComponent implements OnInit {
   }
   volver(){
     this.modificar = false;
+    this.correcto =false;
   }
 
 }

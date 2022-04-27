@@ -45,3 +45,7 @@ a:hover{
   color: var(--naranja3);
   text-shadow: 1px 1px 1px black;
 }
+
+#link{
+width: 31%;
+}

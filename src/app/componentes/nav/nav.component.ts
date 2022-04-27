@@ -15,7 +15,7 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this._usuariosService.existe.subscribe(res=>this.user=res);
     if(sessionStorage.length>0){
-    this.user = JSON.parse(sessionStorage.getItem('user'))[0];
+    this.user = JSON.parse(sessionStorage.getItem('user'));
     }
   }
 

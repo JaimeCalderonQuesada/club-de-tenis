@@ -14,11 +14,7 @@
   --color-nav-hover:#48c26c;
 
 }
-body{
-  font-family: Roboto;
-}
 
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { height: 100vh;margin: 0px; }
+body {  font-family: Roboto; }

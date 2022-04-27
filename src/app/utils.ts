@@ -52,6 +52,9 @@ export class Utils{
         if(options.get('password')?.hasError('pattern')){
           return 'El password debe tener un formato correcto.'
         }
+        if(options.get('password')?.hasError('MustMatch')){
+          return 'La contraseña debe ser diferente a la antigua.'
+        }
         return options.get('password')?.hasError('required') ? 'Campo requerido' : '';
       }
     

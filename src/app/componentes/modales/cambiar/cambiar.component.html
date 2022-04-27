@@ -1,10 +1,29 @@
-<h2 mat-dialog-title>Cambiar Contraseña</h2>
+
 <mat-dialog-content>
-    <form>
+    <h1>Cambiar Contraseña</h1>
+    <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
+        <div class="col-12 d-flex justify-content-center position-relative p-2">
+            <div class="row p-0 m-0 w-100">
+            <input type="password" name="password2" placeholder="Contraseña actual" class="form-control col-12" #password2 formControlName="password2" required [ngClass]="{'is-valid': !options.get('password2')?.invalid, 'is-invalid': options.get('password2')?.dirty && options.get('password2')?.invalid}">
+            <div class="col-12 errores" *ngIf="options.get('password2')?.dirty && this.options.get('password2')?.errors">
+              {{util.erroresPassword2(options)}}
+            </div>
+            </div>
+          </div>
         
+        <div class="col-12 d-flex justify-content-center position-relative p-2">
+            <div class="row p-0 m-0 w-100">
+            <input type="password" name="password" placeholder="Nueva Contraseña" class="form-control col-12" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+            <div class="col-12 errores" *ngIf="options.get('password')?.dirty && this.options.get('password')?.errors">
+              {{util.erroresPassword(options)}}
+            </div>
+            </div>
+        </div>
+      
+          
+        <div  class="col-12 d-flex justify-content-center p-3">
+          <input  type="submit" value="Cambiar" [disabled]="options.invalid" class="btn">
+          <button class="btn ms-2" mat-dialog-close>Cancelar</button>
+        </div>
     </form>
 </mat-dialog-content>
-
-<mat-dialog-actions align="end">
-    <button mat-raised-button mat-dialog-close>Cancelar</button>
-</mat-dialog-actions>

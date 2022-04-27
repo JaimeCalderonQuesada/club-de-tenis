@@ -3,9 +3,13 @@ h1{
     color: var(--main-bg-color);
     text-align: center;
     padding: 2%;
+    
     text-shadow: 1px 1px 1px black;
     margin: 0px;
-  }
+}
+#ti{
+  padding-top: 5%;
+}
 .titulo{
   display: inline-block;
 }
@@ -22,8 +26,7 @@ form{
   }
 #con{
     background-color: var(--color-nav);
-    padding-top: 10%;
-    padding-bottom: 10%;
+    padding-top: 3%;
   }
 .btn{
     background-color: var(--main-bg-color);
@@ -39,6 +42,7 @@ form{
     box-shadow: 0 0 0 0 ;
   }
 #a{
+  width: 27%;
   color: var(--main-bg-color);
   text-shadow: 1px 1px 1px black;
 }
@@ -104,4 +108,7 @@ form{
     
   } 
   
+}
+.container-fluid{
+  min-height: 62vh;
 }

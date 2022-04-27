@@ -1,6 +1,6 @@
 <ng-template [ngIf]="!user">
 <div id="con" class="container-fluid">
-    <h1>INICIAR SESIÓN</h1>
+    <h1 id="ti">INICIAR SESIÓN</h1>
     <div class="d-flex justify-content-center">
       
     <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
@@ -29,7 +29,7 @@
         <a id="a" class="nav-link" routerLink="/registro">¿Registrarse?</a>
       </div>
 
-      <div  class="col-12 d-flex justify-content-center p-3">
+      <div  class="col-12 d-flex justify-content-center">
         <input  type="submit" value="Iniciar Sesión" [disabled]="options.invalid" class="btn">
       </div>
     </form>
@@ -40,8 +40,8 @@
 
 <ng-template [ngIf]="user && user.tipo != 0">
   <ng-template [ngIf]="!modificar" >
-    <div class="container-fluid ">
-      <div>
+    <div class="container-fluid">
+      <div class="mt-2">
         <h1 class="titulo">MI PERFIL</h1>
         <button id="cerrar" class="btn float-end" (click)="logout()" >Cerrar Sesión</button>
       </div>
@@ -65,38 +65,44 @@
           </tr>
         </tbody>
         </table>
-        <button class="btn mt-2 ms-2 float-end" (click)="abrirModal()">Modificar Contraseña</button>
-        <button class="btn mt-2 float-end" (click)="modificar=!modificar">Editar Perfil</button>
+        <button class="btn mt-3 ms-2 float-end" (click)="abrirModal()">Modificar Contraseña</button>
+        <button class="btn mt-3 float-end" (click)="modificar=!modificar">Editar Perfil</button>
         
       </div>
-        
-      <h1 class="titulo">MIS RESERVAS</h1>
+
+      <div *ngIf="verReservas" class="mb-2">
+        <h1 class="titulo">MIS RESERVAS</h1>
       
-      <div class="datagrid text-center">
-        <table>
-        <thead>
-          <tr>
-            <th>Pista</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let reserva of reservas">
-            <td><span >{{reserva.nombre}}</span></td>
-            <td><span>{{reserva.fecha}}</span></td>
-          </tr>
-        </tbody>
-        </table>
-        
+        <div class="datagrid text-center">
+          <table>
+          <thead>
+            <tr>
+              <th>Pista</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserva of reservas">
+              <td><span >{{reserva.nombre}}</span></td>
+              <td><span>{{reserva.fecha}}</span></td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
       </div>
+
     </div>
   </ng-template>
   <ng-template [ngIf]="modificar">
 
-    <div class="container-fluid ">
+    <div id="con" class="container-fluid ">
       <h1>EDITAR MI PERFIL</h1>
+      
       <div class="d-flex justify-content-center">
       <form novalidate [formGroup]="editar" (ngSubmit)="onSubmitEditar()" class="row m-0 p-0">
+        <span class="col-12 errores" *ngIf="correcto">
+          Los datos deben ser diferentes!!
+        </span>
         <div class="col-12 d-flex justify-content-center position-relative p-2">
           <div class="row p-0 m-0 w-100">
             <input type="text" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !editar.get('name')?.invalid, 'is-invalid': editar.get('name')?.dirty && editar.get('name')?.invalid}">
@@ -124,7 +130,7 @@
           </div>
         </div>
     
-        <div  class="col-12 d-flex justify-content-center p-3">
+        <div  class="col-12 d-flex justify-content-center mt-2">
           <button class="btn me-2" (click)="volver()">Volver</button>
           <input  type="submit" value="Confirmar" [disabled]="editar.invalid" class="btn">
         </div>
