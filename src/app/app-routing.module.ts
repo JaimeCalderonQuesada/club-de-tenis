@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClubComponent } from './componentes/club/club.component';
-import { ContactoComponent } from './componentes/contacto/contacto/contacto.component';
+import { ContactoComponent } from './componentes/contacto/contacto.component';
 import { HomeComponent } from './componentes/home/home.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { SesionComponent } from './componentes/sesion/sesion.component';

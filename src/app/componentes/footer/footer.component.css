@@ -3,45 +3,18 @@
   background-color: var(--naranja2);
   color: var(--color-nav) ;
   font-size: 20px;
-  text-shadow: 1px 1px 1px black;
 }
 h4{
   font-size: 20px;
 }
 a{
-  font-size: 20px;
+  font-size: 25px;
   color: var(--color-nav) ;
 }
 a:hover{
   color:var(--color-nav-hover);
 }
 
-a:focus{
-  color:var(--color-nav-hover);
+.container-fluid{
+  min-height:0px;
 }
-
-#nombre{
-  width: 75%;
-}
-
-#email{
-  width: 75%;
-}
-#area{
-  width: 81%;
-}
-#boton{
-  width: 80%;
-}
-.btn:focus {
-  box-shadow: 0 0 0 0 ;
-}
-#divBoton{
-  padding:2%;
-}
-
-.errores{
-  color: red !important;
-}
-
-

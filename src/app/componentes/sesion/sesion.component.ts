@@ -38,6 +38,7 @@ export class SesionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(document.getElementsByTagName('body')[0].scrollHeight);
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'));
       

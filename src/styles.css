@@ -8,10 +8,10 @@
 
 :root {
   --main-bg-color: #e28000;
-  --naranja2: #ff9800;
-  --naranja3:#ffc340;
-  --color-nav: #009846;
-  --color-nav-hover:#48c26c;
+  --naranja2: #FF9C19;
+  --marron:#965500;
+  --color-nav: #006196;
+  --color-nav-hover:#0092E3;
 
 }
 
@@ -36,4 +36,43 @@ body {  font-family: Roboto; }
 
   color: red !important;
 
+}
+
+.btn{
+  background-color: var(--main-bg-color);
+  color: white;
+  border: 1px solid;
+  border-color: var(--main-bg-color);
+}
+
+.btn:hover{
+  background-color: var(--naranja2);
+  color: white;
+}
+.btn:focus {
+  box-shadow: 0 0 0 0 ;
+}
+
+.errores{
+  color: #dc3545;
+  padding-top: 1%;
+  text-shadow: 1px 1px black;
+}
+
+.container-fluid{
+  min-height:84vh;
+}
+@media screen and (min-height: 1080px)  {
+  .container-fluid{
+    min-height:100vh;
+  }
+
+}
+
+h1{
+  font-weight: bold;
+  color: var(--main-bg-color);
+  text-align: center;
+  padding: 2%;
+  text-shadow: 1px 1px var(--marron);
 }

@@ -1,36 +1,25 @@
-h1{
-  font-weight: bold;
-  color: var(--main-bg-color);
-  text-align: center;
-  padding: 2%;
-  text-shadow: 1px 1px 1px black;
 
+
+h2{
+  color: var(--main-bg-color);
+  text-shadow: 1px 1px var(--marron);
+}
+
+h3{
+  color: var(--main-bg-color);
+  text-shadow: 1px 1px var(--marron);
+}
+
+label{
+  color: var(--main-bg-color);
+  text-shadow: 1px 1px var(--marron);
 }
 form{
   width: 50%;
 }
-.errores{
-  color: red;
-  text-shadow: 1px 1px 1px black;
-  padding-top: 1%;
-}
 
-.btn{
-  background-color: var(--main-bg-color);
-  color: white;
-  border: 1px solid;
-  border-color: var(--naranja3);
-}
-
-.btn:hover{
-  background-color: var(--naranja2);
-}
-.btn:focus {
-  box-shadow: 0 0 0 0 ;
-}
 .container-fluid{
   background-color: var(--color-nav);
-  min-height: 84vh;
 }
 ::ng-deep .disabled-day{
   opacity: 0.5;
@@ -43,12 +32,11 @@ form{
 }
 a{
   color: var(--main-bg-color);
-  text-shadow: 1px 1px 1px black;
+  text-shadow: 1px 1px var(--marron);
 }
 
 a:hover{
-  color: var(--naranja3);
-  text-shadow: 1px 1px 1px black;
+  color: var(--naranja2);
 }
 
 #link{

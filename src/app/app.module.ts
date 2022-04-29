@@ -22,7 +22,7 @@ import { Utils } from './utils';
 import { CambiarComponent } from './componentes/modales/cambiar/cambiar.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EditarComponent } from './componentes/modales/editar/editar/editar.component';
-import { ContactoComponent } from './componentes/contacto/contacto/contacto.component';
+import { ContactoComponent } from './componentes/contacto/contacto.component';
 
 @NgModule({
   declarations: [
