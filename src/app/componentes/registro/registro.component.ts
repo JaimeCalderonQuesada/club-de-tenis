@@ -316,16 +316,22 @@ export class RegistroComponent implements OnInit {
 
 
   horaClicked(hora:Date){
-
+    
 
     this.r = false;
     this.horaReserva=hora;
     for (let index = 0; index < this.events.length; index++) {
       let ho = this.events[index].start.getTime();
-      if( ho == hora.getTime()){
+      if(ho == hora.getTime() ){
         this.r = true;
         break;
       }
+    }
+    console.log(hora.getTime())
+    console.log(new Date().getTime())
+    if( hora.getTime() == new Date().getTime() ){
+      this.r = true;
+      
     }
     if(!this.r){
       const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
@@ -359,7 +365,7 @@ export class RegistroComponent implements OnInit {
     da.setDate(new Date().getDate()-1)
     body.forEach( day => {
       if(day.date.getTime() < da.getTime()){
-        day.cssClass = 'disabled';
+        day.cssClass = 'disabled-day';
       }else{
 
       }
@@ -367,8 +373,13 @@ export class RegistroComponent implements OnInit {
     });
   }
   beforeDayViewRender(body:CalendarWeekViewBeforeRenderEvent){
-
+    
     if(body.header[0].day == 6){
+      console.log(body.hourColumns[0].hours[6].segments[0])
+      body.hourColumns[0].hours[6].segments[0].date = new Date();
+      body.hourColumns[0].hours[7].segments[0].date = new Date();
+      body.hourColumns[0].hours[8].segments[0].date = new Date();
+
       body.hourColumns[0].hours[6].segments[0].cssClass = 'disabled';
       body.hourColumns[0].hours[7].segments[0].cssClass = 'disabled';
       body.hourColumns[0].hours[8].segments[0].cssClass = 'disabled';

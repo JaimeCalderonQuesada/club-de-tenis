@@ -1,4 +1,4 @@
-<nav id="nav" class="navbar navbar-expand-md p-2">
+<nav id="nav" class="navbar navbar-expand-lg p-2">
   <div class="container-fluid">
     <a class="navbar-brand" id="logo" routerLink="home"><img src="assets/img/logo.png" alt="Club de tenis jaime logo" ></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -20,8 +20,11 @@
             <a class="nav-link" routerLink="registro" [routerLinkActive]="'activado'">Registro</a>
           </ng-template>
         </li>
-        <li class="nav-item " *ngIf="user">
-          <a class="nav-link" routerLink="socios" [routerLinkActive]="'activado'">Socios</a>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="clases" [routerLinkActive]="'activado'">Clases</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="contacto" [routerLinkActive]="'activado'">Contacto</a>
         </li>
         <li class="nav-item">
           <ng-template [ngIf]="user" [ngIfElse]="userexist">

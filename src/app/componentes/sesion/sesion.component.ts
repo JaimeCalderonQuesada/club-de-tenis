@@ -12,6 +12,7 @@ import { Pista } from 'src/app/clases/pista';
 import { PistaService } from 'src/app/services/pista/pista.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertaService } from '../../services/alerta/alerta.service';
+import { EditarComponent } from '../modales/editar/editar/editar.component';
 
 
 @Component({
@@ -21,14 +22,12 @@ import { AlertaService } from '../../services/alerta/alerta.service';
 })
 export class SesionComponent implements OnInit {
   public pistas:Pista[];
-  public modificar:Boolean=false;
   public reservas:Reserva[];
   public options!: FormGroup;
-  public editar!: FormGroup;
   public user: User;
-  public usuario:User = new User();
-  public correcto:Boolean=false;
   public verReservas:Boolean=false;
+
+
   constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
@@ -41,11 +40,7 @@ export class SesionComponent implements OnInit {
   ngOnInit(): void {
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'));
-      this.editar = this.fb.group({
-        name: [this.user.name,[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
-        email: [this.user.email,[Validators.required,Validators.email,Validators.minLength(10),Validators.maxLength(100)]],
-        movil:[this.user.movil,[Validators.required,Validators.pattern(/^[679]{1}[0-9]{8}$/)]]
-      });
+      
       this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
         this.reservas = res;
         if(this.reservas.length>0){
@@ -72,15 +67,11 @@ export class SesionComponent implements OnInit {
 
   }
 
-
-
-
   onSubmit(){
     this._usuariosService.login(this.options.get('email')?.value,this.options.get('password')?.value).subscribe(
       result => {
         // Handle result
         if(result){
-          console.log(result)
           this.user = result[0][0];
           sessionStorage.setItem('user',JSON.stringify(this.user));
           sessionStorage.setItem('con',JSON.stringify(result[1]));
@@ -92,41 +83,14 @@ export class SesionComponent implements OnInit {
       },
       error => {
         if(error){
-          this.correcto = true;
+          this._alertaService.openAlert("El correo o la contraseña no son correctos!!");
         }
       }
 
     );
 
   }
-  onSubmitEditar(){
-
-    this.usuario.name = this.editar.get('name')?.value;
-    this.usuario.email = this.editar.get('email')?.value;
-    this.usuario.movil = this.editar.get('movil')?.value;
-    if(this.user.name == this.usuario.name && this.user.email == this.usuario.email && this.user.movil == this.usuario.movil){
-      this.correcto =true;
-    }else{
-      this._usuariosService.modificarUser(this.usuario,this.user.id).subscribe(
-        result => {
-          // Handle result
-          this._usuariosService.getUsuario(this.user.id).subscribe(
-            (res:any)=>{
-              sessionStorage.removeItem('user');
-              sessionStorage.setItem('user',JSON.stringify(res[0]));
-              this.user = res[0];
-              this._alertaService.openAlert('Perfil editado correctamente');
-            }
-          )
-          this.modificar=false;
-          this.correcto =false;
-        }
-      )
-    }
-
-
-
-  }
+  
 
   logout(){
     this._usuariosService.existe.next(false);
@@ -148,9 +112,16 @@ export class SesionComponent implements OnInit {
 
     });
   }
-  volver(){
-    this.modificar = false;
-    this.correcto =false;
+  abrirEditar(){
+    const modalRef = this.dialog.open(EditarComponent,{data:{user:this.user},disableClose: true});
+    modalRef.afterClosed().subscribe((response) => {
+
+      if (response) {
+        this.user = JSON.parse(sessionStorage.getItem('user'));
+        this._alertaService.openAlert('Perfil modificado correctamente');
+      }
+
+    });
   }
 
 }

@@ -1,14 +1,15 @@
 
 .footer{
   background-color: var(--naranja2);
-  font-weight: bold;
   color: var(--color-nav) ;
   font-size: 20px;
   text-shadow: 1px 1px 1px black;
 }
-
+h4{
+  font-size: 20px;
+}
 a{
-  font-size: 25px;
+  font-size: 20px;
   color: var(--color-nav) ;
 }
 a:hover{

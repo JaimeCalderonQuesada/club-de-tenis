@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClubComponent } from './componentes/club/club.component';
+import { ContactoComponent } from './componentes/contacto/contacto/contacto.component';
 import { HomeComponent } from './componentes/home/home.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { SesionComponent } from './componentes/sesion/sesion.component';
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'club', component: ClubComponent},
   { path: 'torneos', component: TorneosComponent},
   { path: 'registro', component: RegistroComponent},
-  { path: 'socios', component: SociosComponent },
+  { path: 'clases', component: SociosComponent },
+  { path: 'contacto', component: ContactoComponent },
   { path: 'sesion', component: SesionComponent},
   { path: '**', pathMatch:'full', redirectTo:'home'}
 ];

@@ -10,14 +10,11 @@ export class Utils{
         return options.get('name')?.hasError('required') ? 'Campo requerido' : '';
       }
       erroresEmail(options:FormGroup){
-        if(options.get('email')?.hasError('minlength')){
-          return 'El email debe tener mínimo 10 caracteres.'
-        }
         if(options.get('email')?.hasError('maxlength')){
           return 'El email debe tener máximo 100 caracteres.'
         }
         if(options.get('email')?.hasError('email')){
-          return 'El email debe contener un @.'
+          return 'El email debe tener un formato correcto.'
         }
         return options.get('email')?.hasError('required') ? 'Campo requerido' : '';
       }

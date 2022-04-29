@@ -1,12 +1,9 @@
 <ng-template [ngIf]="!user">
-<div id="con" class="container-fluid">
+<div class="container-fluid d-flex align-items-center justify-content-center">
+  <div >
     <h1 id="ti">INICIAR SESIÓN</h1>
     <div class="d-flex justify-content-center">
-      
     <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
-      <span class="col-12 errores" *ngIf="correcto">
-        El correo o la contraseña es incorrecto !!
-      </span>
       <div class="col-12 d-flex justify-content-center position-relative p-2">
         <div class="row p-0 m-0 w-100">
           <input type="email" class="form-control col-12" name="email" placeholder="Email" #email required formControlName="email" [ngClass]="{'is-valid': !options.get('email')?.invalid, 'is-invalid': options.get('email')?.dirty && options.get('email')?.invalid}" >
@@ -36,10 +33,10 @@
 
     </div>
   </div>
+</div>
 </ng-template>
 
 <ng-template [ngIf]="user && user.tipo != 0">
-  <ng-template [ngIf]="!modificar" >
     <div class="container-fluid">
       <div class="mt-2">
         <h1 class="titulo">MI PERFIL</h1>
@@ -66,7 +63,7 @@
         </tbody>
         </table>
         <button class="btn mt-3 ms-2 float-end" (click)="abrirModal()">Modificar Contraseña</button>
-        <button class="btn mt-3 float-end" (click)="modificar=!modificar">Editar Perfil</button>
+        <button class="btn mt-3 float-end" (click)="abrirEditar()">Editar Perfil</button>
         
       </div>
 
@@ -92,54 +89,6 @@
       </div>
 
     </div>
-  </ng-template>
-  <ng-template [ngIf]="modificar">
-
-    <div id="con" class="container-fluid ">
-      <h1>EDITAR MI PERFIL</h1>
-      
-      <div class="d-flex justify-content-center">
-      <form novalidate [formGroup]="editar" (ngSubmit)="onSubmitEditar()" class="row m-0 p-0">
-        <span class="col-12 errores" *ngIf="correcto">
-          Los datos deben ser diferentes!!
-        </span>
-        <div class="col-12 d-flex justify-content-center position-relative p-2">
-          <div class="row p-0 m-0 w-100">
-            <input type="text" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !editar.get('name')?.invalid, 'is-invalid': editar.get('name')?.dirty && editar.get('name')?.invalid}">
-            <div class="col-12 errores" *ngIf="editar.get('name')?.dirty && this.editar.get('name')?.errors">
-              {{utils.errores(editar)}}
-            </div>
-          </div>
-        </div>
-    
-        <div class="col-12 d-flex justify-content-center position-relative p-2">
-          <div class="row p-0 m-0 w-100">
-            <input type="email" class="form-control col-12" name="email" placeholder="Email" #email required formControlName="email" [ngClass]="{'is-valid': !editar.get('email')?.invalid, 'is-invalid': editar.get('email')?.dirty && editar.get('email')?.invalid}" >
-            <div class="col-12 errores" *ngIf="editar.get('email')?.dirty && this.editar.get('email')?.errors">
-              {{utils.erroresEmail(editar)}}
-            </div>
-          </div>
-        </div>
-    
-        <div class="col-12 d-flex justify-content-center position-relative p-2">
-          <div class="row p-0 m-0 w-100">
-          <input type="tel" name="movil" placeholder="Movil"  class="form-control col-12" #movil formControlName="movil" required [ngClass]="{'is-valid': !editar.get('movil')?.invalid, 'is-invalid': editar.get('movil')?.dirty && editar.get('movil')?.invalid}">
-          <div class="col-12 errores" *ngIf="editar.get('movil')?.dirty && this.editar.get('movil')?.errors">
-            {{utils.erroresMovil(editar)}}
-          </div>
-          </div>
-        </div>
-    
-        <div  class="col-12 d-flex justify-content-center mt-2">
-          <button class="btn me-2" (click)="volver()">Volver</button>
-          <input  type="submit" value="Confirmar" [disabled]="editar.invalid" class="btn">
-        </div>
-      </form>
-    </div>
-    </div>
-  </ng-template>
-  
-  
 </ng-template>
 
 <ng-template [ngIf]="user && user.tipo == 0">

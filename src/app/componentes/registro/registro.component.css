@@ -29,12 +29,17 @@ form{
   box-shadow: 0 0 0 0 ;
 }
 .container-fluid{
-  background-color: var(--color-nav-hover);
-  min-height: 62vh;
+  background-color: var(--color-nav);
+  min-height: 84vh;
 }
-::ng-deep .disabled{
+::ng-deep .disabled-day{
   opacity: 0.5;
   pointer-events: none ;
+}
+::ng-deep .disabled{
+  pointer-events:  unset;
+  opacity: 0.5;
+  background-color: red;
 }
 a{
   color: var(--main-bg-color);
@@ -47,5 +52,19 @@ a:hover{
 }
 
 #link{
-width: 31%;
+width: 145px;
+}
+
+@media screen and (max-width: 768px)  {
+  form{
+      width: 60%;
+  }
+ 
+}
+
+@media screen and (max-width: 576px)  {
+  form{
+      width: 80%;
+  }
+  
 }

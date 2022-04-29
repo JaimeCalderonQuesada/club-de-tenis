@@ -1,0 +1,36 @@
+<mat-dialog-content>
+    <h1>EDITAR MI PERFIL</h1>
+    <form novalidate [formGroup]="editar" (ngSubmit)="onSubmitEditar()" class="row m-0 p-0">
+        <div class="col-12 d-flex justify-content-center position-relative p-2">
+          <div class="row p-0 m-0 w-100">
+            <input type="text" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !editar.get('name')?.invalid, 'is-invalid': editar.get('name')?.dirty && editar.get('name')?.invalid}">
+            <div class="col-12 errores" *ngIf="editar.get('name')?.dirty && this.editar.get('name')?.errors">
+              {{utils.errores(editar)}}
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-12 d-flex justify-content-center position-relative p-2">
+          <div class="row p-0 m-0 w-100">
+            <input type="email" class="form-control col-12" name="email" placeholder="Email" #email required formControlName="email" [ngClass]="{'is-valid': !editar.get('email')?.invalid, 'is-invalid': editar.get('email')?.dirty && editar.get('email')?.invalid}" >
+            <div class="col-12 errores" *ngIf="editar.get('email')?.dirty && this.editar.get('email')?.errors">
+              {{utils.erroresEmail(editar)}}
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-12 d-flex justify-content-center position-relative p-2">
+          <div class="row p-0 m-0 w-100">
+          <input type="tel" name="movil" placeholder="Movil"  class="form-control col-12" #movil formControlName="movil" required [ngClass]="{'is-valid': !editar.get('movil')?.invalid, 'is-invalid': editar.get('movil')?.dirty && editar.get('movil')?.invalid}">
+          <div class="col-12 errores" *ngIf="editar.get('movil')?.dirty && this.editar.get('movil')?.errors">
+            {{utils.erroresMovil(editar)}}
+          </div>
+          </div>
+        </div>
+    
+        <div  class="col-12 d-flex justify-content-center mt-2">
+          <input  type="submit" value="Confirmar" [disabled]="editar.invalid" class="btn">
+          <button class="btn ms-2" mat-dialog-close>Cancelar</button>
+        </div>
+      </form>
+</mat-dialog-content>

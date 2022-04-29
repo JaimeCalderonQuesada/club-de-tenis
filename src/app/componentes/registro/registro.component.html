@@ -1,5 +1,6 @@
 <ng-template [ngIf]="!user">
-<div id="con" class="container-fluid">
+<div class="container-fluid d-flex justify-content-center align-items-center">
+  <div>
   <h1>FORMULARIO INSCRIPCIÓN</h1>
   <div class="d-flex justify-content-center">
   <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
@@ -91,15 +92,15 @@
     <span class="col-12 errores" *ngIf="correcto">
       El dni o el email esta repetido !!
     </span>
-    <div class="col-12 p-2">
-      <a id="link" class="nav-link" routerLink="/sesion">¿Iniciar sesión?</a>
+    <div id="link" class="col-12 p-2">
+      <a  class="nav-link" routerLink="/sesion">¿Iniciar sesión?</a>
     </div>
 
     <div  class="col-12 d-flex justify-content-center pb-4">
       <input  type="submit" value="Registrarse" [disabled]="options.invalid" class="btn">
     </div>
   </form>
-
+  </div>
   </div>
 </div>
 </ng-template>

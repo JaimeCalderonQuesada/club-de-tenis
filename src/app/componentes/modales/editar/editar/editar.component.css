@@ -27,20 +27,17 @@ h1{
 }
 
 mat-dialog-content{
-    width: 40vw;
+    width: 50vw;
 }
 
 @media screen and (max-width: 670px) {
     mat-dialog-content{
-        width: 60vw;
+        width: 70vw;
     } 
-  
 }
 
 @media screen and (max-width: 450px) {
     mat-dialog-content{
         width: 80vw;
     } 
-  
 }
-  
