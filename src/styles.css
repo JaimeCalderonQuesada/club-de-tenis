@@ -7,46 +7,46 @@
 }
 
 :root {
-  --main-bg-color: #e28000;
-  --naranja2: #FF9C19;
-  --marron:#965500;
-  --color-nav: #006196;
-  --color-nav-hover:#0092E3;
-
+  --naranja: #e28000;
+  --naranja1: #ff9800;
+  --naranja2: #ffc340;
+  --gris: #666666;
+  --gris1: #8c8c8c;
+  --rojo:#ff0000;
 }
 
 
 html, body { height: 100vh;margin: 0px; }
-body {  font-family: Roboto; }
+body {  font-family: Roboto !important; }
 
 .alerta{
   background-color: white;
-  color: red;
+  color: var(--rojo);
   height: 100px !important;
   text-align: center !important;
   justify-content: center !important;
   align-items: center !important;
   display: flex!important;
-  border: 3px solid red !important;
+  border: 3px solid var(--rojo) !important;
   border-radius: 20px !important;
   font-weight:bold;
   font-size: 40px !important;
 }
 .mat-button-wrapper {
 
-  color: red !important;
+  color: var(--rojo) !important;
 
 }
 
 .btn{
-  background-color: var(--main-bg-color);
+  background-color: var(--naranja);
   color: white;
   border: 1px solid;
-  border-color: var(--main-bg-color);
+  border-color: var(--naranja1);
 }
 
 .btn:hover{
-  background-color: var(--naranja2);
+  background-color: var(--naranja1);
   color: white;
 }
 .btn:focus {
@@ -54,9 +54,10 @@ body {  font-family: Roboto; }
 }
 
 .errores{
-  color: #dc3545;
-  padding-top: 1%;
-  text-shadow: 1px 1px black;
+  font-size: 16px;
+  color: var(--rojo);
+  padding-top: 2%;
+  text-shadow: 2px 2px 2px black;
 }
 
 .container-fluid{
@@ -70,9 +71,8 @@ body {  font-family: Roboto; }
 }
 
 h1{
-  font-weight: bold;
-  color: var(--main-bg-color);
+  color: var(--naranja);
   text-align: center;
   padding: 2%;
-  text-shadow: 1px 1px var(--marron);
+  font-weight: bold !important;
 }

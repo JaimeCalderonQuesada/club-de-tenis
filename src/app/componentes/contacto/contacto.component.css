@@ -2,22 +2,22 @@
   form{
     width: 50%;
   }
-  
-  
+
+
   .container-fluid{
-    background-color: var(--color-nav);
+    background-color: var(--gris);
   }
 
   @media screen and (max-width: 768px)  {
     form{
         width: 60%;
     }
-  
+
   }
 
   @media screen and (max-width: 576px)  {
     form{
         width: 80%;
     }
-  
+
   }

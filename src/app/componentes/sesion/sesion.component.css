@@ -6,24 +6,24 @@
   display: inline-block;
 }
 #cerrar{
-  margin: 2% 2% 0 0;
+  margin-top: 2%;
 }
+
 form{
     width: 50%;
   }
 
-#con{
-  background-color: var(--color-nav);
+.container-fluid{
+  background-color: var(--gris);
 }
 
 #a{
   width: 27%;
-  color: var(--main-bg-color);
-  text-shadow: 1px 1px var(--marron);
+  color: var(--naranja);
 }
 
 #a:hover{
-  color: var(--naranja2);
+  color: var(--naranja1);
 
 }
 .datagrid table {
@@ -32,15 +32,15 @@ form{
 }
 .datagrid table td, .datagrid table th {
   padding: 4px 10px;
-  border: 1px solid white;
+  border: 1px solid var(--gris);
 }
 .datagrid table thead th {
-  background-color:var(--marron); color:var(--naranja2); font-size: 15px; font-weight: bold;
+  background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
 
 }
 
 .datagrid table tbody tr td {
-  color: var(--color-nav); font-size: 14px;
+  color: var(--gris); font-size: 14px;
   background-color: var(--naranja2);
   font-weight: bold;
 }
@@ -60,7 +60,7 @@ form{
 @media screen and (max-width: 525px) {
   .datagrid table {
     display: flex;
-    border: 0px solid #009846;
+    border: 0px solid ;
   }
   .datagrid table thead{
     width: 25%;

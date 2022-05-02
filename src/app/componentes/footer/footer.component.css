@@ -1,18 +1,20 @@
 
 .footer{
-  background-color: var(--naranja2);
-  color: var(--color-nav) ;
+  background-color: var(--naranja);
+  color: var(--gris) ;
   font-size: 20px;
+  font-weight: bold;
 }
 h4{
   font-size: 20px;
+  font-weight: bold;
 }
 a{
   font-size: 25px;
-  color: var(--color-nav) ;
+  color: var(--gris) ;
 }
 a:hover{
-  color:var(--color-nav-hover);
+  color:var(--gris1);
 }
 
 .container-fluid{

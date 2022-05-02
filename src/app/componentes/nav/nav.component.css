@@ -1,16 +1,15 @@
 #nav{
-  background-color: var(--main-bg-color);
+  background-color: var(--naranja);
   font-weight: bold;
 }
 
 a{
-  color: var(--color-nav) ;
+  color: var(--gris) ;
   font-size: 25px;
-  text-shadow: 1px 1px var(--marron);
 }
 
 a:hover{
-  color:var(--color-nav-hover);
+  color:var(--gris1);
 }
 
 
@@ -25,7 +24,7 @@ a:hover{
 }
 
 .activado{
-  color:var(--color-nav-hover);
+  color:var(--gris1);
 }
 
 

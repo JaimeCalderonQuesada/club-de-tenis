@@ -154,7 +154,7 @@
           </ng-template>
       </div>
       </div>
-      <div class="col-12 d-flex justify-content-center pb-2 ">
+      <div class="col-12 d-flex justify-content-center ">
         <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
       </div>
 
@@ -186,9 +186,9 @@
             {{util.errores(nuevapista)}}
           </div>
         </div>
-  
+
       </div>
-  
+
       <div class="col-12 d-flex justify-content-center position-relative p-2">
         <div class="row p-0 m-0 w-100">
         <input type="text" name="descripcion" placeholder="Descripcion" class="form-control col-12" #descripcion required formControlName="descripcion" [ngClass]="{'is-valid': !nuevapista.get('descripcion')?.invalid, 'is-invalid': nuevapista.get('descripcion')?.dirty && nuevapista.get('descripcion')?.invalid}">
@@ -211,7 +211,7 @@
         <input  type="submit" value="Añadir" [disabled]="nuevapista.invalid" class="btn">
       </div>
     </form>
-  
+
     </div>
   </div>
 </ng-template>

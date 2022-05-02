@@ -1,25 +1,23 @@
 
 
 h2{
-  color: var(--main-bg-color);
-  text-shadow: 1px 1px var(--marron);
+  color: var(--naranja);
 }
 
 h3{
-  color: var(--main-bg-color);
-  text-shadow: 1px 1px var(--marron);
+  color: var(--naranja);
+  font-weight: bold;
 }
 
 label{
-  color: var(--main-bg-color);
-  text-shadow: 1px 1px var(--marron);
+  color: var(--naranja);
 }
 form{
   width: 50%;
 }
 
 .container-fluid{
-  background-color: var(--color-nav);
+  background-color: var(--gris);
 }
 ::ng-deep .disabled-day{
   opacity: 0.5;
@@ -28,15 +26,14 @@ form{
 ::ng-deep .disabled{
   pointer-events:  unset;
   opacity: 0.5;
-  background-color: red;
+  background-color: var(--rojo);
 }
 a{
-  color: var(--main-bg-color);
-  text-shadow: 1px 1px var(--marron);
+  color: var(--naranja);
 }
 
 a:hover{
-  color: var(--naranja2);
+  color: var(--naranja1);
 }
 
 #link{
@@ -47,12 +44,12 @@ width: 145px;
   form{
       width: 60%;
   }
- 
+
 }
 
 @media screen and (max-width: 576px)  {
   form{
       width: 80%;
   }
-  
+
 }

@@ -1,5 +1,5 @@
 <ng-template [ngIf]="!user">
-<div id="con" class="container-fluid d-flex align-items-center justify-content-center">
+<div class="container-fluid d-flex align-items-center justify-content-center">
   <div >
     <h1 id="ti">INICIAR SESIÓN</h1>
     <div class="d-flex justify-content-center">
@@ -42,7 +42,7 @@
         <h1 class="titulo">MI PERFIL</h1>
         <button id="cerrar" class="btn float-end" (click)="logout()" >Cerrar Sesión</button>
       </div>
-      
+
       <div class="datagrid text-center">
         <table>
         <thead>
@@ -64,12 +64,12 @@
         </table>
         <button class="btn mt-3 ms-2 float-end" (click)="abrirModal()">Modificar Contraseña</button>
         <button class="btn mt-3 float-end" (click)="abrirEditar()">Editar Perfil</button>
-        
+
       </div>
 
-      <div *ngIf="verReservas" class="mb-2">
+      <div *ngIf="verReservas" class="mt-5">
         <h1 class="titulo">MIS RESERVAS</h1>
-      
+
         <div class="datagrid text-center">
           <table>
           <thead>
