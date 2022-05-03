@@ -327,9 +327,9 @@ export class RegistroComponent implements OnInit {
         break;
       }
     }
-    console.log(hora.getTime())
-    console.log(new Date().getTime())
-    if( hora.getTime() == new Date().getTime() ){
+    console.log(hora.getDate())
+    console.log(new Date().getDate())
+    if( hora.getDate() === new Date().getDate() ){
       this.r = true;
       
     }

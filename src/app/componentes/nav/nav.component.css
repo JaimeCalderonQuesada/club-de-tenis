@@ -4,12 +4,12 @@
 }
 
 a{
-  color: var(--gris) ;
+  color: white ;
   font-size: 25px;
 }
 
 a:hover{
-  color:var(--gris1);
+  color:var(--gris);
 }
 
 
@@ -24,7 +24,7 @@ a:hover{
 }
 
 .activado{
-  color:var(--gris1);
+  color:var(--gris);
 }
 
 

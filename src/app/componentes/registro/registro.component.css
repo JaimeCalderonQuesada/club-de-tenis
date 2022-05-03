@@ -24,9 +24,8 @@ form{
   pointer-events: none ;
 }
 ::ng-deep .disabled{
-  pointer-events:  unset;
+  pointer-events:  none;
   opacity: 0.5;
-  background-color: var(--rojo);
 }
 a{
   color: var(--naranja);
