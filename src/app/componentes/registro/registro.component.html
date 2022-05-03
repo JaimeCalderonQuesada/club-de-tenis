@@ -3,7 +3,7 @@
   <div>
   <h1>FORMULARIO INSCRIPCIÓN</h1>
   <div class="d-flex justify-content-center">
-  <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
+  <form id="form" novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
     <h2>DATOS PERSONALES</h2>
     <div class="col-12 d-flex justify-content-center position-relative p-2">
       <div class="row p-0 m-0 w-100">
@@ -74,7 +74,10 @@
 
     <div class="col-12 d-flex justify-content-center position-relative p-2">
       <div class="row p-0 m-0 w-100">
-      <input type="password" name="password" placeholder="Contraseña" class="form-control col-12" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+      <div class="grupoInput col-12 m-0 p-0">
+        <input id="mostrar" type="password" name="password" placeholder="Contraseña" class="form-control " #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+        <i  (click)="mostrarPassword()" class="bi bi-eye-slash-fill"></i>
+      </div>
       <div class="col-12 errores" *ngIf="options.get('password')?.dirty && this.options.get('password')?.errors">
         {{util.erroresPassword(options)}}
       </div>
@@ -175,7 +178,8 @@
 </ng-template>
 
 <ng-template [ngIf]="user && user.tipo==0">
-  <div id="con" class="container-fluid">
+  <div class="container-fluid row m-0">
+    <div class="col-12 col-md-6 pt-2">
     <h1>AÑADIR PISTA</h1>
     <div class="d-flex justify-content-center">
     <form novalidate [formGroup]="nuevapista" (ngSubmit)="onSubmitPista()" class="row m-0 p-0">
@@ -198,7 +202,7 @@
         </div>
       </div>
 
-      <div class="col-12 d-flex justify-content-center position-relative p-2">
+      <div class="col-12 d-flex justify-content-center position-relative pt-2">
         <ngx-dropzone (change)="onSelect($event)">
           <ngx-dropzone-label>¡Inserte la imagen aquí!</ngx-dropzone-label>
           <ngx-dropzone-image-preview  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
@@ -206,12 +210,42 @@
           </ngx-dropzone-image-preview>
         </ngx-dropzone>
       </div>
-      <span class="col-12 errores text-center mb-2" *ngIf="nuevapista.get('imagen')?.errors">Campo requerido</span>
+      <span class="col-12 errores text-center pb-4" *ngIf="nuevapista.get('imagen')?.errors">Campo requerido</span>
       <div  class="col-12 d-flex justify-content-center pb-4">
         <input  type="submit" value="Añadir" [disabled]="nuevapista.invalid" class="btn">
       </div>
     </form>
+    </div>
+    </div>
 
+
+    <div *ngIf="verReservas" class="col-12 col-md-6 pb-2 pt-2">
+      <h1>RESERVAS</h1>
+
+      <div class="reservas text-center">
+        <table>
+        <thead>
+          <tr>
+            <th>Pista</th>
+            <th>Fecha</th>
+            <th>Borrar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reserva of reservas; let i = index">
+            <td class="mensaje"  matTooltip="{{reserva.nombre}}"
+            matTooltipClass="tooltip"><span >{{reserva.nombre}}</span></td>
+            <td class="mensaje"  matTooltip="{{reserva.fecha}}"
+            matTooltipClass="tooltip"><span>{{reserva.fecha}}</span></td>
+            <td><a type="button" (click)="borrarReserva(i,reserva.fecha)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!verReservas" class="col-12 col-md-6 pb-2 pt-2">
+      <h1>NO HAY RESERVAS</h1>
     </div>
   </div>
 </ng-template>

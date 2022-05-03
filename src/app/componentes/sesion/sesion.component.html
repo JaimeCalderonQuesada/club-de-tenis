@@ -93,7 +93,64 @@
 
 <ng-template [ngIf]="user && user.tipo == 0">
   <div class="container-fluid">
-    <h1>MI PERFIL</h1>
-    <button id="cerrar" class="btn float-end" (click)="logout()" >Cerrar Sesión</button>
+    <div>
+      <div>
+        <h1 class="titulo">MI PERFIL</h1>
+        <button id="cerrar" class="btn float-end" (click)="logout()" >Cerrar Sesión</button>
+      </div>
+
+      <div class="datagrid text-center">
+        <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>DNI</th>
+            <th>Movil</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span >{{user.name}}</span></td>
+            <td><span>{{user.email}}</span></td>
+            <td><span >{{user.dni}}</span></td>
+            <td><span >{{user.movil}}</span></td>
+          </tr>
+        </tbody>
+        </table>
+        <button class="btn mt-3 ms-2 float-end" (click)="abrirModal()">Modificar Contraseña</button>
+        <button class="btn mt-3 float-end" (click)="abrirEditar()">Editar Perfil</button>
+
+      </div>
+    </div>
+    <div class="float-end">
+      <h1 class="titulo">USUARIOS</h1>
+      <div class="usuarios text-center">
+        <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>DNI</th>
+            <th>Movil</th>
+            <th>Borrar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios; let i = index">
+            <td class="mensaje" matTooltip="{{usuario.name}}"
+            matTooltipClass="tooltip"><span>{{usuario.name}}</span></td>
+            <td class="mensaje"  matTooltip="{{usuario.email}}"
+            matTooltipClass="tooltip"><span >{{usuario.email}}</span></td>
+            <td class="mensaje" matTooltip="{{usuario.dni}}"
+            matTooltipClass="tooltip"><span >{{usuario.dni}}</span></td>
+            <td class="mensaje" matTooltip="{{usuario.movil}}"
+            matTooltipClass="tooltip"><span >{{usuario.movil}}</span></td>
+            <td><a type="button" (click)="borrarUsuario(usuario.id,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </ng-template>

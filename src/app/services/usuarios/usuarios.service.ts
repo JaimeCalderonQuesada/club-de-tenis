@@ -40,5 +40,7 @@ export class UsuariosService {
   getUsuarioCon(id:number):Observable<any>{
     return this.http.get(this.url+"?usuarioCon="+id);
   }
-
+  borrarUsuario(id: any):Observable<any>{
+    return this.http.delete(this.url+"?borrarUsuario="+id);
+  }
 }

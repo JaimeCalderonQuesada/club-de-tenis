@@ -102,6 +102,16 @@ if (isset($_GET["usuarioCon"])){
     else{  echo json_encode(["success"=>0]); }
 }
 
+// Borrar pero se le debe de enviar una clave ( para borrado )
+if (isset($_GET["borrarUsuario"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"DELETE FROM usuarios WHERE id=".$_GET["borrarUsuario"]);
+    if($sqlEmpleaados){
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+  }
+
 // Inserta un nuevo formulario de contacto
 if(isset($_GET["contactos"])){
   $data = json_decode(file_get_contents("php://input"));
@@ -298,6 +308,17 @@ if (isset($_GET["reservasUsuario"])){
     if(mysqli_num_rows($sqlEmpleaados) > 0){
         $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
         echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+// Borrar reserva
+if (isset($_GET["borrarReserva"])){
+    $fecha = $_GET["borrarReserva"];
+    $sqlEmpleaados = mysqli_query($conexionBD,"DELETE FROM `reservas` WHERE `reservas`.`fecha` = '$fecha'");
+    if($sqlEmpleaados){
+        echo json_encode(["success"=>1]);
         exit();
     }
     else{  echo json_encode(["success"=>0]); }

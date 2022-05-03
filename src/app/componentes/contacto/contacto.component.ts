@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Contacto } from 'src/app/clases/contacto';
+import { User } from 'src/app/clases/user';
 import { AlertaService } from 'src/app/services/alerta/alerta.service';
 import { ContactoService } from 'src/app/services/contacto/contacto.service';
 import { Utils } from 'src/app/utils';
@@ -11,9 +12,13 @@ import { Utils } from 'src/app/utils';
   styleUrls: ['./contacto.component.css']
 })
 export class ContactoComponent implements OnInit {
+  public mostrar:Boolean=false;
   public options!: FormGroup;
   public contacto:Contacto = new Contacto();
-
+  public user:User;
+  public verContactos:Boolean=false;
+  public contactos:Contacto[];
+  
   constructor(private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) { 
     document.title = "Contacto";
     this.options = this.fb.group({
@@ -24,6 +29,19 @@ export class ContactoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(sessionStorage.length>0){
+      this.user = JSON.parse(sessionStorage.getItem('user'));
+      if(this.user.tipo==0){
+        this.mostrar = true;
+        this._servicioContacto.getContactos().subscribe((res:Contacto[])=>{
+          this.contactos = res;
+          if(this.contactos.length>0){
+            this.verContactos=true;
+          }
+        });
+      }
+    }
+    
   }
 
   onSubmit(){
@@ -43,7 +61,14 @@ export class ContactoComponent implements OnInit {
         this._alertaService.openAlert("Mensaje enviado correctamente!!");
       }
     );
-    
   }
   
+  borrarContacto(id:number,index:number){
+    this._servicioContacto.borrarContacto(id).subscribe();
+    this.contactos.splice(index,1);
+    if(this.contactos.length==0){
+      this.verContactos=false;
+    }
+    this._alertaService.openAlert('Contacto eliminado correctamente');
+  }
 }

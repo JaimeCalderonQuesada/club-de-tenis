@@ -1,3 +1,4 @@
+<ng-template [ngIf]="!mostrar">
 <div class="container-fluid d-flex align-items-center justify-content-center">
     <div>
         <h1>FORMULARIO CONTACTO</h1>
@@ -37,3 +38,41 @@
         </div>
     </div>
 </div>
+</ng-template>
+
+<ng-template [ngIf]="mostrar">
+<div class="container-fluid">
+
+  <div *ngIf="verContactos" class="pb-2 pt-2">
+    <h1>CONTACTOS</h1>
+
+    <div class="reservas text-center">
+      <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Mensaje</th>
+          <th>Borrar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contacto of contactos; let i = index">
+          <td class="mensaje"  matTooltip="{{contacto.name}}"
+          matTooltipClass="tooltip"><span>{{contacto.name}}</span></td>
+          <td class="mensaje"  matTooltip="{{contacto.email}}"
+          matTooltipClass="tooltip"><span >{{contacto.email}}</span></td>
+          <td class="mensaje" matTooltip="{{contacto.mensaje}}"
+          matTooltipClass="tooltip"><span >{{contacto.mensaje}}</span></td>
+          <td><a type="button" (click)="borrarContacto(contacto.id,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="!verContactos" class="pb-2 pt-2">
+    <h1>NO HAY CONTACTOS</h1>
+  </div>
+</div>
+</ng-template>

@@ -15,6 +15,7 @@ import { Utils } from 'src/app/utils';
 import { ClaseService } from 'src/app/services/clase/clase.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AlertaService } from 'src/app/services/alerta/alerta.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-registro',
@@ -25,7 +26,8 @@ export class RegistroComponent implements OnInit {
 
   public payPalConfig: any;
   public showPaypalButtons: boolean;
-
+  public verReservas:Boolean=false;
+  public reservas:Reserva[];
   public ver:Boolean = false;
   public usuario:User = new User();
   public options!: FormGroup;
@@ -77,28 +79,43 @@ export class RegistroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'));
-
-    }
-    if(this.user){
+      if(this.user){
 
         this._pistaService.getPistas().subscribe(res=>{
           this.pistas=res
           console.log(res)
           for(let i =0;i<this.pistas.length;i++){
             this.pistas[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.pistas[i].imagen);
-
           }
         });
-
       document.title = "Reservar Pista";
-
-
     }else{
       document.title = "Registro";
     }
+
+    if(this.user.tipo==0){
+      this._reservaService.getReservas().subscribe((res:Reserva[])=>{
+        this.reservas = res;
+        if(this.reservas.length>0){
+          this._pistaService.getPistas().subscribe(resp=>{
+            this.pistas=resp;
+            for(let i=0;i<this.reservas.length;i++){
+              for(let index=0;index<this.pistas.length;index++){
+                if(this.reservas[i].pista_id == this.pistas[index].id){
+                  this.reservas[i].nombre = this.pistas[index].name;
+                }
+              }
+            };
+            this.verReservas=true;
+          });
+        }
+      });
+    }
+    }
+    
 
   }
   pay() {
@@ -165,6 +182,7 @@ export class RegistroComponent implements OnInit {
 
 
   onSubmit(){
+    
     this.usuario.tipo = 1;
     this.usuario.name = this.options.get('name')?.value;
     this.usuario.password = this.options.get('password')?.value;
@@ -185,6 +203,15 @@ export class RegistroComponent implements OnInit {
         }
       }
     );
+  }
+
+  mostrarPassword(){
+    let p = document.getElementById("mostrar");
+    if (p.attributes[2].value === "password") {
+      p.attributes[2].value = "text";
+    } else {
+      p.attributes[2].value = "password";
+    }
   }
 
   abrirCalendario(index:number){
@@ -327,8 +354,6 @@ export class RegistroComponent implements OnInit {
         break;
       }
     }
-    console.log(hora.getDate())
-    console.log(new Date().getDate())
     if( hora.getDate() === new Date().getDate() ){
       this.r = true;
       
@@ -386,5 +411,13 @@ export class RegistroComponent implements OnInit {
     }else if(body.header[0].day == 0){
       body.hourColumns[0].hours.splice(6,10);
     }
+  }
+  borrarReserva(icontrol:number,fecha:string){
+    this._reservaService.borrarReserva(fecha).subscribe();
+    this.reservas.splice(icontrol,1);
+    if(this.reservas.length==0){
+      this.verReservas=false;
+    }
+    this._alertaService.openAlert('Reserva eliminada correctamente');
   }
 }

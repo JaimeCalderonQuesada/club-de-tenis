@@ -33,10 +33,12 @@ CREATE TABLE IF NOT EXISTS inscribir (
      PRIMARY KEY (torneo_id,usuario_id),
      CONSTRAINT `fk_inscribir_usuarios`
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT `fk_inscribir_torneos`
         FOREIGN KEY (torneo_id) REFERENCES torneos (id)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS clases (
@@ -53,10 +55,12 @@ CREATE TABLE IF NOT EXISTS registrar (
      PRIMARY KEY (clase_id,usuario_id),
      CONSTRAINT `fk_registrar_usuarios`
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT `fk_registrar_clases`
         FOREIGN KEY (clase_id) REFERENCES clases (id)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS pistas (
@@ -85,14 +89,17 @@ CREATE TABLE IF NOT EXISTS contactos(
 ALTER TABLE reservas
 ADD CONSTRAINT `fk_reservas_pistas`
         FOREIGN KEY (pista_id) REFERENCES pistas (id)
-        ON UPDATE CASCADE;
+        ON UPDATE CASCADE
+        ON DELETE CASCADE;
 
 ALTER TABLE reservas
 ADD CONSTRAINT `fk_reservas_usuarios`
         FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
-        ON UPDATE CASCADE;
+        ON UPDATE CASCADE
+        ON DELETE CASCADE;
 
 ALTER TABLE clases
 ADD CONSTRAINT `fk_clases_pistas`
         FOREIGN KEY (pista_id) REFERENCES pistas (id)
-        ON UPDATE CASCADE;
+        ON UPDATE CASCADE
+        ON DELETE CASCADE;

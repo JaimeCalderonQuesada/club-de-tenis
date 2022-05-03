@@ -19,7 +19,7 @@ export class ReservaService {
   getReserva(id:number):Observable<any>{
     return this.http.get(this.url+"?reservasUsuario="+id);
   }
-  borrarReserva(id: any):Observable<any>{
-    return this.http.delete(this.url+"?borrarPista="+id);
+  borrarReserva(fecha:string):Observable<any>{
+    return this.http.delete(this.url+"?borrarReserva="+fecha);
   }
 }

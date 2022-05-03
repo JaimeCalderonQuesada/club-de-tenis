@@ -26,7 +26,7 @@ export class SesionComponent implements OnInit {
   public options!: FormGroup;
   public user: User;
   public verReservas:Boolean=false;
-
+  public usuarios:User[];
 
   constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
     document.title = "Iniciar Sesión";
@@ -38,34 +38,36 @@ export class SesionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(document.getElementsByTagName('body')[0].scrollHeight);
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'));
-      
-      this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
-        this.reservas = res;
-        if(this.reservas.length>0){
-          this._pistaService.getPistas().subscribe(resp=>{
-            this.pistas=resp;
-            for(let i=0;i<this.reservas.length;i++){
-              for(let index=0;index<this.pistas.length;index++){
-                if(this.reservas[i].pista_id == this.pistas[index].id){
-                  this.reservas[i].nombre = this.pistas[index].name;
+      if(this.user.tipo==1){
+        this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
+          this.reservas = res;
+          if(this.reservas.length>0){
+            this._pistaService.getPistas().subscribe(resp=>{
+              this.pistas=resp;
+              for(let i=0;i<this.reservas.length;i++){
+                for(let index=0;index<this.pistas.length;index++){
+                  if(this.reservas[i].pista_id == this.pistas[index].id){
+                    this.reservas[i].nombre = this.pistas[index].name;
+                  }
                 }
-              }
-            };
-            this.verReservas=true;
-          });
-        }
-
-      },
-      error=>{console.log(error)}
-      );
-
-
+              };
+              this.verReservas=true;
+            });
+          }
+  
+        },
+        error=>{console.log(error)}
+        );
+      }
+  
+      if(this.user.tipo==0){
+        this._usuariosService.getUsuarios().subscribe(res=>this.usuarios=res)
+      }
     }
 
-
+    
   }
 
   onSubmit(){
@@ -125,4 +127,22 @@ export class SesionComponent implements OnInit {
     });
   }
 
+  borrarUsuario(id:number,index:number){
+    this._usuariosService.borrarUsuario(id).subscribe(()=>{
+      if(this.user.id == id){
+        this._usuariosService.existe.next(false);
+        this.user=undefined;
+        sessionStorage.removeItem('user');
+        sessionStorage.clear();
+        let currentUrl = this.router.url;
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+        
+      });
+      }
+      this._alertaService.openAlert('Usuario eliminado correctamente');
+      this.usuarios.splice(index,1);
+    });
+    
+  }
 }

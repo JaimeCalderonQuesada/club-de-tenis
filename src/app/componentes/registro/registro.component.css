@@ -13,6 +13,9 @@ label{
   color: var(--naranja);
 }
 form{
+  width: 90%;
+}
+#form{
   width: 50%;
 }
 
@@ -39,15 +42,70 @@ a:hover{
 width: 145px;
 }
 
+.reservas{
+  overflow: hidden;
+  overflow-x: auto;
+  clear: both;
+  width: 100%;
+}
+.reservas table {
+  border-collapse: collapse; text-align: center; width: 100%; min-width: 100%;
+  table-layout: fixed;
+
+}
+.reservas table td, .reservas table th {
+  padding: 4px 10px;
+  border: 1px solid var(--gris);
+}
+.reservas table thead th {
+  background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
+
+}
+
+.reservas table tbody tr td {
+  color: var(--gris); font-size: 14px;
+  background-color: var(--naranja2);
+  font-weight: bold;
+}
+.reservas table tbody td a{
+  margin-left: 2%;
+}
+
+.reservas table tbody td a:hover{
+  font-size: 18px;
+}
+.mensaje{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: auto;
+}
+::ng-deep .tooltip {
+background-color: var(--naranja);
+border-radius: 6px;
+position: relative;
+
+}
+
+.grupoInput{
+  position: relative;
+}
+
+.grupoInput i{
+  position: absolute;
+  top: 10px;
+  right: 40px;
+}
+
 @media screen and (max-width: 768px)  {
-  form{
+  #form{
       width: 60%;
   }
 
 }
 
 @media screen and (max-width: 576px)  {
-  form{
+  #form{
       width: 80%;
   }
 
