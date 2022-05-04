@@ -3,12 +3,16 @@
 h2{
   color: var(--naranja);
 }
-
+.titulo{
+  display: inline-block;
+}
 h3{
   color: var(--naranja);
   font-weight: bold;
 }
-
+#img{
+  width: 100%;
+}
 label{
   color: var(--naranja);
 }
@@ -16,7 +20,7 @@ form{
   width: 90%;
 }
 #form{
-  width: 50%;
+  width: 40%;
 }
 
 .container-fluid{
@@ -54,7 +58,7 @@ width: 145px;
 
 }
 .reservas table td, .reservas table th {
-  padding: 4px 10px;
+  padding: 4px 4px;
   border: 1px solid var(--gris);
 }
 .reservas table thead th {
@@ -67,19 +71,18 @@ width: 145px;
   background-color: var(--naranja2);
   font-weight: bold;
 }
-.reservas table tbody td a{
-  margin-left: 2%;
-}
 
 .reservas table tbody td a:hover{
   font-size: 18px;
 }
+
 .mensaje{
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   width: auto;
 }
+
 ::ng-deep .tooltip {
 background-color: var(--naranja);
 border-radius: 6px;
@@ -87,14 +90,56 @@ position: relative;
 
 }
 
-.grupoInput{
-  position: relative;
+.datagrid{
+  overflow: hidden;
+  overflow-x: auto;
+  clear: both;
+  width: 100%;
+}
+.datagrid table {
+  border-collapse: collapse; text-align: center; width: 100%; min-width: 100%;
+  table-layout: fixed;
+
+}
+.datagrid table td, .datagrid table th {
+  padding: 4px 4px;
+  border: 1px solid var(--gris);
+}
+.datagrid table thead th {
+  background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
+
 }
 
-.grupoInput i{
-  position: absolute;
-  top: 10px;
-  right: 40px;
+.datagrid table tbody tr td {
+  color: var(--gris); font-size: 14px;
+  background-color: var(--naranja2);
+  font-weight: bold;
+}
+.datagrid table tbody td a{
+  font-size: 18px;
+}
+
+.datagrid table tbody td a:hover{
+  font-size: 22px;
+}
+::ng-deep .ngx-pagination .current{
+  color: black !important;
+  background: none !important;
+}
+
+::ng-deep .ngx-pagination{
+  margin: 0px !important;
+  margin-top: 2% !important;
+  padding:0px !important;
+  text-align: center !important;
+}
+
+::ng-deep .ngx-pagination a{
+  color: white !important;
+}
+
+::ng-deep .ngx-pagination a:hover {
+  background: black !important;
 }
 
 @media screen and (max-width: 768px)  {

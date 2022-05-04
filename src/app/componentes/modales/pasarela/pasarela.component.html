@@ -1,10 +1,25 @@
-<h1 mat-dialog-title>Efectuar pago</h1>
-<mat-dialog-content>
-    <h3>Fecha a reservar:  {{fecha}}</h3>
-    <ngx-paypal  [config]="payPalConfig"></ngx-paypal>
-    <span>Recuarda que si hace el pago no se podrá cancelar la reserva.</span>
-</mat-dialog-content>
+<ng-template [ngIf]="inscripcion" [ngIfElse]="reserva">
+    <h1 mat-dialog-title>Efectuar pago</h1>
+    <mat-dialog-content>
+        <ngx-paypal  [config]="payPalConfig"></ngx-paypal>
+        <span>Recuarda que si hace el pago no se podrá cancelar la inscripcion.</span>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="center">
+        <button class="btn" mat-dialog-close>Cancelar</button>
+    </mat-dialog-actions>
+</ng-template>
 
-<mat-dialog-actions align="center">
-    <button class="btn" mat-dialog-close>Cancelar</button>
-</mat-dialog-actions>
+
+<ng-template #reserva>
+    <h1 mat-dialog-title>Efectuar pago</h1>
+    <mat-dialog-content>
+        <h3>Fecha a reservar:  {{fecha}}</h3>
+        <ngx-paypal  [config]="payPalConfig"></ngx-paypal>
+        <span>Recuarda que si hace el pago no se podrá cancelar la reserva.</span>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="center">
+        <button class="btn" mat-dialog-close>Cancelar</button>
+    </mat-dialog-actions>
+</ng-template>

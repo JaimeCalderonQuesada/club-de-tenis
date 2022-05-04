@@ -18,7 +18,7 @@ export class ContactoComponent implements OnInit {
   public user:User;
   public verContactos:Boolean=false;
   public contactos:Contacto[];
-  
+  public page:number;
   constructor(private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) { 
     document.title = "Contacto";
     this.options = this.fb.group({
@@ -31,6 +31,8 @@ export class ContactoComponent implements OnInit {
   ngOnInit(): void {
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'));
+      this.options.get('name')?.setValue(this.user.name);
+      this.options.get('email')?.setValue(this.user.email);
       if(this.user.tipo==0){
         this.mostrar = true;
         this._servicioContacto.getContactos().subscribe((res:Contacto[])=>{
@@ -70,5 +72,11 @@ export class ContactoComponent implements OnInit {
       this.verContactos=false;
     }
     this._alertaService.openAlert('Contacto eliminado correctamente');
+    if(this.contactos.length==5){
+      this.page=1;
+    }  
+  }
+  pageChanged(event:any){
+    this.page = event;
   }
 }

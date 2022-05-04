@@ -1,7 +1,7 @@
 <ng-template [ngIf]="!mostrar">
 <div class="container-fluid d-flex align-items-center justify-content-center">
     <div>
-        <h1>FORMULARIO CONTACTO</h1>
+        <h1>FORMULARIO DE CONTACTO</h1>
         <div class="d-flex justify-content-center">
         <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
             <div class="col-12 mb-2 mb-md-0">
@@ -57,7 +57,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contacto of contactos; let i = index">
+        <tr *ngFor="let contacto of contactos | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
           <td class="mensaje"  matTooltip="{{contacto.name}}"
           matTooltipClass="tooltip"><span>{{contacto.name}}</span></td>
           <td class="mensaje"  matTooltip="{{contacto.email}}"
@@ -68,6 +68,12 @@
         </tr>
       </tbody>
       </table>
+      <pagination-controls *ngIf="contactos.length > 5"
+        (pageChange)="pageChanged($event)"
+        (pageBoundsCorrection)="pageChanged($event)"
+        previousLabel="Previous"
+        nextLabel="Next"
+        ></pagination-controls>
     </div>
   </div>
 

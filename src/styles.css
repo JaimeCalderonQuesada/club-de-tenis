@@ -21,20 +21,20 @@ body {  font-family: Roboto !important; }
 
 .alerta{
   background-color: white;
-  color: var(--rojo);
+  color: var(--naranja);
   height: 100px !important;
   text-align: center !important;
   justify-content: center !important;
   align-items: center !important;
   display: flex!important;
-  border: 3px solid var(--rojo) !important;
+  border: 3px solid var(--naranja) !important;
   border-radius: 20px !important;
   font-weight:bold;
   font-size: 40px !important;
 }
 .mat-button-wrapper {
 
-  color: var(--rojo) !important;
+  color: var(--naranja) !important;
 
 }
 
@@ -75,4 +75,13 @@ h1{
   text-align: center;
   padding: 2%;
   font-weight: bold !important;
+}
+.grupoInput{
+  position: relative;
+}
+
+.grupoInput i{
+  position: absolute;
+  top: 10px;
+  right: 40px;
 }

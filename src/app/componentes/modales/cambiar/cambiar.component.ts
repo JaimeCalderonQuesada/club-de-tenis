@@ -65,4 +65,12 @@ export class CambiarComponent implements OnInit {
       }
     )
   }
+  mostrarPassword(input:string){
+    let p = document.getElementById(input);
+    if (p.attributes[2].value === "password") {
+      p.attributes[2].value = "text";
+    } else {
+      p.attributes[2].value = "password";
+    }
+  }
 }

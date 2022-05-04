@@ -1,2 +1,92 @@
-<div class="container-fluid">
-</div>
+<ng-template [ngIf]="user && user.tipo==0" [ngIfElse]="normal">
+    <div class="container-fluid row m-0">
+      <div class="col-12 col-md-6 pb-2 pt-2">
+        <h1 class="titulo">TORNEOS</h1>
+        <button class="btn float-end mt-2" (click)="abrirNuevoTorneo()">Añadir Torneo</button>
+      <div class="datagrid text-center">
+        <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Localidad</th>
+            <th>Imagen</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let torneo of torneos | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
+            <td class="mensaje"  matTooltip="{{torneo.name}}"
+            matTooltipClass="tooltip"><span >{{torneo.name}}</span></td>
+            <td class="mensaje"  matTooltip="{{torneo.localidad}}"
+            matTooltipClass="tooltip"><span>{{torneo.localidad}}</span></td>
+            <td><img id="img" [src]="torneo.url"></td>
+            <td ><a type="button"  (click)="editarTorneo(torneo)"><i class="bi bi-pen d-inline me-2"></i></a><a type="button" (click)="borrarTorneo(i,torneo.id)"><i class="bi bi-trash3 d-inline"></i></a></td>
+          </tr>
+        </tbody>
+        </table>
+        <pagination-controls *ngIf="torneos.length > 5"
+            (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)"
+            previousLabel="Previous"
+            nextLabel="Next"
+            ></pagination-controls>
+      </div>
+      </div>
+      <div *ngIf="verInscripciones" class="col-12 col-md-6 pb-2 pt-2">
+        <h1>INSCRIPCIONES</h1>
+  
+        <div class="reservas text-center">
+          <table>
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Torneo</th>
+              <th>Borrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let inscripcion of inscripciones | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
+              <td class="mensaje"  matTooltip="{{inscripcion.usuario}}"
+              matTooltipClass="tooltip"><span >{{inscripcion.usuario}}</span></td>
+              <td class="mensaje"  matTooltip="{{inscripcion.torneo}}"
+              matTooltipClass="tooltip"><span>{{inscripcion.torneo}}</span></td>
+              <td ><a type="button" (click)="borrarInscripcion(i,inscripcion)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+            </tr>
+          </tbody>
+          </table>
+          <pagination-controls *ngIf="inscripciones.length > 5"
+            (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)"
+            previousLabel="Previous"
+            nextLabel="Next"
+            ></pagination-controls>
+        </div>
+      </div>
+  
+      <div *ngIf="!verInscripciones" class="col-12 col-md-6 pb-2 pt-2">
+        <h1>NO HAY INSCRIPCIONES</h1>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #normal>
+    <div class="container-fluid">
+    <h1>INSCRIBIRSE A TORNEOS</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
+    <div class="col d-flex align-items-stretch" *ngFor="let torneo of torneos;let i = index">
+      <div class="card">
+      <img class="card-img-top img-fluid" [src]="torneo.url">
+      <div class="card-body">
+        <h4 class="card-title">{{torneo.name}}</h4>
+        <p class="card-text">{{torneo.localidad}}</p>
+      </div>
+      <div class="card-footer text-center">
+        <span *ngIf="!user">Registrarse para Inscribirse</span>
+        <span *ngIf="torneo.inscrito">Ya estás inscrito</span>
+        <button *ngIf="user && !torneo.inscrito" class="btn" (click)="inscribirseTorneo(i,torneo.id)">Inscribirse</button>
+      </div>
+      </div>
+    </div>
+    </div>
+    </div>
+</ng-template>

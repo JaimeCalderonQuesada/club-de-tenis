@@ -19,4 +19,7 @@ export class PistaService {
   borrarPista(id: any):Observable<any>{
     return this.http.delete(this.url+"?borrarPista="+id);
   }
+  modificarPista(pista:Pista,id:number): Observable<any>{
+    return this.http.put(this.url+"?actualizarPista="+id,pista);
+  }
 }

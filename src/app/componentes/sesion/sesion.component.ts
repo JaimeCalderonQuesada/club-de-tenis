@@ -27,7 +27,7 @@ export class SesionComponent implements OnInit {
   public user: User;
   public verReservas:Boolean=false;
   public usuarios:User[];
-
+  public page:number;
   constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
@@ -142,7 +142,22 @@ export class SesionComponent implements OnInit {
       }
       this._alertaService.openAlert('Usuario eliminado correctamente');
       this.usuarios.splice(index,1);
+      if(this.usuarios.length==5){
+        this.page = 1;
+      }
     });
     
+  }
+
+  mostrarPassword(input:string){
+    let p = document.getElementById(input);
+    if (p.attributes[2].value === "password") {
+      p.attributes[2].value = "text";
+    } else {
+      p.attributes[2].value = "password";
+    }
+  }
+  pageChanged(event:any){
+    this.page = event;
   }
 }

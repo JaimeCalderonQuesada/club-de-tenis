@@ -1,0 +1,26 @@
+.errores{
+    text-shadow: none;
+}
+h1{
+    padding: 0px;
+    margin: 0px;
+}
+
+
+mat-dialog-content{
+    width: 50vw;
+}
+.mat-dialog-content{
+    max-height: 100vh;
+}
+@media screen and (max-width: 670px) {
+    mat-dialog-content{
+        width: 70vw;
+    } 
+}
+
+@media screen and (max-width: 450px) {
+    mat-dialog-content{
+        width: 80vw;
+    } 
+}

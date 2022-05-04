@@ -155,7 +155,7 @@ if(isset($_GET["torneo"])){
     $imagen=$data->imagen;
         if($nombre!=""){
 
-        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO torneos(nombre,localidad,imagen) VALUES('$nombre','$localidad','$imagen') ");
+        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO torneos(name,localidad,imagen) VALUES('$nombre','$localidad','$imagen') ");
         if(mysqli_error($conexionBD)){
 
             echo json_encode(["success"=>0]);
@@ -190,6 +190,26 @@ if (isset($_GET["borrarTorneo"])){
     else{  echo json_encode(["success"=>0]); }
 }
 
+// Actualizar pista
+if(isset($_GET["actualizarTorneo"])){
+
+    $data = json_decode(file_get_contents("php://input"));
+    $name=$data->name;
+    $localidad=$data->localidad;
+    $imagen=$data->imagen;
+
+    if($imagen != ""){
+        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `torneos` SET `name`='$name', `localidad`='$localidad', `imagen`='$imagen' WHERE `id`=".$_GET["actualizarTorneo"]);
+        echo json_encode(["success"=>1]);
+        exit();
+    }else{
+        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `torneos` SET `name`='$name', `localidad`='$localidad' WHERE `id`=".$_GET["actualizarTorneo"]);
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    
+}
+
 //Insertar una nueva inscripcion a torneo
 if(isset($_GET["inscribir"])){
     $data = json_decode(file_get_contents("php://input"));
@@ -222,6 +242,29 @@ if (isset($_GET["inscripciones"])){
     }else{  echo json_encode("".mysqli_error($sql).",".mysqli_connect_error($conexionBD)); }
 }
 
+// Consulta inscripciones de un usuario
+if (isset($_GET["inscripcionesUsuario"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM `inscribir` WHERE `usuario_id` = ".$_GET["inscripcionesUsuario"]);
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+// Borrar pero se le debe de enviar una clave ( para borrado )
+if (isset($_GET["borrarInscripcion"])){
+    $data = json_decode(file_get_contents("php://input"));
+    $torneo_id=$data->torneo_id;
+    $usuario_id=$data->usuario_id;
+    $sqlEmpleaados = mysqli_query($conexionBD,"DELETE FROM `inscribir` WHERE `inscribir`.`torneo_id` = ".$torneo_id." AND `inscribir`.`usuario_id` = ".$usuario_id);
+    if($sqlEmpleaados){
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+  }
 // // Actualizar valoracion
 // if(isset($_GET["actualizarValoracion"])){
 
@@ -269,12 +312,32 @@ if (isset($_GET["borrarPista"])){
     else{  echo json_encode(["success"=>0]); }
 }
 
+// Actualizar pista
+if(isset($_GET["actualizarPista"])){
+
+    $data = json_decode(file_get_contents("php://input"));
+    $name=$data->name;
+    $descripcion=$data->descripcion;
+    $imagen=$data->imagen;
+
+    if($imagen != ""){
+        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `pistas` SET `name`='$name', `descripcion`='$descripcion', `imagen`='$imagen' WHERE `id`=".$_GET["actualizarPista"]);
+        echo json_encode(["success"=>1]);
+        exit();
+    }else{
+        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `pistas` SET `name`='$name', `descripcion`='$descripcion' WHERE `id`=".$_GET["actualizarPista"]);
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    
+}
+
 //Insertar una nueva reserva
 if(isset($_GET["reserva"])){
   $data = json_decode(file_get_contents("php://input"));
   $fecha=$data->fecha;
   $pistaid=$data->pista_id;
-  $usuarioid=$data->usuarioid;
+  $usuarioid=$data->usuario_id;
       if($fecha!=""){
 
       $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO reservas(fecha,pista_id,usuario_id) VALUES('$fecha',$pistaid,$usuarioid) ");

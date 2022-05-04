@@ -23,7 +23,9 @@ import { CambiarComponent } from './componentes/modales/cambiar/cambiar.componen
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EditarComponent } from './componentes/modales/editar/editar/editar.component';
 import { ContactoComponent } from './componentes/contacto/contacto.component';
-
+import { PistaComponent } from './componentes/modales/pista/pista.component';
+import { TorneoComponent } from './componentes/modales/torneo/torneo.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,9 @@ import { ContactoComponent } from './componentes/contacto/contacto.component';
     PasarelaComponent,
     CambiarComponent,
     EditarComponent,
-    ContactoComponent
+    ContactoComponent,
+    PistaComponent,
+    TorneoComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,8 @@ import { ContactoComponent } from './componentes/contacto/contacto.component';
     NgxPayPalModule,
     SharedmoduleModule,
     BrowserAnimationsModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    NgxPaginationModule
   ],
   exports:[
 

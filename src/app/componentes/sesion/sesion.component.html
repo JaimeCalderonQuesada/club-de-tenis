@@ -15,7 +15,10 @@
 
       <div class="col-12 d-flex justify-content-center position-relative p-2">
         <div class="row p-0 m-0 w-100">
-        <input type="password" name="password" placeholder="Contraseña" class="form-control col-12" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+        <div class="grupoInput col-12 m-0 p-0">
+          <input id="mostrar" type="password" name="password" placeholder="Contraseña" class="form-control" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+          <i  (click)="mostrarPassword('mostrar')" class="bi bi-eye-slash-fill"></i>
+        </div>
         <div class="col-12 errores" *ngIf="options.get('password')?.dirty && this.options.get('password')?.errors">
           {{utils.erroresPassword(options)}}
         </div>
@@ -79,12 +82,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let reserva of reservas">
+            <tr *ngFor="let reserva of reservas | paginate: {itemsPerPage:5,currentPage:page}">
               <td><span >{{reserva.nombre}}</span></td>
               <td><span>{{reserva.fecha}}</span></td>
             </tr>
           </tbody>
           </table>
+          <pagination-controls *ngIf="reservas.length > 5"
+        (pageChange)="pageChanged($event)"
+        (pageBoundsCorrection)="pageChanged($event)"
+        previousLabel="Previous"
+        nextLabel="Next"
+        ></pagination-controls>
         </div>
       </div>
 
@@ -137,7 +146,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let usuario of usuarios; let i = index">
+          <tr *ngFor="let usuario of usuarios | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
             <td class="mensaje" matTooltip="{{usuario.name}}"
             matTooltipClass="tooltip"><span>{{usuario.name}}</span></td>
             <td class="mensaje"  matTooltip="{{usuario.email}}"
@@ -150,7 +159,14 @@
           </tr>
         </tbody>
         </table>
+        <pagination-controls *ngIf="usuarios.length > 5"
+        (pageChange)="pageChanged($event)"
+        (pageBoundsCorrection)="pageChanged($event)"
+        previousLabel="Previous"
+        nextLabel="Next"
+        ></pagination-controls>
       </div>
     </div>
   </div>
+  
 </ng-template>

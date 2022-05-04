@@ -4,7 +4,10 @@
     <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
         <div class="col-12 d-flex justify-content-center position-relative p-2">
             <div class="row p-0 m-0 w-100">
-            <input type="password" name="password2" placeholder="Contraseña actual" class="form-control col-12" #password2 formControlName="password2" required [ngClass]="{'is-valid': !options.get('password2')?.invalid, 'is-invalid': options.get('password2')?.dirty && options.get('password2')?.invalid}">
+            <div class="grupoInput col-12 m-0 p-0">
+              <input id="mostrar" type="password" name="password2" placeholder="Contraseña actual" class="form-control" #password2 formControlName="password2" required [ngClass]="{'is-valid': !options.get('password2')?.invalid, 'is-invalid': options.get('password2')?.dirty && options.get('password2')?.invalid}">
+              <i  (click)="mostrarPassword('mostrar')" class="bi bi-eye-slash-fill"></i>
+            </div>
             <div class="col-12 errores" *ngIf="options.get('password2')?.dirty && this.options.get('password2')?.errors">
               {{util.erroresPassword2(options)}}
             </div>
@@ -13,7 +16,10 @@
         
         <div class="col-12 d-flex justify-content-center position-relative p-2">
             <div class="row p-0 m-0 w-100">
-            <input type="password" name="password" placeholder="Nueva Contraseña" class="form-control col-12" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+            <div class="grupoInput col-12 m-0 p-0">
+              <input id="mostrar1" type="password" name="password" placeholder="Nueva Contraseña" class="form-control" #password formControlName="password" required [ngClass]="{'is-valid': !options.get('password')?.invalid, 'is-invalid': options.get('password')?.dirty && options.get('password')?.invalid}">
+              <i  (click)="mostrarPassword('mostrar1')" class="bi bi-eye-slash-fill"></i>
+            </div>
             <div class="col-12 errores" *ngIf="options.get('password')?.dirty && this.options.get('password')?.errors">
               {{util.erroresPassword(options)}}
             </div>
