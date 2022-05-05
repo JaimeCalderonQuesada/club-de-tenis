@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let torneo of torneos | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
+          <tr *ngFor="let torneo of torneos | paginate: {itemsPerPage:5,currentPage:pageTorneos}; let i = index">
             <td class="mensaje"  matTooltip="{{torneo.name}}"
             matTooltipClass="tooltip"><span >{{torneo.name}}</span></td>
             <td class="mensaje"  matTooltip="{{torneo.localidad}}"
@@ -25,8 +25,8 @@
         </tbody>
         </table>
         <pagination-controls *ngIf="torneos.length > 5"
-            (pageChange)="pageChanged($event)"
-            (pageBoundsCorrection)="pageChanged($event)"
+            (pageChange)="pageChangedTorneos($event)"
+            (pageBoundsCorrection)="pageChangedTorneos($event)"
             previousLabel="Previous"
             nextLabel="Next"
             ></pagination-controls>

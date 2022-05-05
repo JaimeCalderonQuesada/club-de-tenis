@@ -28,6 +28,7 @@ export class TorneosComponent implements OnInit {
   public verInscripciones:Boolean=false;
   public inscribir:Inscribir = new Inscribir();
   public page:number;
+  public pageTorneos:number;
 
   constructor(private _alertaService:AlertaService,private _inscribirService:InscribirService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private _torneoService:TorneoService) {document.title = "Torneos"; }
 
@@ -117,8 +118,10 @@ export class TorneosComponent implements OnInit {
     modalRef.afterClosed().subscribe((response) => {
 
       if (response) {
+        this.torneos=[];
         this._torneoService.getTorneos().subscribe(res=>{
-          this.torneos=res
+          this.torneos=[];
+          this.torneos=res;
           for(let i =0;i<this.torneos.length;i++){
             this.torneos[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.torneos[i].imagen);
           }
@@ -133,7 +136,7 @@ export class TorneosComponent implements OnInit {
     this.torneos.splice(index,1);
     this._alertaService.openAlert('Torneo eliminado correctamente');
     if(this.torneos.length==5){
-      this.page = 1;
+      this.pageTorneos = 1;
     }
   }
   editarTorneo(torneo:Torneo){
@@ -169,6 +172,11 @@ export class TorneosComponent implements OnInit {
       });
   }
   pageChanged(event:any){
+    console.log(event)
     this.page = event;
+  }
+  pageChangedTorneos(event:any){
+    console.log(event)
+    this.pageTorneos = event;
   }
 }

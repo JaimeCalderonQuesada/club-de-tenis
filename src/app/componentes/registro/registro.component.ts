@@ -37,7 +37,8 @@ export class RegistroComponent implements OnInit {
   public user:User;
   public pistas:Pista[] =[];
   public correcto:Boolean=false;
-  public page:number;
+  public page:number=1;
+  public pagePistas:number=1;
   public disable:Boolean=false;
   public dis:Boolean=false;
   public refresh: Subject<void> = new Subject<void>();
@@ -403,7 +404,7 @@ export class RegistroComponent implements OnInit {
     this.pistas.splice(index,1);
     this._alertaService.openAlert('Pista eliminada correctamente');
     if(this.pistas.length==5){
-      this.page = 1;
+      this.pagePistas = 1;
     }
   }
   editarPista(pista:Pista){
@@ -422,9 +423,12 @@ export class RegistroComponent implements OnInit {
 
     });
   }
-  pageChanged(event:any){
-    this.page = event;
+  pageChanged(event1:any){
+    this.page = event1;
+   
   }
-
+  pageChangedPistas(event:any){
+    this.pagePistas = event;
+  }
 
 }

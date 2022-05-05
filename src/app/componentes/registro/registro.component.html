@@ -199,7 +199,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pista of pistas | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
+        <tr *ngFor="let pista of pistas | paginate: {itemsPerPage:5,currentPage:pagePistas}; let i = index">
           <td class="mensaje"  matTooltip="{{pista.name}}"
           matTooltipClass="tooltip"><span >{{pista.name}}</span></td>
           <td class="mensaje"  matTooltip="{{pista.descripcion}}"
@@ -210,10 +210,10 @@
       </tbody>
       </table>
       <pagination-controls *ngIf="pistas.length > 5"
-        (pageChange)="pageChanged($event)"
-        (pageBoundsCorrection)="pageChanged($event)"
-        previousLabel="Previous"
-        nextLabel="Next"
+        (pageChange)="pageChangedPistas($event)"
+        (pageBoundsCorrection)="pageChangedPistas($event)"
+        previousLabel="Anterio"
+        nextLabel="Siguiente"
         ></pagination-controls>
 
     </div>
