@@ -28,14 +28,14 @@ export class RegistroComponent implements OnInit {
   public payPalConfig: any;
   public showPaypalButtons: boolean;
   public verReservas:Boolean=false;
-  public reservas:Reserva[];
+  public reservas:Reserva[] = [];
   public ver:Boolean = false;
   public usuario:User = new User();
-  public usuarios:User[];
+  public usuarios:User[] =[];
   public options!: FormGroup;
   public fechaActual:Date;
   public user:User;
-  public pistas:Pista[];
+  public pistas:Pista[] =[];
   public correcto:Boolean=false;
   public page:number;
   public disable:Boolean=false;
@@ -51,7 +51,7 @@ export class RegistroComponent implements OnInit {
   public idPista:number;
   public dayTypesStored: any;
   public horaReserva:Date;
-  
+
 
   constructor(private _alertaService:AlertaService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
@@ -70,11 +70,11 @@ export class RegistroComponent implements OnInit {
       validators:this.MustMatch('password','password2')
     });
 
-    
+
   }
 
   ngOnInit(): void {
-    
+
     if(sessionStorage.length>0){
       this.user = JSON.parse(sessionStorage.getItem('user'));
       if(this.user){
@@ -108,15 +108,15 @@ export class RegistroComponent implements OnInit {
             });
           }
         });
-        
-        
+
+
       }else{
         document.title = "Registro";
       }
 
-    
+
     }
-    
+
 
   }
   pay() {
@@ -137,11 +137,11 @@ export class RegistroComponent implements OnInit {
     }
   }
 
-  
+
 
 
   onSubmit(){
-    
+
     this.usuario.tipo = 1;
     this.usuario.name = this.options.get('name')?.value;
     this.usuario.password = this.options.get('password')?.value;
@@ -302,7 +302,7 @@ export class RegistroComponent implements OnInit {
 
 
   horaClicked(hora:Date){
-    
+
 
     this.r = false;
     this.horaReserva=hora;
@@ -315,7 +315,7 @@ export class RegistroComponent implements OnInit {
     }
     if( hora.getDate() === new Date().getDate() ){
       this.r = true;
-      
+
     }
     if(!this.r){
       const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
@@ -357,7 +357,7 @@ export class RegistroComponent implements OnInit {
     });
   }
   beforeDayViewRender(body:CalendarWeekViewBeforeRenderEvent){
-    
+
     if(body.header[0].day == 6){
       console.log(body.hourColumns[0].hours[6].segments[0])
       body.hourColumns[0].hours[6].segments[0].date = new Date();
@@ -393,7 +393,7 @@ export class RegistroComponent implements OnInit {
             this.pistas[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.pistas[i].imagen);
           }
         });
-        
+
       }
 
     });
@@ -417,7 +417,7 @@ export class RegistroComponent implements OnInit {
             this.pistas[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.pistas[i].imagen);
           }
         });
-        
+
       }
 
     });
@@ -426,5 +426,5 @@ export class RegistroComponent implements OnInit {
     this.page = event;
   }
 
-  
+
 }

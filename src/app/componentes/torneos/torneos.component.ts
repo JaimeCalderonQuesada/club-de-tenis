@@ -22,7 +22,7 @@ import { PasarelaComponent } from '../modales/pasarela/pasarela.component';
 })
 export class TorneosComponent implements OnInit {
   public user:User;
-  public torneos:Torneo[];
+  public torneos:Torneo[] = [];
   public inscripciones:Inscribir[];
   public usuarios:User[];
   public verInscripciones:Boolean=false;
@@ -46,7 +46,7 @@ export class TorneosComponent implements OnInit {
                   if(this.inscripciones.length>0){
                     this.verInscripciones=true;
                       for(let i=0;i<this.inscripciones.length;i++){
-                        
+
                         for(let index=0;index<this.torneos.length;index++){
                           if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
                             this.torneos[index].inscrito = true;
@@ -61,14 +61,45 @@ export class TorneosComponent implements OnInit {
                           }
                         }
                       };
-                      
+
                   }
                 });
-                
+
+              });
+      }
+    },()=>{
+      if(sessionStorage.length>0){
+        this.user = JSON.parse(sessionStorage.getItem('user'));
+              this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
+                this.inscripciones = res;
+                this._usuariosService.getUsuarios().subscribe(res=>{
+                  this.usuarios=res
+                  if(this.inscripciones.length>0){
+                    this.verInscripciones=true;
+                      for(let i=0;i<this.inscripciones.length;i++){
+
+                        for(let index=0;index<this.torneos.length;index++){
+                          if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
+                            this.torneos[index].inscrito = true;
+                          }
+                          if(this.inscripciones[i].torneo_id == this.torneos[index].id){
+                            this.inscripciones[i].torneo = this.torneos[index].name;
+                          }
+                        }
+                        for(let u=0;u<this.usuarios.length;u++){
+                          if(this.inscripciones[i].usuario_id == this.usuarios[u].id){
+                            this.inscripciones[i].usuario = this.usuarios[u].name;
+                          }
+                        }
+                      };
+
+                  }
+                });
+
               });
       }
     });
-    
+
   }
   borrarInscripcion(icontrol:number,inscripcion:Inscribir){
     this._inscribirService.borrarInscripcion(inscripcion).subscribe();
@@ -92,7 +123,7 @@ export class TorneosComponent implements OnInit {
             this.torneos[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.torneos[i].imagen);
           }
         });
-        
+
       }
 
     });
@@ -116,7 +147,7 @@ export class TorneosComponent implements OnInit {
             this.torneos[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.torneos[i].imagen);
           }
         });
-        
+
       }
 
     });
