@@ -103,15 +103,21 @@ export class TorneosComponent implements OnInit {
 
   }
   borrarInscripcion(icontrol:number,inscripcion:Inscribir){
-    this._inscribirService.borrarInscripcion(inscripcion).subscribe();
-    this.inscripciones.splice(icontrol,1);
-    if(this.inscripciones.length==0){
-      this.verInscripciones=false;
-    }
-    this._alertaService.openAlert('Reserva eliminada correctamente');
-    if(this.inscripciones.length==5){
-      this.page = 1;
-    }
+    this._alertaService.openConfirmDialog()
+    .afterClosed().subscribe(res=>{
+      if(res){
+        this._inscribirService.borrarInscripcion(inscripcion).subscribe();
+        this.inscripciones.splice(icontrol,1);
+        if(this.inscripciones.length==0){
+          this.verInscripciones=false;
+        }
+        this._alertaService.openAlert('Inscripcion eliminada correctamente');
+        if(this.inscripciones.length==5){
+          this.page = 1;
+        }
+      }
+    })
+    
   }
   abrirNuevoTorneo(){
     const modalRef = this.dialog.open(TorneoComponent,{disableClose: true});
@@ -132,12 +138,18 @@ export class TorneosComponent implements OnInit {
     });
   }
   borrarTorneo(index:number,id:number){
-    this._torneoService.borrarTorneo(id).subscribe();
-    this.torneos.splice(index,1);
-    this._alertaService.openAlert('Torneo eliminado correctamente');
-    if(this.torneos.length==5){
-      this.pageTorneos = 1;
-    }
+    this._alertaService.openConfirmDialog()
+    .afterClosed().subscribe(res=>{
+      if(res){
+        this._torneoService.borrarTorneo(id).subscribe();
+        this.torneos.splice(index,1);
+        this._alertaService.openAlert('Torneo eliminado correctamente');
+        if(this.torneos.length==5){
+          this.pageTorneos = 1;
+        }
+      }
+    });
+    
   }
   editarTorneo(torneo:Torneo){
     const modalRef = this.dialog.open(TorneoComponent,{data:{torneo:torneo},disableClose: true});

@@ -61,3 +61,25 @@ form{
     }
 
   }
+  
+  ::ng-deep .ngx-pagination .current{
+    color: black !important;
+    background: none !important;
+  }
+  
+  ::ng-deep .ngx-pagination{
+    margin: 0px !important;
+  padding:0px !important;
+  padding-top: 2% !important;
+  padding-bottom: 2% !important;
+  text-align: center !important;
+  }
+  
+  ::ng-deep .ngx-pagination a{
+    color: white !important;
+    text-decoration: none !important;
+  }
+  
+  ::ng-deep .ngx-pagination a:hover {
+    background: black !important;
+  }

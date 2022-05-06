@@ -66,15 +66,21 @@ export class ContactoComponent implements OnInit {
   }
   
   borrarContacto(id:number,index:number){
-    this._servicioContacto.borrarContacto(id).subscribe();
-    this.contactos.splice(index,1);
-    if(this.contactos.length==0){
-      this.verContactos=false;
-    }
-    this._alertaService.openAlert('Contacto eliminado correctamente');
-    if(this.contactos.length==5){
-      this.page=1;
-    }  
+    this._alertaService.openConfirmDialog()
+    .afterClosed().subscribe(res=>{
+      if(res){
+        this._servicioContacto.borrarContacto(id).subscribe();
+        this.contactos.splice(index,1);
+        if(this.contactos.length==0){
+          this.verContactos=false;
+        }
+        this._alertaService.openAlert('Contacto eliminado correctamente');
+        if(this.contactos.length==5){
+          this.page=1;
+        }  
+      }
+    });
+    
   }
   pageChanged(event:any){
     this.page = event;

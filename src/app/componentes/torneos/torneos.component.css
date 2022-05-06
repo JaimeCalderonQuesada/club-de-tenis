@@ -54,13 +54,18 @@
   
   ::ng-deep .ngx-pagination{
     margin: 0px !important;
-    margin-top: 2% !important;
-    padding:0px !important;
-    text-align: center !important;
+  padding:0px !important;
+  padding-top: 2% !important;
+  padding-bottom: 2% !important;
+  text-align: center !important;
   }
   
   ::ng-deep .ngx-pagination a{
     color: white !important;
+    text-decoration: none !important;
+  }
+  ::ng-deep .ngx-pagination a:hover {
+    background: black !important;
   }
   .titulo{
     display: inline-block;
@@ -96,4 +101,9 @@
   
   .datagrid table tbody td a:hover{
     font-size: 22px;
+  }
+
+  .card-footer{
+    color: var(--naranja);
+    font-weight: bold;
   }

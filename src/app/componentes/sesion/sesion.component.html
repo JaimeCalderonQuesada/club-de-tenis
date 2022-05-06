@@ -82,17 +82,42 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let reserva of reservas | paginate: {itemsPerPage:5,currentPage:page}">
-              <td><span >{{reserva.nombre}}</span></td>
-              <td><span>{{reserva.fecha}}</span></td>
+            <tr *ngFor="let reserva of reservas | paginate: {id:'r',itemsPerPage:5,currentPage:page}">
+              <td class="mensaje" matTooltip="{{reserva.nombre}}"
+              matTooltipClass="tooltip"><span >{{reserva.nombre}}</span></td>
+              <td class="mensaje" matTooltip="{{reserva.fecha}}"
+              matTooltipClass="tooltip"><span>{{reserva.fecha}}</span></td>
             </tr>
           </tbody>
           </table>
-          <pagination-controls *ngIf="reservas.length > 5"
+          <pagination-controls id="r" *ngIf="reservas.length > 5"
         (pageChange)="pageChanged($event)"
-        (pageBoundsCorrection)="pageChanged($event)"
-        previousLabel="Previous"
-        nextLabel="Next"
+        ></pagination-controls>
+        </div>
+      </div>
+
+      <div *ngIf="verTorneos" class="pb-2">
+        <h1 class="titulo">MIS INSCRIPCIONES</h1>
+
+        <div class="reservas text-center">
+          <table>
+          <thead>
+            <tr>
+              <th>Torneo</th>
+              <th>Localidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let torneo of mistorneos | paginate: {id:'t',itemsPerPage:5,currentPage:pageTorneos}">
+              <td class="mensaje" matTooltip="{{torneo.name}}"
+              matTooltipClass="tooltip"><span >{{torneo.name}}</span></td>
+              <td class="mensaje" matTooltip="{{torneo.localidad}}"
+              matTooltipClass="tooltip"><span>{{torneo.localidad}}</span></td>
+            </tr>
+          </tbody>
+          </table>
+          <pagination-controls id="t" *ngIf="mistorneos.length > 5"
+        (pageChange)="pageTorneos = $event"
         ></pagination-controls>
         </div>
       </div>
@@ -146,7 +171,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let usuario of usuarios | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
+          <tr *ngFor="let usuario of usuarios | paginate: {id:'u',itemsPerPage:5,currentPage:page}; let i = index">
             <td class="mensaje" matTooltip="{{usuario.name}}"
             matTooltipClass="tooltip"><span>{{usuario.name}}</span></td>
             <td class="mensaje"  matTooltip="{{usuario.email}}"
@@ -159,11 +184,8 @@
           </tr>
         </tbody>
         </table>
-        <pagination-controls *ngIf="usuarios.length > 5"
+        <pagination-controls id="u" *ngIf="usuarios.length > 5"
         (pageChange)="pageChanged($event)"
-        (pageBoundsCorrection)="pageChanged($event)"
-        previousLabel="Previous"
-        nextLabel="Next"
         ></pagination-controls>
       </div>
     </div>

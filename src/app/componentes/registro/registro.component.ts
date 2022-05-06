@@ -373,15 +373,21 @@ export class RegistroComponent implements OnInit {
     }
   }
   borrarReserva(icontrol:number,fecha:string){
-    this._reservaService.borrarReserva(fecha).subscribe();
-    this.reservas.splice(icontrol,1);
-    if(this.reservas.length==0){
-      this.verReservas=false;
-    }
-    this._alertaService.openAlert('Reserva eliminada correctamente');
-    if(this.reservas.length==5){
-      this.page = 1;
-    }
+    this._alertaService.openConfirmDialog()
+    .afterClosed().subscribe(res=>{
+      if(res){
+        this._reservaService.borrarReserva(fecha).subscribe();
+        this.reservas.splice(icontrol,1);
+        if(this.reservas.length==0){
+          this.verReservas=false;
+        }
+        this._alertaService.openAlert('Reserva eliminada correctamente');
+        if(this.reservas.length==5){
+          this.page = 1;
+        }
+      }
+    });
+    
   }
   abrirNuevaPista(){
     const modalRef = this.dialog.open(PistaComponent,{disableClose: true});
@@ -400,12 +406,18 @@ export class RegistroComponent implements OnInit {
     });
   }
   borrarPista(index:number,id:number){
-    this._pistaService.borrarPista(id).subscribe();
-    this.pistas.splice(index,1);
-    this._alertaService.openAlert('Pista eliminada correctamente');
-    if(this.pistas.length==5){
-      this.pagePistas = 1;
-    }
+    this._alertaService.openConfirmDialog()
+    .afterClosed().subscribe(res=>{
+      if(res){
+        this._pistaService.borrarPista(id).subscribe();
+        this.pistas.splice(index,1);
+        this._alertaService.openAlert('Pista eliminada correctamente');
+        if(this.pistas.length==5){
+          this.pagePistas = 1;
+        }
+      }
+    });
+    
   }
   editarPista(pista:Pista){
     const modalRef = this.dialog.open(PistaComponent,{data:{pista:pista},disableClose: true});

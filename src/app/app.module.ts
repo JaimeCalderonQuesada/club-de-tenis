@@ -26,6 +26,7 @@ import { ContactoComponent } from './componentes/contacto/contacto.component';
 import { PistaComponent } from './componentes/modales/pista/pista.component';
 import { TorneoComponent } from './componentes/modales/torneo/torneo.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ConfirmarComponent } from './componentes/modales/confirmar/confirmar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     EditarComponent,
     ContactoComponent,
     PistaComponent,
-    TorneoComponent
+    TorneoComponent,
+    ConfirmarComponent
   ],
   imports: [
     BrowserModule,

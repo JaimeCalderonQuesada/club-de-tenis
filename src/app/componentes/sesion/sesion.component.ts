@@ -13,6 +13,10 @@ import { PistaService } from 'src/app/services/pista/pista.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertaService } from '../../services/alerta/alerta.service';
 import { EditarComponent } from '../modales/editar/editar/editar.component';
+import { Inscribir } from 'src/app/clases/inscribir';
+import { Torneo } from 'src/app/clases/torneo';
+import { InscribirService } from 'src/app/services/inscribir/inscribir.service';
+import { TorneoService } from 'src/app/services/torneo/torneo.service';
 
 
 @Component({
@@ -26,9 +30,15 @@ export class SesionComponent implements OnInit {
   public options!: FormGroup;
   public user: User;
   public verReservas:Boolean=false;
-  public usuarios:User[];
+  public verTorneos:Boolean=false;
+  public usuarios:User[]=[];
   public page:number;
-  constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router) {
+  public pageTorneos:number;
+  public torneos:Torneo[] = [];
+  public mistorneos:Torneo[] = [];
+  public inscripciones:Inscribir[];
+  
+  constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router,private _inscribirService:InscribirService,private _torneoService:TorneoService) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
       password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
@@ -54,6 +64,28 @@ export class SesionComponent implements OnInit {
                 }
               };
               this.verReservas=true;
+
+              this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
+                this.inscripciones = res;
+                this._torneoService.getTorneos().subscribe(res=>{
+                  this.torneos=res
+                  if(this.inscripciones.length>0){
+                      for(let i=0;i<this.inscripciones.length;i++){
+
+                        for(let index=0;index<this.torneos.length;index++){
+                          if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
+                            this.torneos[index].inscrito = true;
+                            this.mistorneos.push(this.torneos[index]);
+                          }
+                        }
+                      };
+                      if(this.mistorneos.length>0){
+                        this.verTorneos=true;
+                      }
+                      
+                  }
+                });
+              });
             });
           }
   
@@ -128,24 +160,30 @@ export class SesionComponent implements OnInit {
   }
 
   borrarUsuario(id:number,index:number){
-    this._usuariosService.borrarUsuario(id).subscribe(()=>{
-      if(this.user.id == id){
-        this._usuariosService.existe.next(false);
-        this.user=undefined;
-        sessionStorage.removeItem('user');
-        sessionStorage.clear();
-        let currentUrl = this.router.url;
-        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
-        
-      });
-      }
-      this._alertaService.openAlert('Usuario eliminado correctamente');
-      this.usuarios.splice(index,1);
-      if(this.usuarios.length==5){
-        this.page = 1;
+    this._alertaService.openConfirmDialog()
+    .afterClosed().subscribe(res=>{
+      if(res){
+        this._usuariosService.borrarUsuario(id).subscribe(()=>{
+          if(this.user.id == id){
+            this._usuariosService.existe.next(false);
+            this.user=undefined;
+            sessionStorage.removeItem('user');
+            sessionStorage.clear();
+            let currentUrl = this.router.url;
+            this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate([currentUrl]);
+            
+          });
+          }
+          this._alertaService.openAlert('Usuario eliminado correctamente');
+          this.usuarios.splice(index,1);
+          if(this.usuarios.length==5){
+            this.page = 1;
+          }
+        });
       }
     });
+    
     
   }
 

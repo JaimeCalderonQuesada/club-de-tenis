@@ -1,0 +1,10 @@
+mat-dialog-content{
+    width: 50vw;
+    text-align: center;
+}
+#no{
+    width: 50%;
+}
+#yes{
+    width: 50%;
+}

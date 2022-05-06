@@ -12,7 +12,7 @@
   --naranja2: #ffc340;
   --gris: #666666;
   --gris1: #8c8c8c;
-  --rojo:#ff0000;
+  --rojo:#d80000;
 }
 
 
@@ -55,9 +55,10 @@ body {  font-family: Roboto !important; }
 
 .errores{
   font-size: 16px;
-  color: var(--rojo);
-  padding-top: 2%;
-  text-shadow: 2px 2px 2px black;
+  color: white;
+  margin-top: 2%;
+  background-color: var(--rojo);
+  border-radius: 6px;
 }
 
 .container-fluid{

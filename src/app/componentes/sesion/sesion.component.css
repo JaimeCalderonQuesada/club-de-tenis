@@ -15,14 +15,18 @@
 
 ::ng-deep .ngx-pagination{
   margin: 0px !important;
-  margin-top: 2% !important;
   padding:0px !important;
+  padding-top: 2% !important;
   padding-bottom: 2% !important;
   text-align: center !important;
 }
 
 ::ng-deep .ngx-pagination a{
   color: white !important;
+  text-decoration: none !important;
+}
+::ng-deep .ngx-pagination a:hover {
+  background: black !important;
 }
 form{
     width: 50%;
@@ -72,8 +76,19 @@ form{
   margin: 0px;
 }
 
+.reservas{
+  overflow: hidden;
+  overflow-x: auto;
+  clear: both;
+  width: 100%;
+}
+
 .reservas table {
-  border-collapse: collapse; text-align: center; width: 100%;
+  border-collapse: collapse; 
+  text-align: center; 
+  width: 100%;
+  min-width: 100%;
+  table-layout: fixed;
 
 }
 .reservas table td, .reservas table th {

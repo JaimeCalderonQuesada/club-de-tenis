@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let torneo of torneos | paginate: {itemsPerPage:5,currentPage:pageTorneos}; let i = index">
+          <tr *ngFor="let torneo of torneos | paginate: {id:'t',itemsPerPage:5,currentPage:pageTorneos}; let i = index">
             <td class="mensaje"  matTooltip="{{torneo.name}}"
             matTooltipClass="tooltip"><span >{{torneo.name}}</span></td>
             <td class="mensaje"  matTooltip="{{torneo.localidad}}"
@@ -24,11 +24,8 @@
           </tr>
         </tbody>
         </table>
-        <pagination-controls *ngIf="torneos.length > 5"
+        <pagination-controls id="t" *ngIf="torneos.length > 5"
             (pageChange)="pageChangedTorneos($event)"
-            (pageBoundsCorrection)="pageChangedTorneos($event)"
-            previousLabel="Previous"
-            nextLabel="Next"
             ></pagination-controls>
       </div>
       </div>
@@ -45,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let inscripcion of inscripciones | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
+            <tr *ngFor="let inscripcion of inscripciones | paginate: {id:'i',itemsPerPage:5,currentPage:page}; let i = index">
               <td class="mensaje"  matTooltip="{{inscripcion.usuario}}"
               matTooltipClass="tooltip"><span >{{inscripcion.usuario}}</span></td>
               <td class="mensaje"  matTooltip="{{inscripcion.torneo}}"
@@ -54,11 +51,8 @@
             </tr>
           </tbody>
           </table>
-          <pagination-controls *ngIf="inscripciones.length > 5"
+          <pagination-controls id="i" *ngIf="inscripciones.length > 5"
             (pageChange)="pageChanged($event)"
-            (pageBoundsCorrection)="pageChanged($event)"
-            previousLabel="Previous"
-            nextLabel="Next"
             ></pagination-controls>
         </div>
       </div>

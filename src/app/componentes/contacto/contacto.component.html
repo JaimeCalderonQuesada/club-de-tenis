@@ -57,7 +57,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contacto of contactos | paginate: {itemsPerPage:5,currentPage:page}; let i = index">
+        <tr *ngFor="let contacto of contactos | paginate: {id:'c',itemsPerPage:5,currentPage:page}; let i = index">
           <td class="mensaje"  matTooltip="{{contacto.name}}"
           matTooltipClass="tooltip"><span>{{contacto.name}}</span></td>
           <td class="mensaje"  matTooltip="{{contacto.email}}"
@@ -68,11 +68,8 @@
         </tr>
       </tbody>
       </table>
-      <pagination-controls *ngIf="contactos.length > 5"
+      <pagination-controls id="c" *ngIf="contactos.length > 5"
         (pageChange)="pageChanged($event)"
-        (pageBoundsCorrection)="pageChanged($event)"
-        previousLabel="Previous"
-        nextLabel="Next"
         ></pagination-controls>
     </div>
   </div>
