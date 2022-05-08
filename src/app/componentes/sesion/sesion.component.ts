@@ -37,7 +37,7 @@ export class SesionComponent implements OnInit {
   public torneos:Torneo[] = [];
   public mistorneos:Torneo[] = [];
   public inscripciones:Inscribir[];
-  
+
   constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router,private _inscribirService:InscribirService,private _torneoService:TorneoService) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
@@ -48,8 +48,20 @@ export class SesionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(sessionStorage.length>0){
-      this.user = JSON.parse(sessionStorage.getItem('user'));
+          let busca;
+          let micookie;
+          let igual;
+          let valor;
+          let listaCookies = document.cookie.split(";");
+          for (let i in listaCookies) {
+            busca = listaCookies[i].search("user");
+            if (busca > -1) {micookie=listaCookies[i]
+              igual = micookie.indexOf("=");
+              valor = micookie.substring(igual+1);}
+          }
+    if(valor){
+
+      this.user = JSON.parse(valor);
       if(this.user.tipo==1){
         this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
           this.reservas = res;
@@ -82,24 +94,24 @@ export class SesionComponent implements OnInit {
                       if(this.mistorneos.length>0){
                         this.verTorneos=true;
                       }
-                      
+
                   }
                 });
               });
             });
           }
-  
+
         },
         error=>{console.log(error)}
         );
       }
-  
+
       if(this.user.tipo==0){
         this._usuariosService.getUsuarios().subscribe(res=>this.usuarios=res)
       }
     }
 
-    
+
   }
 
   onSubmit(){
@@ -107,13 +119,27 @@ export class SesionComponent implements OnInit {
       result => {
         // Handle result
         if(result){
-          this.user = result[0][0];
-          sessionStorage.setItem('user',JSON.stringify(this.user));
-          sessionStorage.setItem('con',JSON.stringify(result[1]));
+          let expires = (new Date(Date.now()+ 86400*30000)).toUTCString();
+          document.cookie =  "user="+JSON.stringify(result[0][0])+";expires="+expires;
+          document.cookie =  "con="+JSON.stringify(result[1])+";expires="+expires;
+          let busca;
+          let micookie;
+          let igual;
+          let valor;
+          let listaCookies = document.cookie.split(";");
+          for (let i in listaCookies) {
+            busca = listaCookies[i].search("user");
+            if (busca > -1) {micookie=listaCookies[i]}
+            igual = micookie.indexOf("=");
+            valor = micookie.substring(igual+1);
+          }
+          this.user = JSON.parse(valor);
+
           this.options.reset();
           this.router.navigate(['/home']);
           this._usuariosService.existe.next(true);
           this._alertaService.openAlert('Sesión iniciada correctamente');
+
         }
       },
       error => {
@@ -125,13 +151,13 @@ export class SesionComponent implements OnInit {
     );
 
   }
-  
+
 
   logout(){
     this._usuariosService.existe.next(false);
     this.user=undefined;
-    sessionStorage.removeItem('user');
-    sessionStorage.clear();
+    document.cookie =  "user=";
+    document.cookie =  "con=";
     let currentUrl = this.router.url;
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
@@ -152,7 +178,18 @@ export class SesionComponent implements OnInit {
     modalRef.afterClosed().subscribe((response) => {
 
       if (response) {
-        this.user = JSON.parse(sessionStorage.getItem('user'));
+        let busca;
+          let micookie;
+          let igual;
+          let valor;
+          let listaCookies = document.cookie.split(";");
+          for (let i in listaCookies) {
+            busca = listaCookies[i].search("user");
+            if (busca > -1) {micookie=listaCookies[i]
+              igual = micookie.indexOf("=");
+              valor = micookie.substring(igual+1);}
+          }
+          this.user = JSON.parse(valor);
         this._alertaService.openAlert('Perfil modificado correctamente');
       }
 
@@ -167,12 +204,12 @@ export class SesionComponent implements OnInit {
           if(this.user.id == id){
             this._usuariosService.existe.next(false);
             this.user=undefined;
-            sessionStorage.removeItem('user');
-            sessionStorage.clear();
+            document.cookie =  "user=";
+            document.cookie =  "con=";
             let currentUrl = this.router.url;
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
             this.router.navigate([currentUrl]);
-            
+
           });
           }
           this._alertaService.openAlert('Usuario eliminado correctamente');
@@ -183,8 +220,8 @@ export class SesionComponent implements OnInit {
         });
       }
     });
-    
-    
+
+
   }
 
   mostrarPassword(input:string){

@@ -70,14 +70,23 @@ export class RegistroComponent implements OnInit {
     },{
       validators:this.MustMatch('password','password2')
     });
-
-
   }
 
   ngOnInit(): void {
+    let busca;
+    let micookie;
+    let igual;
+    let valor;
+    let listaCookies = document.cookie.split(";");
+    for (let i in listaCookies) {
+      busca = listaCookies[i].search("user");
+      if (busca > -1) {micookie=listaCookies[i]
+        igual = micookie.indexOf("=");
+        valor = micookie.substring(igual+1);}
+    }
+    if(valor){
 
-    if(sessionStorage.length>0){
-      this.user = JSON.parse(sessionStorage.getItem('user'));
+      this.user = JSON.parse(valor);
       if(this.user){
         document.title = "Reservar Pista";
         this._pistaService.getPistas().subscribe(res=>{
@@ -387,7 +396,7 @@ export class RegistroComponent implements OnInit {
         }
       }
     });
-    
+
   }
   abrirNuevaPista(){
     const modalRef = this.dialog.open(PistaComponent,{disableClose: true});
@@ -417,7 +426,7 @@ export class RegistroComponent implements OnInit {
         }
       }
     });
-    
+
   }
   editarPista(pista:Pista){
     const modalRef = this.dialog.open(PistaComponent,{data:{pista:pista},disableClose: true});
@@ -437,7 +446,7 @@ export class RegistroComponent implements OnInit {
   }
   pageChanged(event1:any){
     this.page = event1;
-   
+
   }
   pageChangedPistas(event:any){
     this.pagePistas = event;

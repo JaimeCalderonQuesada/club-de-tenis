@@ -33,13 +33,27 @@ export class TorneosComponent implements OnInit {
   constructor(private _alertaService:AlertaService,private _inscribirService:InscribirService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private _torneoService:TorneoService) {document.title = "Torneos"; }
 
   ngOnInit(): void {
+
     this._torneoService.getTorneos().subscribe(res=>{
       this.torneos=res
       for(let i =0;i<this.torneos.length;i++){
         this.torneos[i].url = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.torneos[i].imagen);
       }
-      if(sessionStorage.length>0){
-        this.user = JSON.parse(sessionStorage.getItem('user'));
+          let busca;
+          let micookie;
+          let igual;
+          let valor;
+          let listaCookies = document.cookie.split(";");
+          for (let i in listaCookies) {
+            busca = listaCookies[i].search("user");
+            if (busca > -1) {micookie=listaCookies[i]
+              igual = micookie.indexOf("=");
+              valor = micookie.substring(igual+1);
+            }
+          }
+      if(valor){
+
+      this.user = JSON.parse(valor);
               this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
                 this.inscripciones = res;
                 this._usuariosService.getUsuarios().subscribe(res=>{
@@ -117,7 +131,7 @@ export class TorneosComponent implements OnInit {
         }
       }
     })
-    
+
   }
   abrirNuevoTorneo(){
     const modalRef = this.dialog.open(TorneoComponent,{disableClose: true});
@@ -149,7 +163,7 @@ export class TorneosComponent implements OnInit {
         }
       }
     });
-    
+
   }
   editarTorneo(torneo:Torneo){
     const modalRef = this.dialog.open(TorneoComponent,{data:{torneo:torneo},disableClose: true});

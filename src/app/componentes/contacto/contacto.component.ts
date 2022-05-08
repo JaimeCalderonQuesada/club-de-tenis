@@ -19,7 +19,7 @@ export class ContactoComponent implements OnInit {
   public verContactos:Boolean=false;
   public contactos:Contacto[];
   public page:number;
-  constructor(private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) { 
+  constructor(private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) {
     document.title = "Contacto";
     this.options = this.fb.group({
       name: ["",[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
@@ -29,8 +29,19 @@ export class ContactoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(sessionStorage.length>0){
-      this.user = JSON.parse(sessionStorage.getItem('user'));
+    let busca;
+          let micookie;
+          let igual;
+          let valor;
+          let listaCookies = document.cookie.split(";");
+          for (let i in listaCookies) {
+            busca = listaCookies[i].search("user");
+            if (busca > -1) {micookie=listaCookies[i]
+              igual = micookie.indexOf("=");
+              valor = micookie.substring(igual+1);}
+          }
+    if(valor){
+      this.user = JSON.parse(valor);
       this.options.get('name')?.setValue(this.user.name);
       this.options.get('email')?.setValue(this.user.email);
       if(this.user.tipo==0){
@@ -43,7 +54,7 @@ export class ContactoComponent implements OnInit {
         });
       }
     }
-    
+
   }
 
   onSubmit(){
@@ -64,7 +75,7 @@ export class ContactoComponent implements OnInit {
       }
     );
   }
-  
+
   borrarContacto(id:number,index:number){
     this._alertaService.openConfirmDialog()
     .afterClosed().subscribe(res=>{
@@ -77,10 +88,10 @@ export class ContactoComponent implements OnInit {
         this._alertaService.openAlert('Contacto eliminado correctamente');
         if(this.contactos.length==5){
           this.page=1;
-        }  
+        }
       }
     });
-    
+
   }
   pageChanged(event:any){
     this.page = event;

@@ -14,18 +14,28 @@ export class CambiarComponent implements OnInit {
   public options!: FormGroup;
   public usuario:User=new User();
   constructor(public dialogRef: MatDialogRef<CambiarComponent>,private _usuariosService:UsuariosService,public util:Utils,private fb: FormBuilder,@Inject(MAT_DIALOG_DATA) public data:any) {
-    this.options = this.fb.group({
-      antigua:[JSON.parse(sessionStorage.getItem('con'))],
-      password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
-      password2:["",[Validators.required]]
-    },{
-      validators:this.MustMatch('antigua','password2','password')
-    });
+
 
   }
 
   ngOnInit(): void {
-
+    let busca;
+    let micookie;
+    let valor;
+    let listaCookies = document.cookie.split(";");
+    for (let i in listaCookies) {
+      busca = listaCookies[i].search("con");
+      if (busca > -1) {micookie=listaCookies[i]
+        valor = micookie.substring(6,micookie.length-1);
+      }
+    }
+  this.options = this.fb.group({
+  antigua:[valor],
+  password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
+  password2:["",[Validators.required]]
+  },{
+    validators:this.MustMatch('antigua','password2','password')
+  });
   }
   MustMatch(controlName:string,matchingControlName:string,matchingControlName2:string) {
     return(formGroup:FormGroup)=>{
@@ -48,17 +58,15 @@ export class CambiarComponent implements OnInit {
   }
   onSubmit(){
     this.usuario.password = this.options.get('password')?.value;
-    
-    
+
+
     this._usuariosService.modificarCon(this.usuario,this.data.user.id).subscribe(
       result => {
         // Handle result
-        sessionStorage.removeItem('con');
-        sessionStorage.setItem('con',JSON.stringify(this.usuario.password));
+        document.cookie =  "con="+JSON.stringify(this.usuario.password);
         this._usuariosService.getUsuario(this.data.user.id).subscribe(
           (res:any)=>{
-            sessionStorage.removeItem('user');
-            sessionStorage.setItem('user',JSON.stringify(res[0]));
+            document.cookie =  "user="+JSON.stringify(res[0]);
             this.dialogRef.close(true);
           }
         )
