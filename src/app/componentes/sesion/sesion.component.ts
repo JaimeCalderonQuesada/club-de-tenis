@@ -156,8 +156,8 @@ export class SesionComponent implements OnInit {
   logout(){
     this._usuariosService.existe.next(false);
     this.user=undefined;
-    document.cookie =  "user=";
-    document.cookie =  "con=";
+    document.cookie =  "user="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie =  "con="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     let currentUrl = this.router.url;
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
@@ -204,8 +204,8 @@ export class SesionComponent implements OnInit {
           if(this.user.id == id){
             this._usuariosService.existe.next(false);
             this.user=undefined;
-            document.cookie =  "user=";
-            document.cookie =  "con=";
+            document.cookie =  "user="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie =  "con="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             let currentUrl = this.router.url;
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
             this.router.navigate([currentUrl]);
