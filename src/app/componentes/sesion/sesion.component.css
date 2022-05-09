@@ -36,6 +36,10 @@ form{
   background-color: var(--gris);
 }
 
+label{
+  color: var(--naranja);
+}
+
 #a{
   width: 27%;
   color: var(--naranja);
@@ -84,8 +88,8 @@ form{
 }
 
 .reservas table {
-  border-collapse: collapse; 
-  text-align: center; 
+  border-collapse: collapse;
+  text-align: center;
   width: 100%;
   min-width: 100%;
   table-layout: fixed;
@@ -121,8 +125,8 @@ form{
 }
 
 .usuarios table {
-  border-collapse: collapse; 
-  text-align: center; 
+  border-collapse: collapse;
+  text-align: center;
   width: 100%;
   min-width: 100%;
   table-layout: fixed;
@@ -155,7 +159,7 @@ form{
   background-color: var(--naranja);
   border-radius: 6px;
   position: relative;
-  
+
 }
 
 @media screen and (max-width: 525px) {

@@ -41,7 +41,12 @@ export class EditarComponent implements OnInit {
           // Handle result
           this._usuariosService.getUsuario(this.data.user.id).subscribe(
             (res:any)=>{
-              document.cookie =  "user="+JSON.stringify(res[0]);
+              if(sessionStorage.length>0){
+                sessionStorage.setItem("user",JSON.stringify(res[0]));
+              }else{
+                document.cookie =  "user="+JSON.stringify(res[0]);
+              }
+
               this.data.user = res[0];
               this.dialogRef.close(true);
             }

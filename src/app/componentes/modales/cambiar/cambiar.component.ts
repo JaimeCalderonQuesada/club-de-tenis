@@ -13,10 +13,9 @@ import { User } from '../../../clases/user';
 export class CambiarComponent implements OnInit {
   public options!: FormGroup;
   public usuario:User=new User();
-  constructor(public dialogRef: MatDialogRef<CambiarComponent>,private _usuariosService:UsuariosService,public util:Utils,private fb: FormBuilder,@Inject(MAT_DIALOG_DATA) public data:any) {
-
-
-  }
+  public anterior:string;
+  public sesion:Boolean=false;
+  constructor(public dialogRef: MatDialogRef<CambiarComponent>,private _usuariosService:UsuariosService,public util:Utils,private fb: FormBuilder,@Inject(MAT_DIALOG_DATA) public data:any) {}
 
   ngOnInit(): void {
     let busca;
@@ -29,13 +28,20 @@ export class CambiarComponent implements OnInit {
         valor = micookie.substring(6,micookie.length-1);
       }
     }
+    if(valor){
+      this.anterior = valor;
+    }else{
+      this.anterior = sessionStorage.getItem("con").substring(1,sessionStorage.getItem("con").length-1);
+      this.sesion=true;
+    }
   this.options = this.fb.group({
-  antigua:[valor],
+  antigua:[this.anterior],
   password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
   password2:["",[Validators.required]]
   },{
     validators:this.MustMatch('antigua','password2','password')
   });
+
   }
   MustMatch(controlName:string,matchingControlName:string,matchingControlName2:string) {
     return(formGroup:FormGroup)=>{
@@ -63,10 +69,16 @@ export class CambiarComponent implements OnInit {
     this._usuariosService.modificarCon(this.usuario,this.data.user.id).subscribe(
       result => {
         // Handle result
-        document.cookie =  "con="+JSON.stringify(this.usuario.password);
+
         this._usuariosService.getUsuario(this.data.user.id).subscribe(
           (res:any)=>{
-            document.cookie =  "user="+JSON.stringify(res[0]);
+            if(this.sesion){
+              sessionStorage.setItem("user",JSON.stringify(res[0]));
+              sessionStorage.setItem("con",JSON.stringify(this.usuario.password));
+            }else{
+              document.cookie =  "con="+JSON.stringify(this.usuario.password);
+              document.cookie =  "user="+JSON.stringify(res[0]);
+            }
             this.dialogRef.close(true);
           }
         )

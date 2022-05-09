@@ -85,8 +85,10 @@ export class RegistroComponent implements OnInit {
         valor = micookie.substring(igual+1);}
     }
     if(valor){
-
       this.user = JSON.parse(valor);
+    }else{
+      this.user = JSON.parse(sessionStorage.getItem("user"));
+    }
       if(this.user){
         document.title = "Reservar Pista";
         this._pistaService.getPistas().subscribe(res=>{
@@ -118,16 +120,9 @@ export class RegistroComponent implements OnInit {
             });
           }
         });
-
-
       }else{
         document.title = "Registro";
       }
-
-
-    }
-
-
   }
   pay() {
     this.showPaypalButtons = true;

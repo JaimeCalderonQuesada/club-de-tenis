@@ -60,57 +60,59 @@ export class SesionComponent implements OnInit {
               valor = micookie.substring(igual+1);}
           }
     if(valor){
-
       this.user = JSON.parse(valor);
-      if(this.user.tipo==1){
-        this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
-          this.reservas = res;
-          if(this.reservas.length>0){
-            this._pistaService.getPistas().subscribe(resp=>{
-              this.pistas=resp;
-              for(let i=0;i<this.reservas.length;i++){
-                for(let index=0;index<this.pistas.length;index++){
-                  if(this.reservas[i].pista_id == this.pistas[index].id){
-                    this.reservas[i].nombre = this.pistas[index].name;
-                  }
+    }else{
+      this.user = JSON.parse(sessionStorage.getItem("user"));
+    }
+    if(this.user){
+    if(this.user.tipo==1){
+      this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
+        this.reservas = res;
+        if(this.reservas.length>0){
+          this._pistaService.getPistas().subscribe(resp=>{
+            this.pistas=resp;
+            for(let i=0;i<this.reservas.length;i++){
+              for(let index=0;index<this.pistas.length;index++){
+                if(this.reservas[i].pista_id == this.pistas[index].id){
+                  this.reservas[i].nombre = this.pistas[index].name;
                 }
-              };
-              this.verReservas=true;
+              }
+            };
+            this.verReservas=true;
 
-              this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
-                this.inscripciones = res;
-                this._torneoService.getTorneos().subscribe(res=>{
-                  this.torneos=res
-                  if(this.inscripciones.length>0){
-                      for(let i=0;i<this.inscripciones.length;i++){
+            this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
+              this.inscripciones = res;
+              this._torneoService.getTorneos().subscribe(res=>{
+                this.torneos=res
+                if(this.inscripciones.length>0){
+                    for(let i=0;i<this.inscripciones.length;i++){
 
-                        for(let index=0;index<this.torneos.length;index++){
-                          if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
-                            this.torneos[index].inscrito = true;
-                            this.mistorneos.push(this.torneos[index]);
-                          }
+                      for(let index=0;index<this.torneos.length;index++){
+                        if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
+                          this.torneos[index].inscrito = true;
+                          this.mistorneos.push(this.torneos[index]);
                         }
-                      };
-                      if(this.mistorneos.length>0){
-                        this.verTorneos=true;
                       }
+                    };
+                    if(this.mistorneos.length>0){
+                      this.verTorneos=true;
+                    }
 
-                  }
-                });
+                }
               });
             });
-          }
+          });
+        }
 
-        },
-        error=>{console.log(error)}
-        );
-      }
-
-      if(this.user.tipo==0){
-        this._usuariosService.getUsuarios().subscribe(res=>this.usuarios=res)
-      }
+      },
+      error=>{console.log(error)}
+      );
     }
 
+    if(this.user.tipo==0){
+      this._usuariosService.getUsuarios().subscribe(res=>this.usuarios=res)
+    }
+    }
 
   }
 
@@ -119,6 +121,8 @@ export class SesionComponent implements OnInit {
       result => {
         // Handle result
         if(result){
+          let ele = <HTMLInputElement> document.getElementById("check");
+          if(ele.checked){
           let expires = (new Date(Date.now()+ 86400*30000)).toUTCString();
           document.cookie =  "user="+JSON.stringify(result[0][0])+";expires="+expires;
           document.cookie =  "con="+JSON.stringify(result[1])+";expires="+expires;
@@ -134,12 +138,15 @@ export class SesionComponent implements OnInit {
             valor = micookie.substring(igual+1);
           }
           this.user = JSON.parse(valor);
-
-          this.options.reset();
+        }else{
+          sessionStorage.setItem("user",JSON.stringify(result[0][0]));
+          sessionStorage.setItem("con",JSON.stringify(result[1]));
+          this.user = result[0][0];
+        }
+        this.options.reset();
           this.router.navigate(['/home']);
           this._usuariosService.existe.next(true);
           this._alertaService.openAlert('Sesión iniciada correctamente');
-
         }
       },
       error => {
@@ -158,6 +165,7 @@ export class SesionComponent implements OnInit {
     this.user=undefined;
     document.cookie =  "user="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     document.cookie =  "con="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    sessionStorage.clear();
     let currentUrl = this.router.url;
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
@@ -189,7 +197,12 @@ export class SesionComponent implements OnInit {
               igual = micookie.indexOf("=");
               valor = micookie.substring(igual+1);}
           }
-          this.user = JSON.parse(valor);
+          if(valor){
+            this.user = JSON.parse(valor);
+          }else{
+            this.user = JSON.parse(sessionStorage.getItem("user"));
+          }
+
         this._alertaService.openAlert('Perfil modificado correctamente');
       }
 
@@ -206,6 +219,7 @@ export class SesionComponent implements OnInit {
             this.user=undefined;
             document.cookie =  "user="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie =  "con="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            sessionStorage.clear();
             let currentUrl = this.router.url;
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
             this.router.navigate([currentUrl]);
