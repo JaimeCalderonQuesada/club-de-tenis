@@ -77,6 +77,14 @@ h1{
   padding: 2%;
   font-weight: bold !important;
 }
+
+h3{
+  color: var(--naranja);
+  text-align: center;
+  margin: 0px !important;
+  padding: 2%;
+  font-weight: bold !important;
+}
 .grupoInput{
   position: relative;
 }

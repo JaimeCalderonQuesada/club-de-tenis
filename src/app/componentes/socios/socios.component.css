@@ -1,0 +1,66 @@
+.container-fluid{
+    background-color: var(--gris);
+}
+
+.mensaje{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: auto;
+}
+.dia{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: auto;
+}
+::ng-deep .tooltip {
+    background-color: var(--naranja);
+    border-radius: 6px;
+    position: relative;
+}
+.horario{
+    overflow: hidden;
+    overflow-x: auto;
+    clear: both;
+    width: 100%;
+  }
+  
+  .horario table {
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+    min-width: 100%;
+    table-layout: fixed;
+  }
+  .horario table td, .horario table th {
+    padding: 4px 4px;
+    border: 1px solid var(--gris);
+  }
+  .horario table thead th {
+    background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
+  
+  }
+  
+  .horario table tbody tr td {
+    color: var(--gris); font-size: 14px;
+    background-color: var(--naranja2);
+    font-weight: bold;
+  }
+  
+  .horario table tbody td a:hover{
+    font-size: 18px;
+  }
+
+  #a{
+    color: var(--naranja);
+    text-decoration: none;
+  }
+  
+  #a:hover{
+    color: var(--naranja1);
+  }
+  .btn{
+      margin-top: 2%;
+      margin-bottom: 2%;
+  }

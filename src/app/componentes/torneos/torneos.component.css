@@ -107,3 +107,11 @@
     color: var(--naranja);
     font-weight: bold;
   }
+  #a{
+    color: var(--naranja);
+    text-decoration: none;
+  }
+  
+  #a:hover{
+    color: var(--naranja1);
+  }

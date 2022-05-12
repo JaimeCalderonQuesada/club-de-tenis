@@ -75,7 +75,7 @@
         <p class="card-text">{{torneo.localidad}}</p>
       </div>
       <div class="card-footer text-center">
-        <span *ngIf="!user">Registrarse para Inscribirse</span>
+        <span *ngIf="!user"><a id="a" routerLink="/registro">Registrarse</a> para Inscribirse</span>
         <span *ngIf="torneo.inscrito">Ya estás inscrito</span>
         <button *ngIf="user && !torneo.inscrito" class="btn" (click)="inscribirseTorneo(i,torneo.id)">Inscribirse</button>
       </div>

@@ -1,2 +1,116 @@
-<div class="container-fluid">
-</div>
+<ng-template [ngIf]="user && user.tipo==0" [ngIfElse]="normal">
+    <div class="container-fluid">
+        
+    </div>
+</ng-template>
+
+<ng-template #normal>
+    <div class="container-fluid">
+        <div>
+            <h1>HORARIO DE CLASES</h1>
+            <div class="horario text-center">
+                <table>
+                <thead>
+                  <tr>
+                    <th class="dia" matTooltip="LUNES"
+                    matTooltipClass="tooltip">LUNES</th>
+                    <th class="dia" matTooltip="MARTES"
+                    matTooltipClass="tooltip">MARTES</th>
+                    <th class="dia" matTooltip="MIERCOLES"
+                    matTooltipClass="tooltip">MIERCOLES</th>
+                    <th class="dia" matTooltip="JUEVES"
+                    matTooltipClass="tooltip">JUEVES</th>
+                    <th class="dia" matTooltip="VIERNES"
+                    matTooltipClass="tooltip">VIERNES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mensaje" matTooltip="Benjamín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span>Benjamín 17:00 - 18:00</span></td>
+                    <td class="mensaje"  matTooltip="Alevín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span >Alevín 17:00 - 18:00</span></td>
+                    <td class="mensaje" matTooltip="Benjamín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span >Benjamín 17:00 - 18:00</span></td>
+                    <td class="mensaje" matTooltip="Alevín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span >Alevín 17:00 - 18:00</span></td>
+                    <td class="mensaje" matTooltip="Benjamín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span>Benjamín 17:00 - 18:00</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mensaje" matTooltip="Infantil/Cadete 18:00 - 19:00"
+                    matTooltipClass="tooltip"><span>Infantil/Cadete 18:00 - 19:00</span></td>
+                    <td class="mensaje"  matTooltip="Infantil/Cadete 18:00 - 19:00"
+                    matTooltipClass="tooltip"><span >Infantil/Cadete 18:00 - 19:00</span></td>
+                    <td class="mensaje" matTooltip="Infantil/Cadete 18:00 - 19:00"
+                    matTooltipClass="tooltip"><span >Infantil/Cadete 18:00 - 19:00</span></td>
+                    <td class="mensaje" matTooltip="Juvenil 18:00 - 19:00"
+                    matTooltipClass="tooltip"><span >Juvenil 18:00 - 19:00</span></td>
+                    <td class="mensaje" matTooltip="Alevín 18:00 - 19:00"
+                    matTooltipClass="tooltip"><span>Alevín 18:00 - 19:00</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mensaje" matTooltip="Adultos 19:00 - 20:00"
+                    matTooltipClass="tooltip"><span>Adultos 19:00 - 20:00</span></td>
+                    <td class="mensaje"  matTooltip="Juvenil 19:00 - 20:00"
+                    matTooltipClass="tooltip"><span >Juvenil 19:00 - 20:00</span></td>
+                    <td class="mensaje" matTooltip="Adultos 19:00 - 20:00"
+                    matTooltipClass="tooltip"><span >Adultos 19:00 - 20:00</span></td>
+                    <td class="mensaje" matTooltip="Adultos 19:00 - 20:00"
+                    matTooltipClass="tooltip"><span >Adultos 19:00 - 20:00</span></td>
+                    <td class="mensaje" matTooltip="Juvenil 19:00 - 20:00"
+                    matTooltipClass="tooltip"><span>Juvenil 19:00 - 20:00</span></td>
+                  </tr>
+                </tbody>
+                </table>
+              </div>
+            </div>
+    
+            <div>
+                <h1>PRECIOS</h1>
+                <div class="horario text-center">
+                    <table>
+                    <thead>
+                      <tr>
+                        <th class="dia" matTooltip="CATEGORÍA"
+                        matTooltipClass="tooltip">CATEGORÍA</th>
+                        <th class="dia" matTooltip="PRECIO POR MES"
+                        matTooltipClass="tooltip">PRECIO POR MES</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="mensaje" matTooltip="Benjamín"
+                        matTooltipClass="tooltip"><span>Benjamín</span></td>
+                        <td class="mensaje"  matTooltip="35 €"
+                        matTooltipClass="tooltip"><span >35 €</span></td>
+                      </tr>
+                      <tr>
+                        <td class="mensaje" matTooltip="Alevín"
+                        matTooltipClass="tooltip"><span>Alevín</span></td>
+                        <td class="mensaje"  matTooltip="38 €"
+                        matTooltipClass="tooltip"><span >38 €</span></td>
+                      </tr>
+                      <tr>
+                        <td class="mensaje" matTooltip="Infantil/Cadete/Juvenil"
+                        matTooltipClass="tooltip"><span>Infantil/Cadete/Juvenil</span></td>
+                        <td class="mensaje"  matTooltip="40 €"
+                        matTooltipClass="tooltip"><span>40 €</span></td>
+                      </tr>
+                      <tr>
+                        <td class="mensaje" matTooltip="Adultos"
+                        matTooltipClass="tooltip"><span>Adultos</span></td>
+                        <td class="mensaje"  matTooltip="45 €"
+                        matTooltipClass="tooltip"><span>45 €</span></td>
+                      </tr>
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="text-center">
+                    <button *ngIf="user" class="btn" (click)="abrirApuntarse()">Apuntarse</button>
+                    <h3 *ngIf="!user"><a id="a" routerLink="/registro">Registrarse</a> para poder apuntarse</h3>
+                </div>
+                
+    </div>
+</ng-template>

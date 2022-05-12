@@ -27,6 +27,7 @@ import { PistaComponent } from './componentes/modales/pista/pista.component';
 import { TorneoComponent } from './componentes/modales/torneo/torneo.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ConfirmarComponent } from './componentes/modales/confirmar/confirmar.component';
+import { ClasesComponent } from './componentes/modales/clases/clases.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { ConfirmarComponent } from './componentes/modales/confirmar/confirmar.co
     ContactoComponent,
     PistaComponent,
     TorneoComponent,
-    ConfirmarComponent
+    ConfirmarComponent,
+    ClasesComponent
   ],
   imports: [
     BrowserModule,
