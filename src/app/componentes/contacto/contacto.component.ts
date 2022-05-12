@@ -1,4 +1,3 @@
-import { serializeNodes } from '@angular/compiler/src/i18n/digest';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, RequiredValidator } from '@angular/forms';
 import { Contacto } from 'src/app/clases/contacto';
@@ -20,7 +19,7 @@ export class ContactoComponent implements OnInit {
   public verContactos:Boolean=false;
   public contactos:Contacto[];
   public page:number;
-  constructor(private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) {
+  constructor(private http: HttpClient,private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) {
     document.title = "Contacto";
     this.options = this.fb.group({
       name: ["",[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
@@ -83,10 +82,12 @@ export class ContactoComponent implements OnInit {
     this.contacto.name = this.options.get('name')?.value;
     this.contacto.email = this.options.get('email')?.value;
     this.contacto.mensaje = this.options.get('mensaje')?.value;
+
     this._servicioContacto.insertarContacto(this.contacto).subscribe(
       result => {
         // Handle result
         console.log(result)
+
       },
       error => {
         console.log(error)

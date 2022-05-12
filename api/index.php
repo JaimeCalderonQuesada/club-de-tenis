@@ -208,7 +208,7 @@ if(isset($_GET["actualizarTorneo"])){
         echo json_encode(["success"=>1]);
         exit();
     }
-    
+
 }
 
 //Insertar una nueva inscripcion a torneo
@@ -330,7 +330,7 @@ if(isset($_GET["actualizarPista"])){
         echo json_encode(["success"=>1]);
         exit();
     }
-    
+
 }
 
 //Insertar una nueva reserva
