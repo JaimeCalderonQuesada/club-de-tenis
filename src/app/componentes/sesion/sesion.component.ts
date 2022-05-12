@@ -133,9 +133,11 @@ export class SesionComponent implements OnInit {
           let listaCookies = document.cookie.split(";");
           for (let i in listaCookies) {
             busca = listaCookies[i].search("user");
-            if (busca > -1) {micookie=listaCookies[i]}
-            igual = micookie.indexOf("=");
-            valor = micookie.substring(igual+1);
+            if (busca > -1) {micookie=listaCookies[i]
+              igual = micookie.indexOf("=");
+              valor = micookie.substring(igual+1);
+            }
+
           }
           this.user = JSON.parse(valor);
         }else{
