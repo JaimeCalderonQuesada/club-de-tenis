@@ -1,5 +1,6 @@
+import { serializeNodes } from '@angular/compiler/src/i18n/digest';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, RequiredValidator } from '@angular/forms';
 import { Contacto } from 'src/app/clases/contacto';
 import { User } from 'src/app/clases/user';
 import { AlertaService } from 'src/app/services/alerta/alerta.service';
@@ -29,7 +30,7 @@ export class ContactoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let busca;
+          let busca;
           let micookie;
           let igual;
           let valor;
@@ -62,6 +63,23 @@ export class ContactoComponent implements OnInit {
   }
 
   onSubmit(){
+    let busca;
+    let micookie;
+    let valor;
+    let listaCookies = document.cookie.split(";");
+    for (let i in listaCookies) {
+      busca = listaCookies[i].search("contacto");
+      if (busca > -1) {micookie=listaCookies[i]
+        valor = micookie.substring(11,micookie.length-1);
+      }
+    }
+    if(valor){
+      if(valor === this.options.get('email')?.value){
+        this.options.get('mensaje')?.reset();
+        this._alertaService.openAlert("Hoy ya has enviado un mensaje");
+      }else{
+        let expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
+    document.cookie =  "contacto="+JSON.stringify(this.options.get('email')?.value)+";expires="+expires;
     this.contacto.name = this.options.get('name')?.value;
     this.contacto.email = this.options.get('email')?.value;
     this.contacto.mensaje = this.options.get('mensaje')?.value;
@@ -74,10 +92,32 @@ export class ContactoComponent implements OnInit {
         console.log(error)
       },
       () => {
-        this.options.reset();
+        this.options.get('mensaje')?.reset();
         this._alertaService.openAlert("Mensaje enviado correctamente!!");
       }
     );
+      }
+    }else{
+      let expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
+    document.cookie =  "contacto="+JSON.stringify(this.options.get('email')?.value)+";expires="+expires;
+    this.contacto.name = this.options.get('name')?.value;
+    this.contacto.email = this.options.get('email')?.value;
+    this.contacto.mensaje = this.options.get('mensaje')?.value;
+    this._servicioContacto.insertarContacto(this.contacto).subscribe(
+      result => {
+        // Handle result
+        console.log(result)
+      },
+      error => {
+        console.log(error)
+      },
+      () => {
+        this.options.get('mensaje')?.reset();
+        this._alertaService.openAlert("Mensaje enviado correctamente!!");
+      }
+    );
+    }
+    
   }
 
   borrarContacto(id:number,index:number){
@@ -100,4 +140,5 @@ export class ContactoComponent implements OnInit {
   pageChanged(event:any){
     this.page = event;
   }
+  
 }

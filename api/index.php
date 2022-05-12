@@ -118,8 +118,9 @@ if(isset($_GET["contactos"])){
   $name=$data->name;
   $mensaje=$data->mensaje;
   $email=$data->email;
+  
       if(($name!="")&&($mensaje!="")){
-
+        
   $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO contactos(name,email,mensaje) VALUES('$name','$email','$mensaje') ");
   echo json_encode(["success"=>1]);
       }
