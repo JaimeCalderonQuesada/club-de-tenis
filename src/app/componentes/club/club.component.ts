@@ -25,8 +25,10 @@ export class ClubComponent implements OnInit {
 
     if(valor){
         this.user = JSON.parse(valor);
+        
     }else{
         this.user = JSON.parse(sessionStorage.getItem("user"));
+        
     }
   }
 
