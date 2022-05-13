@@ -189,14 +189,16 @@ export class RegistroComponent implements OnInit {
     this.addReservas(index);
     if(index==1){
       this.addClases(index);
+    }else{
+      this.ver = true;
     }
-    this.ver = true;
+   
 
   }
 
   addReservas(index:number){
     this._reservaService.getReservas().subscribe((res:any)=>{
-      this.events = [];
+        this.events = [];
       if(res.length>0){
         for(let i=0;i<res.length;i++){
           if(res[i].pista_id == index){
@@ -223,7 +225,6 @@ export class RegistroComponent implements OnInit {
 
   addClases(index:number){
     this._claseService.getClases().subscribe((res:any)=>{
-      this.events = [];
       if(res.length>0){
         for(let i=0;i<res.length;i++){
           if(res[i].pista_id == index){
@@ -241,7 +242,7 @@ export class RegistroComponent implements OnInit {
           }
 
         }
-
+        this.ver = true;
       }
 
     });

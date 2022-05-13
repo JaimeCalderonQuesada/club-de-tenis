@@ -1,6 +1,11 @@
-.form-check-input{
-    width: 50px;
+.form-check-input:focus {
+  box-shadow: inset 0 0 1px var(--naranja),0 0 8px var(--naranja);
 }
 mat-dialog-content{
-  width: 40vw;
+  width: 70vw;
+}
+@media screen and (max-width: 900px) {
+  mat-dialog-content{
+      width: 80vw;
+  } 
 }

@@ -10,7 +10,9 @@ export class PasarelaComponent implements OnInit {
   public payPalConfig: any;
   public fecha:string;
   public inscripcion:Boolean=false;
-
+  public apuntarse:Boolean=false;
+  public reserva:Boolean=false;
+  public meses:string="";
   constructor(public dialogRef: MatDialogRef<PasarelaComponent>, @Inject(MAT_DIALOG_DATA) public data:any) { }
 
   ngOnInit(): void {
@@ -86,10 +88,22 @@ export class PasarelaComponent implements OnInit {
     };
     if(this.data == null){
       this.inscripcion=true;
-    }else{
-   this.fecha =  ""+this.data.hora.getFullYear()+"-"+(this.data.hora.getMonth()+1)+"-"+this.data.hora.getDate()+" "+this.data.hora.getHours()+":"+this.data.hora.getMinutes()+0+":"+this.data.hora.getSeconds()+0+"";
-    
-  }
+    }else if(this.data.apuntarse.length>0){
+      this.apuntarse = true;
+      
+      for (let index = 0; index < this.data.apuntarse.length; index++) {
+        if(this.meses == ""){
+          this.meses = this.data.apuntarse[index];
+        }else{
+          this.meses += ", "+this.data.apuntarse[index];
+        }
+        
+      }
+     
+    } else{
+      this.reserva = true;
+      this.fecha =  ""+this.data.hora.getFullYear()+"-"+(this.data.hora.getMonth()+1)+"-"+this.data.hora.getDate()+" "+this.data.hora.getHours()+":"+this.data.hora.getMinutes()+0+":"+this.data.hora.getSeconds()+0+"";
+    }
 }
   
 }

@@ -73,6 +73,7 @@ body {  font-family: Roboto !important; }
 
 h1{
   color: var(--naranja);
+  margin: 0px !important;
   text-align: center;
   padding: 2%;
   font-weight: bold !important;
