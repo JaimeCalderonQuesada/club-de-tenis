@@ -17,6 +17,9 @@ import { Inscribir } from 'src/app/clases/inscribir';
 import { Torneo } from 'src/app/clases/torneo';
 import { InscribirService } from 'src/app/services/inscribir/inscribir.service';
 import { TorneoService } from 'src/app/services/torneo/torneo.service';
+import { RegistrarService } from 'src/app/services/registrar/registrar.service';
+import { Clase } from '../../clases/clase';
+import { ClaseService } from '../../services/clase/clase.service';
 
 
 @Component({
@@ -31,14 +34,18 @@ export class SesionComponent implements OnInit {
   public user: User;
   public verReservas:Boolean=false;
   public verTorneos:Boolean=false;
+  public verClases:Boolean=false;
   public usuarios:User[]=[];
   public page:number;
   public pageTorneos:number;
+  public pageClases:number;
   public torneos:Torneo[] = [];
   public mistorneos:Torneo[] = [];
+  public clases:Clase[] = [];
+  public misclases:Clase[] = [];
   public inscripciones:Inscribir[];
 
-  constructor(private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router,private _inscribirService:InscribirService,private _torneoService:TorneoService) {
+  constructor(private _claseService:ClaseService,private _registrarService:RegistrarService,private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router,private _inscribirService:InscribirService,private _torneoService:TorneoService) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
       password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
@@ -97,8 +104,30 @@ export class SesionComponent implements OnInit {
                     if(this.mistorneos.length>0){
                       this.verTorneos=true;
                     }
-
                 }
+                this._claseService.getClases().subscribe(res=>{
+                  this.clases = res;
+                  this._registrarService.getRegistro(this.user.id).subscribe(res=>{
+                    if(res){
+                      this.verClases = true;
+                      for (let index = 0; index < res.length; index++) {
+                        const element = res[index].clase_id;
+                        for(let i=0;i<this.clases.length;i++)
+                          if(this.clases[i].id == res[index].clase_id){
+                            for(let a=0;a<this.pistas.length;a++){
+                              if(this.clases[i].pista_id == this.pistas[a].id){
+                                this.clases[i].pista = this.pistas[a].name;
+                              }
+                            }
+                            this.misclases.push(this.clases[i]);
+                        }
+                      }
+                      
+                    }
+                    
+                  })
+
+                })
               });
             });
           });

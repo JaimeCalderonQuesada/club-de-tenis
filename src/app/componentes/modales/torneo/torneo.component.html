@@ -7,7 +7,7 @@
         <div class="row p-0 m-0 w-100">
           <input type="text" name="name" placeholder="Nombre" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !nuevapista.get('name')?.invalid, 'is-invalid': nuevapista.get('name')?.dirty && nuevapista.get('name')?.invalid}">
           <div class="col-12 errores" *ngIf="nuevapista.get('name')?.dirty && this.nuevapista.get('name')?.errors">
-            {{util.errores(nuevapista)}}
+            {{util.erroresTorneo(nuevapista)}}
           </div>
         </div>
 
@@ -17,10 +17,20 @@
         <div class="row p-0 m-0 w-100">
         <input type="text" name="descripcion" placeholder="Localidad" class="form-control col-12" #descripcion required formControlName="descripcion" [ngClass]="{'is-valid': !nuevapista.get('descripcion')?.invalid, 'is-invalid': nuevapista.get('descripcion')?.dirty && nuevapista.get('descripcion')?.invalid}">
         <div class="col-12 errores" *ngIf="nuevapista.get('descripcion')?.dirty && nuevapista.get('descripcion')?.errors">
-          {{util.erroresDescripcion(nuevapista)}}
+          {{util.erroresLocalidad(nuevapista)}}
         </div>
         </div>
       </div>
+
+      <label for="fecha">Fecha del torneo:</label>
+    <div class="col-12 d-flex justify-content-center position-relative p-2">
+      <div class="row p-0 m-0 w-100">
+      <input type="date" name="fecha" class="form-control col-12" #fecha formControlName="fecha" required [ngClass]="{'is-valid': !nuevapista.get('fecha')?.invalid, 'is-invalid': nuevapista.get('fecha')?.dirty && nuevapista.get('fecha')?.invalid}">
+      <div class="col-12 errores" *ngIf="nuevapista.get('fecha')?.dirty && this.nuevapista.get('fecha')?.errors">
+        {{util.erroresFechaTorneo(nuevapista)}}
+      </div>
+      </div>
+    </div>
 
       <div class="col-12 d-flex justify-content-center position-relative pt-2">
         <ngx-dropzone (change)="onSelect($event)">
@@ -30,7 +40,10 @@
           </ngx-dropzone-image-preview>
         </ngx-dropzone>
       </div>
-      <span class="col-12 errores text-center pb-4" *ngIf="nuevapista.get('imagen')?.errors">Campo requerido</span>
+      <div class="d-flex justify-content-center">
+        <div class="col-12 errores text-center mb-4 w-50" *ngIf="nuevapista.get('imagen')?.errors">Campo requerido</div>
+      </div>
+      
       <div  class="col-12 d-flex justify-content-center pt-2">
         <input *ngIf="!modificar"  type="submit" value="Añadir" [disabled]="nuevapista.invalid" class="btn">
         <input *ngIf="modificar" type="submit" value="Modificar" [disabled]="nuevapista.invalid" class="btn">

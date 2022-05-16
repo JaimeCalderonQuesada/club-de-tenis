@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Pista } from 'src/app/clases/pista';
 
 @Injectable({
@@ -8,7 +8,10 @@ import { Pista } from 'src/app/clases/pista';
 })
 export class PistaService {
   private url:string = "http://localhost/club-de-tenis/api/";
+  
+
   constructor(private http: HttpClient) { }
+
   insertarPista(pista:Pista): Observable<any>{
     return this.http.post(this.url+"?pista=1",pista);
   }
@@ -22,4 +25,6 @@ export class PistaService {
   modificarPista(pista:Pista,id:number): Observable<any>{
     return this.http.put(this.url+"?actualizarPista="+id,pista);
   }
+  
 }
+

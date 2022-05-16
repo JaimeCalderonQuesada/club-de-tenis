@@ -30,7 +30,10 @@
               </ngx-dropzone-image-preview>
             </ngx-dropzone>
           </div>
-          <span class="col-12 errores text-center pb-4" *ngIf="nuevapista.get('imagen')?.errors">Campo requerido</span>
+          <div class="d-flex justify-content-center">
+            <span class="col-12 errores text-center mb-4 w-50" *ngIf="nuevapista.get('imagen')?.errors">Campo requerido</span>
+          </div>
+          
           <div  class="col-12 d-flex justify-content-center pt-2">
             <input *ngIf="!modificar"  type="submit" value="Añadir" [disabled]="nuevapista.invalid" class="btn">
             <input *ngIf="modificar" type="submit" value="Modificar" [disabled]="nuevapista.invalid" class="btn">

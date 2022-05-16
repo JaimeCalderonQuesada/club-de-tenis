@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS torneos (
      name varchar(100)  NOT NULL,
      localidad varchar(100) NOT NULL,
      imagen longblob NOT NULL,
+     fecha date NOT NULL,
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 

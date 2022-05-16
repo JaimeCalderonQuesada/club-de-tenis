@@ -88,7 +88,7 @@ export class PasarelaComponent implements OnInit {
     };
     if(this.data == null){
       this.inscripcion=true;
-    }else if(this.data.apuntarse.length>0){
+    }else if(this.data.apuntarse){
       this.apuntarse = true;
       
       for (let index = 0; index < this.data.apuntarse.length; index++) {

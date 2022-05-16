@@ -114,8 +114,12 @@
 <ng-template [ngIf]="user && user.tipo!=0">
   <div *ngIf="!ver" class="container-fluid pb-2">
     <h1>RESERVAR PISTA</h1>
+    
+    <form class="d-flex">
+      <input type="text" class="form-control mb-2 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre">
+    </form>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
-    <div class="col d-flex align-items-stretch" *ngFor="let pista of pistas">
+    <div class="col d-flex align-items-stretch" *ngFor="let pista of pistas | nombre:buscar">
       <div class="card">
       <img class="card-img-top img-fluid" [src]="pista.url">
       <div class="card-body">

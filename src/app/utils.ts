@@ -9,6 +9,15 @@ export class Utils{
         }
         return options.get('name')?.hasError('required') ? 'Campo requerido' : '';
       }
+      erroresTorneo(options:FormGroup){
+        if(options.get('name')?.hasError('pattern')){
+          return 'Escriba un nombre correcto.'
+        }
+        if(options.get('name')?.hasError('maxlength')){
+          return 'El máximo son 100 caracteres.'
+        }
+        return options.get('name')?.hasError('required') ? 'Campo requerido' : '';
+      }
       erroresEmail(options:FormGroup){
         if(options.get('email')?.hasError('maxlength')){
           return 'El email debe tener máximo 100 caracteres.'
@@ -35,6 +44,16 @@ export class Utils{
         }
         if(options.get('descripcion')?.hasError('maxlength')){
           return 'La descripción debe tener máximo 255 caracteres.'
+        }
+        return options.get('descripcion')?.hasError('required') ? 'Campo requerido' : '';
+      }
+
+      erroresLocalidad(options:FormGroup){
+        if(options.get('descripcion')?.hasError('minlength')){
+          return 'La localidad debe tener mínimo 10 caracteres.'
+        }
+        if(options.get('descripcion')?.hasError('maxlength')){
+          return 'La localidad debe tener máximo 255 caracteres.'
         }
         return options.get('descripcion')?.hasError('required') ? 'Campo requerido' : '';
       }
@@ -89,6 +108,14 @@ export class Utils{
         }
         return options.get('fecha')?.hasError('required') ? 'Campo requerido' : '';
       }
+
+      erroresFechaTorneo(options:FormGroup){
+        if(options.get('fecha')?.hasError('MustMatch')){
+          return 'La fecha tiene que ser posterior a la actual.'
+        }
+        return options.get('fecha')?.hasError('required') ? 'Campo requerido' : '';
+      }
+
       erroresSexo(options:FormGroup){
         return options.get('sexo')?.hasError('required') ? 'Campo requerido' : '';
       }

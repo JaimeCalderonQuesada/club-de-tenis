@@ -66,13 +66,23 @@
   <ng-template #normal>
     <div class="container-fluid">
     <h1>INSCRIBIRSE A TORNEOS</h1>
+    <form class="d-flex">
+      <select name="select" class="form-select mb-2 me-5 w-50" [(ngModel)]="select">
+        <option value="ascendente">Ordenar por fecha más cercana</option>
+        <option value="descendente">Ordenar por fecha más lejana</option>
+      </select>
+      <input type="text" class="form-control mb-2 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre">
+    </form>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
-    <div class="col d-flex align-items-stretch" *ngFor="let torneo of torneos;let i = index">
+    <div class="col d-flex align-items-stretch" *ngFor="let torneo of torneos | nombre:buscar | fecha:select;let i = index">
       <div class="card">
       <img class="card-img-top img-fluid" [src]="torneo.url">
       <div class="card-body">
         <h4 class="card-title">{{torneo.name}}</h4>
-        <p class="card-text">{{torneo.localidad}}</p>
+        <div class="card-text">
+          <p >{{torneo.localidad}}</p>
+          <p>{{torneo.fecha | date: "dd-MM-Y"}}</p>
+        </div>
       </div>
       <div class="card-footer text-center">
         <span *ngIf="!user"><a id="a" routerLink="/registro">Registrarse</a> para Inscribirse</span>

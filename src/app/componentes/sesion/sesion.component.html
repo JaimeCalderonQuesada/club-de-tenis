@@ -112,6 +112,7 @@
             <tr>
               <th>Torneo</th>
               <th>Localidad</th>
+              <th>Fecha</th>
             </tr>
           </thead>
           <tbody>
@@ -120,6 +121,8 @@
               matTooltipClass="tooltip"><span >{{torneo.name}}</span></td>
               <td class="mensaje" matTooltip="{{torneo.localidad}}"
               matTooltipClass="tooltip"><span>{{torneo.localidad}}</span></td>
+              <td class="mensaje" matTooltip="{{torneo.fecha}}"
+              matTooltipClass="tooltip"><span>{{torneo.fecha}}</span></td>
             </tr>
           </tbody>
           </table>
@@ -129,6 +132,31 @@
         </div>
       </div>
 
+      <div *ngIf="verClases" class="pb-2">
+        <h1 class="titulo">MIS CLASES</h1>
+
+        <div class="reservas text-center">
+          <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Pista</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let clase of misclases | paginate: {id:'c',itemsPerPage:5,currentPage:pageClases}">
+              <td class="mensaje" matTooltip="{{clase.fecha}}"
+              matTooltipClass="tooltip"><span>{{clase.fecha}}</span></td>
+              <td class="mensaje" matTooltip="{{clase.pista}}"
+              matTooltipClass="tooltip"><span>{{clase.pista}}</span></td>
+            </tr>
+          </tbody>
+          </table>
+          <pagination-controls id="c" *ngIf="misclases.length > 5"
+        (pageChange)="pageClases = $event"
+        ></pagination-controls>
+        </div>
+      </div>
     </div>
 </ng-template>
 

@@ -154,9 +154,10 @@ if(isset($_GET["torneo"])){
     $nombre=$data->name;
     $localidad=$data->localidad;
     $imagen=$data->imagen;
+    $fecha=$data->fecha;
         if($nombre!=""){
 
-        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO torneos(name,localidad,imagen) VALUES('$nombre','$localidad','$imagen') ");
+        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO torneos(name,localidad,imagen,fecha) VALUES('$nombre','$localidad','$imagen','$fecha') ");
         if(mysqli_error($conexionBD)){
 
             echo json_encode(["success"=>0]);
@@ -198,13 +199,13 @@ if(isset($_GET["actualizarTorneo"])){
     $name=$data->name;
     $localidad=$data->localidad;
     $imagen=$data->imagen;
-
+    $fecha=$data->fecha;
     if($imagen != ""){
-        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `torneos` SET `name`='$name', `localidad`='$localidad', `imagen`='$imagen' WHERE `id`=".$_GET["actualizarTorneo"]);
+        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `torneos` SET `name`='$name', `localidad`='$localidad', `imagen`='$imagen', `fecha`='$fecha' WHERE `id`=".$_GET["actualizarTorneo"]);
         echo json_encode(["success"=>1]);
         exit();
     }else{
-        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `torneos` SET `name`='$name', `localidad`='$localidad' WHERE `id`=".$_GET["actualizarTorneo"]);
+        $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE `torneos` SET `name`='$name', `localidad`='$localidad', `fecha`='$fecha' WHERE `id`=".$_GET["actualizarTorneo"]);
         echo json_encode(["success"=>1]);
         exit();
     }
@@ -413,7 +414,61 @@ if (isset($_GET["clases"])){
 //     else{  echo json_encode(["success"=>0]); }
 // }
 
+//Inserta un nuevo registro a clases
+if(isset($_GET["registrar"])){
+    $data = json_decode(file_get_contents("php://input"));
+    $clase_id=$data->clase_id;
+    $usuario_id=$data->usuario_id;
+        if($clase_id){
 
+        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO registrar(clase_id,usuario_id) VALUES($clase_id,$usuario_id) ");
+        if(mysqli_error($conexionBD)){
+
+            echo json_encode(["success"=>0]);
+        }else{
+            echo json_encode(["success"=>1]);
+            exit();
+        }
+        }
+}
+
+// Consulta registros a clases
+if (isset($_GET["registrados"])){
+    $sql="SELECT * FROM registrar";
+    if(mysqli_query($conexionBD,$sql)){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM registrar");
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+    }else{  echo json_encode("".mysqli_error($sql).",".mysqli_connect_error($conexionBD)); }
+}
+
+// Consulta registros de un usuario
+if (isset($_GET["registrosUsuario"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM `registrar` WHERE `usuario_id` = ".$_GET["registrosUsuario"]);
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+// Borrar pero se le debe de enviar una clave ( para borrado )
+if (isset($_GET["borrarRegistro"])){
+    $data = json_decode(file_get_contents("php://input"));
+    $clase_id=$data->clase_id;
+    $usuario_id=$data->usuario_id;
+    $sqlEmpleaados = mysqli_query($conexionBD,"DELETE FROM `registrar` WHERE `registrar`.`clase_id` = ".$clase_id." AND `registrar`.`usuario_id` = ".$usuario_id);
+    if($sqlEmpleaados){
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+  }
 
 
 

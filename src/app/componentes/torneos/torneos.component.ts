@@ -29,7 +29,8 @@ export class TorneosComponent implements OnInit {
   public inscribir:Inscribir = new Inscribir();
   public page:number;
   public pageTorneos:number;
-
+  public buscar:string="";
+  public select:string="ascendente";
   constructor(private _alertaService:AlertaService,private _inscribirService:InscribirService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private _torneoService:TorneoService) {document.title = "Torneos"; }
 
   ngOnInit(): void {
@@ -135,6 +136,7 @@ export class TorneosComponent implements OnInit {
     });
 
   }
+  
   borrarInscripcion(icontrol:number,inscripcion:Inscribir){
     this._alertaService.openConfirmDialog()
     .afterClosed().subscribe(res=>{

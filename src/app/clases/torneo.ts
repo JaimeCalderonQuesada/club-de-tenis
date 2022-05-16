@@ -6,5 +6,6 @@ export class Torneo {
     public localidad:string;
     public imagen:string;
     public url:SafeResourceUrl;
+    public fecha:Date;
     public inscrito:Boolean=false;
 }

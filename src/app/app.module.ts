@@ -11,7 +11,7 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { SociosComponent } from './componentes/socios/socios.component';
 import { SesionComponent } from './componentes/sesion/sesion.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgxPayPalModule } from 'ngx-paypal';
@@ -28,6 +28,10 @@ import { TorneoComponent } from './componentes/modales/torneo/torneo.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ConfirmarComponent } from './componentes/modales/confirmar/confirmar.component';
 import { ClasesComponent } from './componentes/modales/clases/clases.component';
+import { NombrePipe } from './pipes/nombre.pipe';
+import { FechaPipe } from './pipes/fecha.pipe';
+import { SpinnerComponent } from './componentes/spinner/spinner.component';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +50,10 @@ import { ClasesComponent } from './componentes/modales/clases/clases.component';
     PistaComponent,
     TorneoComponent,
     ConfirmarComponent,
-    ClasesComponent
+    ClasesComponent,
+    NombrePipe,
+    FechaPipe,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +74,7 @@ import { ClasesComponent } from './componentes/modales/clases/clases.component';
   exports:[
 
   ],
-  providers: [Utils],
+  providers: [Utils,{provide: HTTP_INTERCEPTORS, useClass:SpinnerInterceptor,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

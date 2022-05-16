@@ -107,9 +107,6 @@ export class PistaComponent implements OnInit {
           this.dialogRef.close(true);
         },
         error=>{
-          this.files = [];
-          this.imgDetails = [];
-          this._alertaService.openAlert('Imagen demasiada grande');
         }
       );
     }

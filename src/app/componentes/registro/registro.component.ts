@@ -24,7 +24,7 @@ import { PistaComponent } from '../modales/pista/pista.component';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
-
+  
   public payPalConfig: any;
   public showPaypalButtons: boolean;
   public verReservas:Boolean=false;
@@ -52,7 +52,7 @@ export class RegistroComponent implements OnInit {
   public idPista:number;
   public dayTypesStored: any;
   public horaReserva:Date;
-
+  public buscar="";
 
   constructor(private _alertaService:AlertaService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
@@ -346,6 +346,7 @@ export class RegistroComponent implements OnInit {
           secondary: "#e3bc08"
         }});
         this.refresh.next();
+        this._alertaService.openAlert("Reserva creada correctamente");
       })
   }
 
