@@ -121,9 +121,9 @@ export class SesionComponent implements OnInit {
                             this.misclases.push(this.clases[i]);
                         }
                       }
-                      
+
                     }
-                    
+
                   })
 
                 })
@@ -160,7 +160,7 @@ export class SesionComponent implements OnInit {
                 this.clases = res;
                 this._registrarService.getRegistro(this.user.id).subscribe(res=>{
                   if(res){
-                    this.verClases = true;
+
                     for (let index = 0; index < res.length; index++) {
                       for(let i=0;i<this.clases.length;i++)
                         if(this.clases[i].id == res[index].clase_id){
@@ -172,9 +172,9 @@ export class SesionComponent implements OnInit {
                           this.misclases.push(this.clases[i]);
                       }
                     }
-                    
+                    this.verClases = true;
                   }
-                  
+
                 })
 
               })

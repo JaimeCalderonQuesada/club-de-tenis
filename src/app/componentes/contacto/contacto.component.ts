@@ -76,6 +76,8 @@ export class ContactoComponent implements OnInit {
       }
     }
     if(valor){
+      console.log(valor)
+      console.log(this.options.get('email')?.value)
       if(valor == this.options.get('email')?.value){
         this.options.get('mensaje')?.reset();
         this._alertaService.openAlert("Hoy ya has enviado un mensaje");
@@ -135,9 +137,7 @@ export class ContactoComponent implements OnInit {
           this.verContactos=false;
         }
         this._alertaService.openAlert('Contacto eliminado correctamente');
-        if(this.contactos.length==5){
           this.page=1;
-        }
       }
     });
 

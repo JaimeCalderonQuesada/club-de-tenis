@@ -95,9 +95,6 @@
       </div>
       </div>
     </div>
-    <span class="col-12 errores" *ngIf="correcto">
-      El dni o el email esta repetido !!
-    </span>
     <div id="link" class="col-12 p-2">
       <a  class="nav-link" routerLink="/sesion">¿Iniciar sesión?</a>
     </div>
@@ -114,7 +111,7 @@
 <ng-template [ngIf]="user && user.tipo!=0">
   <div *ngIf="!ver" class="container-fluid pb-2">
     <h1>RESERVAR PISTA</h1>
-    
+
     <form class="d-flex">
       <input type="text" class="form-control mb-2 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre">
     </form>
@@ -192,7 +189,7 @@
         <button class="btn float-end mt-2" (click)="abrirNuevaPista()">Añadir Pista</button>
       </div>
       <div class="datagrid text-center">
-      
+
       <table>
       <thead>
         <tr>

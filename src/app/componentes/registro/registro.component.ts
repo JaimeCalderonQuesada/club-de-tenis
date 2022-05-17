@@ -24,7 +24,7 @@ import { PistaComponent } from '../modales/pista/pista.component';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
-  
+
   public payPalConfig: any;
   public showPaypalButtons: boolean;
   public verReservas:Boolean=false;
@@ -159,7 +159,7 @@ export class RegistroComponent implements OnInit {
       result => {
         // Handle result
         if(result === 1062){
-          this.correcto = true;
+          this._alertaService.openAlert('El DNI ol correo esta repetido!!');
         }else{
           this.options.reset();
           this.route.navigate(['/sesion']);
@@ -192,7 +192,7 @@ export class RegistroComponent implements OnInit {
     }else{
       this.ver = true;
     }
-   
+
 
   }
 
@@ -228,10 +228,7 @@ export class RegistroComponent implements OnInit {
       if(res.length>0){
         for(let i=0;i<res.length;i++){
           if(res[i].pista_id == index){
-
-            if(new Date(res[i].fecha) < new Date()){
-
-            }else{
+            if(new Date(res[i].fecha) > new Date()){
               this.events.push({start:new Date(res[i].fecha),title:res[i].tipo,color: {
                 primary: "#e3bc08",
                 secondary: "#e3bc08"
@@ -240,12 +237,19 @@ export class RegistroComponent implements OnInit {
             }
 
           }
-
         }
+
+        this.ver = true;
+        this.refresh.next();
+      }else{
         this.ver = true;
       }
 
-    });
+    },
+    error=>{
+      this.ver = true;
+    }
+    );
   }
 
   mesSiguiente(){
