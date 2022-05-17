@@ -89,7 +89,19 @@ h3{
 .grupoInput{
   position: relative;
 }
-
+input:focus {
+  box-shadow: inset 0 0 1px var(--naranja),0 0 8px var(--naranja) !important;
+}
+.card:hover{
+  transform: translateY(-15px) !important;
+  box-shadow: 0 5px 10px var(--naranja) !important;
+}
+select:focus {
+  box-shadow: inset 0 0 1px var(--naranja),0 0 8px var(--naranja) !important;
+}
+textarea:focus {
+  box-shadow: inset 0 0 1px var(--naranja),0 0 8px var(--naranja) !important;
+}
 .grupoInput i{
   position: absolute;
   top: 10px;

@@ -92,8 +92,8 @@
             <tr *ngFor="let reserva of reservas | paginate: {id:'r',itemsPerPage:5,currentPage:page}">
               <td class="mensaje" matTooltip="{{reserva.nombre}}"
               matTooltipClass="tooltip"><span >{{reserva.nombre}}</span></td>
-              <td class="mensaje" matTooltip="{{reserva.fecha}}"
-              matTooltipClass="tooltip"><span>{{reserva.fecha}}</span></td>
+              <td class="mensaje" matTooltip="{{reserva.fecha | date: 'dd-MM-Y  HH:mm:ss'}}"
+              matTooltipClass="tooltip"><span>{{reserva.fecha | date:" dd-MM-Y  HH:mm:ss"}}</span></td>
             </tr>
           </tbody>
           </table>
@@ -121,8 +121,8 @@
               matTooltipClass="tooltip"><span >{{torneo.name}}</span></td>
               <td class="mensaje" matTooltip="{{torneo.localidad}}"
               matTooltipClass="tooltip"><span>{{torneo.localidad}}</span></td>
-              <td class="mensaje" matTooltip="{{torneo.fecha}}"
-              matTooltipClass="tooltip"><span>{{torneo.fecha}}</span></td>
+              <td class="mensaje" matTooltip="{{torneo.fecha | date:' dd-MM-Y'}}"
+              matTooltipClass="tooltip"><span>{{torneo.fecha | date:" dd-MM-Y"}}</span></td>
             </tr>
           </tbody>
           </table>
@@ -145,8 +145,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let clase of misclases | paginate: {id:'c',itemsPerPage:5,currentPage:pageClases}">
-              <td class="mensaje" matTooltip="{{clase.fecha}}"
-              matTooltipClass="tooltip"><span>{{clase.fecha}}</span></td>
+              <td class="mensaje" matTooltip="{{clase.fecha | date:' dd-MM-Y  HH:mm:ss'}}"
+              matTooltipClass="tooltip"><span>{{clase.fecha | date:" dd-MM-Y  HH:mm:ss"}}</span></td>
               <td class="mensaje" matTooltip="{{clase.pista}}"
               matTooltipClass="tooltip"><span>{{clase.pista}}</span></td>
             </tr>
@@ -198,24 +198,24 @@
         <table>
         <thead>
           <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>DNI</th>
-            <th>Movil</th>
-            <th>Borrar</th>
+            <th colspan="2">Nombre</th>
+            <th colspan="2">Correo</th>
+            <th colspan="2">DNI</th>
+            <th colspan="2">Movil</th>
+            <th colspan="1">Borrar</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let usuario of usuarios | paginate: {id:'u',itemsPerPage:5,currentPage:page}; let i = index">
-            <td class="mensaje" matTooltip="{{usuario.name}}"
+            <td colspan="2" class="mensaje" matTooltip="{{usuario.name}}"
             matTooltipClass="tooltip"><span>{{usuario.name}}</span></td>
-            <td class="mensaje"  matTooltip="{{usuario.email}}"
+            <td colspan="2" class="mensaje"  matTooltip="{{usuario.email}}"
             matTooltipClass="tooltip"><span >{{usuario.email}}</span></td>
-            <td class="mensaje" matTooltip="{{usuario.dni}}"
+            <td colspan="2" class="mensaje" matTooltip="{{usuario.dni}}"
             matTooltipClass="tooltip"><span >{{usuario.dni}}</span></td>
-            <td class="mensaje" matTooltip="{{usuario.movil}}"
+            <td colspan="2" class="mensaje" matTooltip="{{usuario.movil}}"
             matTooltipClass="tooltip"><span >{{usuario.movil}}</span></td>
-            <td><a type="button" (click)="borrarUsuario(usuario.id,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+            <td colspan="1"><a type="button" (click)="borrarUsuario(usuario.id,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
           </tr>
         </tbody>
         </table>

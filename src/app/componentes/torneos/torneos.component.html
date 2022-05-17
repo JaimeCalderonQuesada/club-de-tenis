@@ -36,18 +36,18 @@
           <table>
           <thead>
             <tr>
-              <th>Usuario</th>
-              <th>Torneo</th>
-              <th>Borrar</th>
+              <th colspan="2">Usuario</th>
+              <th colspan="2">Torneo</th>
+              <th colspan="1">Borrar</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let inscripcion of inscripciones | paginate: {id:'i',itemsPerPage:5,currentPage:page}; let i = index">
-              <td class="mensaje"  matTooltip="{{inscripcion.usuario}}"
+              <td colspan="2" class="mensaje"  matTooltip="{{inscripcion.usuario}}"
               matTooltipClass="tooltip"><span >{{inscripcion.usuario}}</span></td>
-              <td class="mensaje"  matTooltip="{{inscripcion.torneo}}"
+              <td colspan="2" class="mensaje"  matTooltip="{{inscripcion.torneo}}"
               matTooltipClass="tooltip"><span>{{inscripcion.torneo}}</span></td>
-              <td ><a type="button" (click)="borrarInscripcion(i,inscripcion)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+              <td colspan="1"><a type="button" (click)="borrarInscripcion(i,inscripcion)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
             </tr>
           </tbody>
           </table>

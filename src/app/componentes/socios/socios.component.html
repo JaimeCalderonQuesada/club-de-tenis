@@ -1,6 +1,39 @@
 <ng-template [ngIf]="user && user.tipo==0" [ngIfElse]="normal">
     <div class="container-fluid">
-        
+      <div *ngIf="verClases" class="pb-2 pt-2">
+        <h1>REGISTRADOS</h1>
+    
+        <div class="reservas text-center">
+          <table>
+          <thead>
+            <tr>
+              <th colspan="2">Usuario</th>
+              <th colspan="2">Fecha</th>
+              <th colspan="2">Tipo</th>
+              <th colspan="1">Borrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let clase of clasesRegistradas | paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
+              <td colspan="2" class="mensaje"  matTooltip="{{clase.usuario}}"
+              matTooltipClass="tooltip"><span>{{clase.usuario}}</span></td>
+              <td colspan="2" class="mensaje"  matTooltip="{{clase.fecha}}"
+              matTooltipClass="tooltip"><span>{{clase.fecha}}</span></td>
+              <td colspan="2" class="mensaje"  matTooltip="{{clase.tipo}}"
+              matTooltipClass="tooltip"><span >{{clase.tipo}}</span></td>
+              <td colspan="1"><a type="button" (click)="borrarRegistro(clase.id,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+            </tr>
+          </tbody>
+          </table>
+          <pagination-controls id="c" *ngIf="clasesRegistradas.length > 5"
+            (pageChange)="page = $event"
+            ></pagination-controls>
+        </div>
+      </div>
+    
+      <div *ngIf="!verClases" class="pb-2 pt-2">
+        <h1>NO HAY REGISTRADOS</h1>
+      </div>
     </div>
 </ng-template>
 

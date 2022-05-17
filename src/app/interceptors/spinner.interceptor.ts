@@ -14,14 +14,7 @@ export class SpinnerInterceptor implements HttpInterceptor {
   constructor(private _spinnerService:SpinnerService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this._spinnerService.isLoading$.subscribe((res)=>{
-      console.log(res)
-    })
     this._spinnerService.show();
-    this._spinnerService.isLoading$.subscribe((res)=>{
-      console.log(res)
-    })
-    
     return next.handle(request).pipe(
       finalize(()=>{
         this._spinnerService.hide()

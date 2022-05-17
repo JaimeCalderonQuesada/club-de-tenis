@@ -64,3 +64,47 @@
       margin-top: 2%;
       margin-bottom: 2%;
   }
+
+  .reservas{
+    overflow: hidden;
+    overflow-x: auto;
+    clear: both;
+    width: 100%;
+  }
+    .reservas table {
+      border-collapse: collapse; 
+      text-align: center; 
+      width: 100%;
+      min-width: 100%;
+      table-layout: fixed;
+    }
+    .reservas table td, .reservas table th {
+      padding: 4px 4px;
+      border: 1px solid var(--gris);
+    }
+    .reservas table thead th {
+      background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
+    
+    }
+    
+    .reservas table tbody tr td {
+      color: var(--gris); font-size: 14px;
+      background-color: var(--naranja2);
+      font-weight: bold;
+    }
+    
+    .reservas table tbody td a:hover{
+      font-size: 18px;
+    }
+  .mensaje{
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: auto;
+  }
+  ::ng-deep .tooltip {
+    background-color: var(--naranja);
+    border-radius: 6px;
+    position: relative;
+    
+  }

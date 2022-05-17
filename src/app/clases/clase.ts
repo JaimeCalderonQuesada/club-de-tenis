@@ -5,4 +5,5 @@ export class Clase {
     public tipo:string;
     public pista_id:number;
     public pista:string;
+    public usuario:string;
 }

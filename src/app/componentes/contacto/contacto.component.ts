@@ -49,6 +49,8 @@ export class ContactoComponent implements OnInit {
     if(this.user){
       this.options.get('name')?.setValue(this.user.name);
       this.options.get('email')?.setValue(this.user.email);
+      this.options.get('name')?.disable();
+      this.options.get('email')?.disable();
       if(this.user.tipo==0){
         this.mostrar = true;
         this._servicioContacto.getContactos().subscribe((res:Contacto[])=>{
@@ -70,11 +72,11 @@ export class ContactoComponent implements OnInit {
     for (let i in listaCookies) {
       busca = listaCookies[i].search("contacto");
       if (busca > -1) {micookie=listaCookies[i]
-        valor = micookie.substring(11,micookie.length-1);
+        valor = micookie.substring(10,micookie.length-1);
       }
     }
     if(valor){
-      if(valor === this.options.get('email')?.value){
+      if(valor == this.options.get('email')?.value){
         this.options.get('mensaje')?.reset();
         this._alertaService.openAlert("Hoy ya has enviado un mensaje");
       }else{

@@ -159,6 +159,7 @@ export class TorneosComponent implements OnInit {
     modalRef.afterClosed().subscribe((response) => {
 
       if (response) {
+        
         this.torneos=[];
         this._torneoService.getTorneos().subscribe(res=>{
           this.torneos=[];
@@ -204,11 +205,11 @@ export class TorneosComponent implements OnInit {
   }
 
   inscribirseTorneo(index:number,id:number){
-    console.log(id)
     const modalRef = this.dialog.open(PasarelaComponent,{disableClose: true});
       modalRef.afterClosed().subscribe((response) => {
 
         if (response) {
+          this._alertaService.openAlert("Inscripción realizada con exito");
           this.inscribir.torneo_id = id;
           this.inscribir.usuario_id = this.user.id;
           this._inscribirService.insertarInscripcion(this.inscribir).subscribe(()=>{

@@ -55,21 +55,21 @@
       <table>
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Mensaje</th>
-          <th>Borrar</th>
+          <th colspan="2">Nombre</th>
+          <th colspan="2">Email</th>
+          <th colspan="4">Mensaje</th>
+          <th colspan="1">Borrar</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contacto of contactos | paginate: {id:'c',itemsPerPage:5,currentPage:page}; let i = index">
-          <td class="mensaje"  matTooltip="{{contacto.name}}"
+        <tr *ngFor="let contacto of contactos | paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
+          <td colspan="2" class="mensaje"  matTooltip="{{contacto.name}}"
           matTooltipClass="tooltip"><span>{{contacto.name}}</span></td>
-          <td class="mensaje"  matTooltip="{{contacto.email}}"
+          <td colspan="2" class="mensaje"  matTooltip="{{contacto.email}}"
           matTooltipClass="tooltip"><span >{{contacto.email}}</span></td>
-          <td class="mensaje" matTooltip="{{contacto.mensaje}}"
+          <td colspan="4" class="mensaje" matTooltip="{{contacto.mensaje}}"
           matTooltipClass="tooltip"><span >{{contacto.mensaje}}</span></td>
-          <td><a type="button" (click)="borrarContacto(contacto.id,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+          <td colspan="1"><a type="button" (click)="borrarContacto(contacto.id,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
         </tr>
       </tbody>
       </table>

@@ -115,10 +115,5 @@
   #a:hover{
     color: var(--naranja1);
   }
-  input:focus {
-    box-shadow: inset 0 0 1px var(--naranja),0 0 8px var(--naranja);
-  }
 
-  select:focus {
-    box-shadow: inset 0 0 1px var(--naranja),0 0 8px var(--naranja);
-  }
+  

@@ -226,21 +226,21 @@
         <table>
         <thead>
           <tr>
-            <th>Usuario</th>
-            <th>Pista</th>
-            <th>Fecha</th>
-            <th>Borrar</th>
+            <th colspan="2">Usuario</th>
+            <th colspan="2">Pista</th>
+            <th colspan="2">Fecha</th>
+            <th colspan="1">Borrar</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let reserva of reservas | paginate: {id: 'r',itemsPerPage:5,currentPage:page} ; let i = index">
-            <td class="mensaje"  matTooltip="{{reserva.usuario}}"
+            <td colspan="2" class="mensaje"  matTooltip="{{reserva.usuario}}"
             matTooltipClass="tooltip"><span >{{reserva.usuario}}</span></td>
-            <td class="mensaje"  matTooltip="{{reserva.nombre}}"
+            <td colspan="2" class="mensaje"  matTooltip="{{reserva.nombre}}"
             matTooltipClass="tooltip"><span >{{reserva.nombre}}</span></td>
-            <td class="mensaje"  matTooltip="{{reserva.fecha}}"
-            matTooltipClass="tooltip"><span>{{reserva.fecha}}</span></td>
-            <td ><a type="button" (click)="borrarReserva(i,reserva.fecha)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+            <td colspan="2" class="mensaje"  matTooltip="{{reserva.fecha | date:' dd-MM-Y  HH:mm:ss'}}"
+            matTooltipClass="tooltip"><span>{{reserva.fecha | date:" dd-MM-Y  HH:mm:ss"}}</span></td>
+            <td colspan="1"><a type="button" (click)="borrarReserva(i,reserva.fecha)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
           </tr>
         </tbody>
         </table>

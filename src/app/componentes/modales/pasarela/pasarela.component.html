@@ -1,5 +1,5 @@
 <ng-template [ngIf]="inscripcion">
-    <h1 mat-dialog-title>Efectuar pago</h1>
+    <h1 id="h1" mat-dialog-title>Efectuar pago</h1>
     <mat-dialog-content>
         <ngx-paypal  [config]="payPalConfig"></ngx-paypal>
         <span>Recuarda que si hace el pago no se podrá cancelar la inscripción.</span>
@@ -14,7 +14,7 @@
     <h1 mat-dialog-title>Efectuar pago</h1>
     <mat-dialog-content>
         <h3>Meses a reservar: {{meses}}</h3>
-        <h3>Precio a pagar: {{this.data.precio}} €</h3>
+        <h3 id="h3">Precio a pagar: {{this.data.precio}} €</h3>
         <ngx-paypal  [config]="payPalConfig"></ngx-paypal>
         <span>Recuarda que si hace el pago no se podrá cancelar la inscripción a las clases.</span>
     </mat-dialog-content>
@@ -27,7 +27,7 @@
 <ng-template [ngIf]="reserva">
     <h1 mat-dialog-title>Efectuar pago</h1>
     <mat-dialog-content>
-        <h3>Fecha a reservar:  {{fecha}}</h3>
+        <h3>Fecha a reservar:  {{fecha | date:" dd-MM-Y  HH:mm:ss"}}</h3>
         <ngx-paypal  [config]="payPalConfig"></ngx-paypal>
         <span>Recuarda que si hace el pago no se podrá cancelar la reserva.</span>
     </mat-dialog-content>

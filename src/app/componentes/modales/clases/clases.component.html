@@ -1,15 +1,19 @@
 
 <mat-dialog-content>
-  <h1>Selecciona meses para apuntarse</h1>
+  <h1>Selecciona meses para apuntarse de {{year}}</h1>
+  <form novalidate [formGroup]="options" >
   <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 ms-2">
+    
     <div class="form-check col" *ngFor="let mes of mesesMostrar">
-      <input class="form-check-input" id="{{mes}}" type="checkbox" name="{{mes}}" value="{{mes}}">
+      <input formControlName="meses" required class="form-check-input" id="{{mes}}" type="checkbox" name="{{mes}}" value="{{mes}}">
       <label class="form-check-label" for="{{mes}}">{{mes}}</label>
-  </div>
-  </div>
+    </div>
   
+    <h3 *ngIf="mesesMostrar.length == 0" class="w-100 text-center">Ya estas registrado en todos los meses de este año.</h3>
+  </div>
+  </form>
   <div class="text-center mt-2">
-    <button class="btn" (click)="apuntarse()">Apuntarse</button>
+    <button class="btn" [disabled]="mesesMostrar.length == 0" [disabled]="options.invalid" (click)="apuntarse()">Apuntarse</button>
     <button class="btn ms-2" mat-dialog-close>Cancelar</button>
   </div>
 

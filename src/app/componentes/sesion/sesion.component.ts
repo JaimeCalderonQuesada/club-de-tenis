@@ -111,7 +111,6 @@ export class SesionComponent implements OnInit {
                     if(res){
                       this.verClases = true;
                       for (let index = 0; index < res.length; index++) {
-                        const element = res[index].clase_id;
                         for(let i=0;i<this.clases.length;i++)
                           if(this.clases[i].id == res[index].clase_id){
                             for(let a=0;a<this.pistas.length;a++){
@@ -134,7 +133,55 @@ export class SesionComponent implements OnInit {
         }
 
       },
-      error=>{console.log(error)}
+      error=>{
+        console.log(error)
+        this._pistaService.getPistas().subscribe(resp=>{
+          this.pistas=resp;
+
+          this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
+            this.inscripciones = res;
+            this._torneoService.getTorneos().subscribe(res=>{
+              this.torneos=res
+              if(this.inscripciones.length>0){
+                  for(let i=0;i<this.inscripciones.length;i++){
+
+                    for(let index=0;index<this.torneos.length;index++){
+                      if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
+                        this.torneos[index].inscrito = true;
+                        this.mistorneos.push(this.torneos[index]);
+                      }
+                    }
+                  };
+                  if(this.mistorneos.length>0){
+                    this.verTorneos=true;
+                  }
+              }
+              this._claseService.getClases().subscribe(res=>{
+                this.clases = res;
+                this._registrarService.getRegistro(this.user.id).subscribe(res=>{
+                  if(res){
+                    this.verClases = true;
+                    for (let index = 0; index < res.length; index++) {
+                      for(let i=0;i<this.clases.length;i++)
+                        if(this.clases[i].id == res[index].clase_id){
+                          for(let a=0;a<this.pistas.length;a++){
+                            if(this.clases[i].pista_id == this.pistas[a].id){
+                              this.clases[i].pista = this.pistas[a].name;
+                            }
+                          }
+                          this.misclases.push(this.clases[i]);
+                      }
+                    }
+                    
+                  }
+                  
+                })
+
+              })
+            });
+          });
+        });
+      }
       );
     }
 

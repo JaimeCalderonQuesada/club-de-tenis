@@ -1,6 +1,4 @@
-.form-check-input:focus {
-  box-shadow: inset 0 0 1px var(--naranja),0 0 8px var(--naranja);
-}
+
 mat-dialog-content{
   width: 70vw;
 }

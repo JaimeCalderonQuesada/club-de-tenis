@@ -6,6 +6,8 @@ import { Registrar } from '../../../clases/registrar';
 import { Clase } from '../../../clases/clase';
 import { ClaseService } from 'src/app/services/clase/clase.service';
 import { RegistrarService } from '../../../services/registrar/registrar.service';
+import { AlertaService } from '../../../services/alerta/alerta.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-clases',
@@ -20,13 +22,24 @@ export class ClasesComponent implements OnInit {
   public meses:Array<string>;
   public mesesMostrar:Array<string>;
   public clases:Clase[];
+  public year:number;
+  public options!: FormGroup;
 
-  constructor(private _registrarService:RegistrarService,private _claseService:ClaseService,public dialog: MatDialog,@Inject(MAT_DIALOG_DATA) public data:any,public dialogRef: MatDialogRef<CambiarComponent>) {
+  constructor(private fb: FormBuilder,private _alertaService:AlertaService,private _registrarService:RegistrarService,private _claseService:ClaseService,public dialog: MatDialog,@Inject(MAT_DIALOG_DATA) public data:any,public dialogRef: MatDialogRef<CambiarComponent>) {
+    this.options = this.fb.group({
+      meses: [,[Validators.required]]
+    });
+    
     this.meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
     const today:Date = new Date();
-    this.mesesMostrar = this.meses.slice(today.getMonth()+1,this.meses.length);
-    this.mesesMostrar.push(...this.meses.slice(0,today.getMonth()+1))
-    console.log(this.mesesMostrar)
+    if(today.getMonth()+1 == this.meses.length){
+      this.year = today.getFullYear()+1;
+      this.mesesMostrar = this.meses;
+    }else{
+      this.year = today.getFullYear();
+      this.mesesMostrar = this.meses.slice(today.getMonth()+1,this.meses.length);
+    }
+    
     const cumple:Date = new Date(data.user.fecha);
     this.edad =today.getFullYear() - cumple.getFullYear();
     const mes:number = today.getMonth() - cumple.getMonth();
@@ -50,7 +63,43 @@ export class ClasesComponent implements OnInit {
       this.precio = 45;
     }
 
-    this._claseService.getClases().subscribe(res=>{this.clases = res});
+    this._claseService.getClases().subscribe(res=>{
+      this.clases = res
+      this._registrarService.getRegistro(this.data.user.id).subscribe(res=>{
+        if(res){
+          
+          for (let index = 0; index < res.length; index++) {
+            for(let i=0;i<this.clases.length;i++)
+              if(this.clases[i].id == res[index].clase_id){
+                for(let a=0;a<this.meses.length;a++){
+                  if(today.getMonth()+1 == this.meses.length){
+                    if(new Date(this.clases[i].fecha).getMonth() == a  && new Date(this.clases[i].fecha).getFullYear() ==  today.getFullYear()+1){
+                      for(let q=0;q<this.mesesMostrar.length;q++){
+                        if(this.meses[a] == this.mesesMostrar[q]){
+                          this.mesesMostrar = this.mesesMostrar.slice(q+1,this.mesesMostrar.length);
+                        }
+                      }
+                    }
+                  }else{
+                    if(new Date(this.clases[i].fecha).getMonth() == a  && new Date(this.clases[i].fecha).getFullYear() ==  today.getFullYear()){
+                      for(let q=0;q<this.mesesMostrar.length;q++){
+                        if(this.meses[a] == this.mesesMostrar[q]){
+                          this.mesesMostrar = this.mesesMostrar.slice(q+1,this.mesesMostrar.length);
+                        }
+                      }
+                    }
+                  }
+                  
+                }
+                
+              }
+          }
+          
+        }
+        
+      })
+    
+    });
     
   }
 
@@ -73,6 +122,7 @@ export class ClasesComponent implements OnInit {
       modalRef.afterClosed().subscribe((response) => {
 
         if (response) {
+          this._alertaService.openAlert("Registrado correctamente");
           let mesesAinscribir:Array<number> = [];
           for (let index = 0; index < array.length; index++) {
             const element = array[index];
@@ -94,6 +144,7 @@ export class ClasesComponent implements OnInit {
               }
             }
           }
+          
         }
 
       })
