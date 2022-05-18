@@ -97,9 +97,7 @@ export class SociosComponent implements OnInit {
           this.verClases=false;
         }
         this._alertaService.openAlert('Registro eliminado correctamente');
-
-          this.page = 1;
-
+        this.page = 1;
       }
     })
   }

@@ -116,4 +116,26 @@
     color: var(--naranja1);
   }
 
+  .card{
+    min-width: 23vw !important;
+    margin-bottom: 2%;
+  }
+
+  @media screen and (max-width: 576px){
+    .card{
+      min-width: 93vw !important;
+    }
+  }
+
+  @media screen and  (min-width: 576px)and (max-width: 768px){
+    .card{
+      min-width: 46vw !important;
+    }
+  }
+
+  @media screen and  (min-width: 768px) and (max-width: 992px){
+    .card{
+      min-width: 31vw !important;
+    }
+  }
   

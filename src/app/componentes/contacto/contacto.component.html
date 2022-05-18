@@ -1,12 +1,24 @@
 
 <ng-template [ngIf]="!mostrar">
 
-<div class="container-fluid d-flex align-items-center justify-content-center">
-    <div>
-        <h1>FORMULARIO DE CONTACTO</h1>
-        <div class="d-flex justify-content-center">
+<div class="container-fluid row row-cols-1 row-cols-sm-2 m-0">
+  
+  <div class="col d-flex align-items-center">
+    <div class="w-100">
+      <h3>Teléfono: 615 65 86 21</h3>
+      <h3>Email: clubdetenisjaime@gmail.com</h3>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2480.5227228980707!2d-0.4038442790614049!3d38.43539650856193!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd623b29ed51e1a9%3A0x163a776a290f1e2d!2sCLUB%20DE%20TENIS%20EL%20CAMPELLO.%20Alquiler%20Pistas%20965634919.%20LIGA%20TENIS%20CON%20RANKING%2C%20LIGAS%20Y%20TORNEOS.!5e0!3m2!1ses!2ses!4v1652881344777!5m2!1ses!2ses" width="100%" height="400px" style="border:0;" allowfullscreen="" loading="lazy" class="mb-2" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    
+  </div>
+
+  <div class="col d-flex align-items-center justify-content-center">
+    
+    <div class="d-flex justify-content-center">
+        
         <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
             <div class="col-12 mb-2 mb-md-0">
+              <h1>CONTACTAR</h1>
               <div id="nombre" class="row m-0 p-0 mb-2">
                 <input  type="text" name="name" placeholder="Nombre y Apellidos" class="form-control col-12" #name formControlName="name" required [ngClass]="{'is-valid': !options.get('name')?.invalid, 'is-invalid': options.get('name')?.dirty && options.get('name')?.invalid}">
                 <div class="col-12 errores" *ngIf="options.get('name')?.dirty && options.get('name')?.errors">
@@ -36,11 +48,9 @@
             <div id="divBoton" class="col-12 d-flex justify-content-center pt-2 pb-2">
               <input id="boton" type="submit" value="Enviar Mensaje" [disabled]="options.invalid" class="btn">
             </div>
-        </form>
-
-        </div>
+        </form>  
     </div>
-
+  </div>
 </div>
 
 </ng-template>

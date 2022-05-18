@@ -1,7 +1,5 @@
 
-form{
-    width: 50%;
-}
+
 .container-fluid{
     background-color: var(--gris);    
 }
@@ -50,19 +48,6 @@ form{
   position: relative;
   
 }
-  @media screen and (max-width: 768px)  {
-    form{
-        width: 60%;
-    }
-
-  }
-
-  @media screen and (max-width: 576px)  {
-    form{
-        width: 80%;
-    }
-
-  }
   
   ::ng-deep .ngx-pagination .current{
     color: black !important;
