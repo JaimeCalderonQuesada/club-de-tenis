@@ -24,6 +24,7 @@ export class TorneosComponent implements OnInit {
   public user:User;
   public torneos:Torneo[] = [];
   public inscripciones:Inscribir[];
+  public inscripcionesTodas:Inscribir[];
   public usuarios:User[];
   public verInscripciones:Boolean=false;
   public inscribir:Inscribir = new Inscribir();
@@ -31,6 +32,9 @@ export class TorneosComponent implements OnInit {
   public pageTorneos:number;
   public buscar:string="";
   public select:string="ascendente";
+  public filtrados:Inscribir[]=[];
+  public torneo:string="";
+
   constructor(private _alertaService:AlertaService,private _inscribirService:InscribirService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private _torneoService:TorneoService) {document.title = "Torneos"; }
 
   ngOnInit(): void {
@@ -60,6 +64,7 @@ export class TorneosComponent implements OnInit {
       if(this.user){
               this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
                 this.inscripciones = res;
+                
                 this._usuariosService.getUsuarios().subscribe(res=>{
                   this.usuarios=res
                   if(this.inscripciones.length>0){
@@ -83,7 +88,7 @@ export class TorneosComponent implements OnInit {
 
                   }
                 });
-
+                this.inscripcionesTodas = this.inscripciones;
               });
       }
     },()=>{
@@ -226,5 +231,32 @@ export class TorneosComponent implements OnInit {
   pageChangedTorneos(event:any){
     console.log(event)
     this.pageTorneos = event;
+  }
+  clicarTorneo(nombre:string){
+    
+    if(this.torneo.length==0){
+      this.torneo = nombre;
+      for(let i=0;i<this.inscripcionesTodas.length;i++){
+        if(this.torneo == this.inscripcionesTodas[i].torneo){
+          this.filtrados.push(this.inscripcionesTodas[i]);
+        }
+      }
+      this.inscripciones = this.filtrados;
+    }else if(this.torneo == nombre){
+      this.filtrados = [];
+      this.torneo="";
+      this.inscripciones = this.inscripcionesTodas;
+
+    }else{
+      this.filtrados = [];
+      this.torneo=nombre;
+      for(let i=0;i<this.inscripcionesTodas.length;i++){
+        if(this.torneo == this.inscripcionesTodas[i].torneo){
+          this.filtrados.push(this.inscripcionesTodas[i]);
+        }
+      }
+      this.inscripciones = this.filtrados;
+    }
+    
   }
 }

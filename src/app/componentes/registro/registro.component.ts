@@ -53,6 +53,9 @@ export class RegistroComponent implements OnInit {
   public dayTypesStored: any;
   public horaReserva:Date;
   public buscar="";
+  public nombrePista:string="";
+  public filtrar:Reserva[]=[];
+  public reservasTodas:Reserva[];
 
   constructor(private _alertaService:AlertaService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
 
@@ -117,6 +120,7 @@ export class RegistroComponent implements OnInit {
                     };
                 }
               })
+              this.reservasTodas = this.reservas;
             });
           }
         });
@@ -452,5 +456,30 @@ export class RegistroComponent implements OnInit {
   pageChangedPistas(event:any){
     this.pagePistas = event;
   }
+  clicarPista(nombre:string){
+    if(this.nombrePista.length==0){
+      this.nombrePista = nombre;
+      for(let i=0;i<this.reservasTodas.length;i++){
+        if(this.nombrePista == this.reservasTodas[i].nombre){
+          this.filtrar.push(this.reservasTodas[i]);
+        }
+      }
+      this.reservas = this.filtrar;
+    }else if(this.nombrePista == nombre){
+      this.filtrar = [];
+      this.nombrePista="";
+      this.reservas = this.reservasTodas;
 
+    }else{
+      this.filtrar = [];
+      this.nombrePista=nombre;
+      for(let i=0;i<this.reservasTodas.length;i++){
+        if(this.nombrePista == this.reservasTodas[i].nombre){
+          this.filtrar.push(this.reservasTodas[i]);
+        }
+      }
+      this.reservas = this.filtrar;
+    }
+    this.page=1;
+  }
 }

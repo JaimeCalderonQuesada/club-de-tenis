@@ -244,10 +244,7 @@ export class SesionComponent implements OnInit {
     document.cookie =  "user="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     document.cookie =  "con="+";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     sessionStorage.clear();
-    let currentUrl = this.router.url;
-      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
-      });
+    this.router.navigate(['/home']);
   }
   abrirModal(){
     const modalRef = this.dialog.open(CambiarComponent,{data:{user:this.user},disableClose: true});

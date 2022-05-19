@@ -201,7 +201,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let pista of pistas | paginate: {id: 'p',itemsPerPage:5,currentPage:pagePistas}; let i = index">
-          <td class="mensaje"  matTooltip="{{pista.name}}"
+          <td class="mensaje" role="button" (click)="clicarPista(pista.name)"  matTooltip="{{pista.name}}"
           matTooltipClass="tooltip"><span >{{pista.name}}</span></td>
           <td class="mensaje"  matTooltip="{{pista.descripcion}}"
           matTooltipClass="tooltip"><span>{{pista.descripcion}}</span></td>

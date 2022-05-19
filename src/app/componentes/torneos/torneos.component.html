@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let torneo of torneos | paginate: {id:'t',itemsPerPage:5,currentPage:pageTorneos}; let i = index">
-            <td class="mensaje"  matTooltip="{{torneo.name}}"
+            <td class="mensaje" role="button" (click)="clicarTorneo(torneo.name)"  matTooltip="{{torneo.name}}"
             matTooltipClass="tooltip"><span >{{torneo.name}}</span></td>
             <td class="mensaje"  matTooltip="{{torneo.localidad}}"
             matTooltipClass="tooltip"><span>{{torneo.localidad}}</span></td>

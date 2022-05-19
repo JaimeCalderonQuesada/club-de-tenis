@@ -1,0 +1,38 @@
+
+.col{
+    position: relative;
+}
+.col:hover{
+opacity: 0.5;
+}
+.hijo{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    pointer-events: none;
+}
+.rounded-circle{
+    width: 20vw;
+    height: 30vh;
+}
+
+@media screen and (max-width: 576px){
+    .rounded-circle{
+      width: 80vw ;
+      height: 40vh;
+    }
+  }
+  
+  @media screen and  (min-width: 576px)and (max-width: 768px){
+    .rounded-circle{
+      width: 40vw ;
+    }
+  }
+  
+  @media screen and  (min-width: 768px) and (max-width: 992px){
+    .rounded-circle{
+      width: 28vw ;
+    }
+  }
