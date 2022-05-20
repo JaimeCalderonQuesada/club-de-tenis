@@ -2,32 +2,63 @@
     <div class="container-fluid">
       <div *ngIf="verClases" class="pb-2 pt-2">
         <h1>REGISTRADOS</h1>
-
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+          <div class="col">
+            <input type="text"  class="form-control mb-4 me-5" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por usuario">
+          </div>
+          <div class="col">
+            <select name="select" class="form-select mb-4 me-5" [(ngModel)]="select">
+              <option value=13>Todos los meses</option>
+              <option value=0>Enero</option>
+              <option value=1>Febrero</option>
+              <option value=2>Marzo</option>
+              <option value=3>Abril</option>
+              <option value=4>Mayo</option>
+              <option value=5>Junio</option>
+              <option value=6>Julio</option>
+              <option value=7>Agosto</option>
+              <option value=8>Septiembre</option>
+              <option value=9>Octubre</option>
+              <option value=10>Noviembre</option>
+              <option value=11>Diciembre</option>
+            </select>
+          </div>
+          
+          <div class="col">
+            <input type="text"  class="form-control mb-4 me-5 col" name="buscar" [(ngModel)]="buscarTipo" placeholder="Buscar por tipo">
+          </div>
+          </div>
         <div class="reservas text-center">
-          <table>
-          <thead>
-            <tr>
-              <th colspan="2">Usuario</th>
-              <th colspan="2">Fecha</th>
-              <th colspan="2">Tipo</th>
-              <th colspan="1">Borrar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let registro of registros | paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
-              <td colspan="2" class="mensaje"  matTooltip="{{registro.usuario}}"
-              matTooltipClass="tooltip"><span>{{registro.usuario}}</span></td>
-              <td colspan="2" class="mensaje"  matTooltip="{{registro.fecha | date:'dd-MM-Y HH:mm:ss'}}"
-              matTooltipClass="tooltip"><span>{{registro.fecha | date:'dd-MM-Y HH:mm:ss'}}</span></td>
-              <td colspan="2" class="mensaje"  matTooltip="{{registro.tipo}}"
-              matTooltipClass="tooltip"><span >{{registro.tipo}}</span></td>
-              <td colspan="1"><a type="button" (click)="borrarRegistro(registro,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
-            </tr>
-          </tbody>
-          </table>
-          <pagination-controls id="c" *ngIf="registros.length > 5"
-            (pageChange)="page = $event"
-            ></pagination-controls>
+          <ng-template [ngIf]="verDatos" [ngIfElse]="no">
+            <table >
+              <thead>
+                <tr>
+                  <th colspan="2">Usuario</th>
+                  <th colspan="2">Fecha</th>
+                  <th colspan="2">Tipo</th>
+                  <th colspan="1">Borrar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let registro of registros |nombre:buscar | meses:select | tipo:buscarTipo | paginate: {id:'c',itemsPerPage:10,currentPage:page} let i = index">
+                  <td colspan="2" class="mensaje"  matTooltip="{{registro.name}}"
+                  matTooltipClass="tooltip"><span>{{registro.name}}</span></td>
+                  <td colspan="2" class="mensaje"  matTooltip="{{registro.fecha | date:'dd-MM-Y HH:mm:ss'}}"
+                  matTooltipClass="tooltip"><span>{{registro.fecha | date:'dd-MM-Y HH:mm:ss'}}</span></td>
+                  <td colspan="2" class="mensaje"  matTooltip="{{registro.tipo}}"
+                  matTooltipClass="tooltip"><span >{{registro.tipo}}</span></td>
+                  <td colspan="1"><a type="button" (click)="borrarRegistro(registro,i)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+                </tr>
+              </tbody>
+              </table>
+              <pagination-controls id="c" *ngIf="registros.length > 5"
+                (pageChange)="page = $event"
+                ></pagination-controls>
+          </ng-template>
+          <ng-template #no>
+            <p>No hay registros</p>
+          </ng-template>
+          
         </div>
       </div>
 
@@ -59,40 +90,40 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="mensaje ben " matTooltip="Benjamín 17:00 - 18:00"
-                    matTooltipClass="tooltip"><span id="ben1">Benjamín 17:00 - 18:00</span></td>
+                    <td class="mensaje" matTooltip="Benjamín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span class="ben">Benjamín 17:00 - 18:00</span></td>
                     <td class="mensaje"  matTooltip="Alevín 17:00 - 18:00"
-                    matTooltipClass="tooltip"><span >Alevín 17:00 - 18:00</span></td>
-                    <td class="mensaje ben" matTooltip="Benjamín 17:00 - 18:00"
-                    matTooltipClass="tooltip"><span id="ben1">Benjamín 17:00 - 18:00</span></td>
+                    matTooltipClass="tooltip"><span class="ale">Alevín 17:00 - 18:00</span></td>
+                    <td class="mensaje" matTooltip="Benjamín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span class="ben">Benjamín 17:00 - 18:00</span></td>
                     <td class="mensaje" matTooltip="Alevín 17:00 - 18:00"
-                    matTooltipClass="tooltip"><span >Alevín 17:00 - 18:00</span></td>
-                    <td class="mensaje ben" matTooltip="Benjamín 17:00 - 18:00"
-                    matTooltipClass="tooltip"><span id="ben1">Benjamín 17:00 - 18:00</span></td>
+                    matTooltipClass="tooltip"><span class="ale">Alevín 17:00 - 18:00</span></td>
+                    <td class="mensaje" matTooltip="Benjamín 17:00 - 18:00"
+                    matTooltipClass="tooltip"><span class="ben">Benjamín 17:00 - 18:00</span></td>
                   </tr>
                   <tr>
                     <td class="mensaje" matTooltip="Infantil/Cadete 18:00 - 19:00"
-                    matTooltipClass="tooltip"><span>Infantil/Cadete 18:00 - 19:00</span></td>
+                    matTooltipClass="tooltip"><span class="in">Infantil/Cadete 18:00 - 19:00</span></td>
                     <td class="mensaje"  matTooltip="Infantil/Cadete 18:00 - 19:00"
-                    matTooltipClass="tooltip"><span >Infantil/Cadete 18:00 - 19:00</span></td>
+                    matTooltipClass="tooltip"><span class="in">Infantil/Cadete 18:00 - 19:00</span></td>
                     <td class="mensaje" matTooltip="Infantil/Cadete 18:00 - 19:00"
-                    matTooltipClass="tooltip"><span >Infantil/Cadete 18:00 - 19:00</span></td>
+                    matTooltipClass="tooltip"><span class="in">Infantil/Cadete 18:00 - 19:00</span></td>
                     <td class="mensaje" matTooltip="Juvenil 18:00 - 19:00"
-                    matTooltipClass="tooltip"><span >Juvenil 18:00 - 19:00</span></td>
+                    matTooltipClass="tooltip"><span class="ju">Juvenil 18:00 - 19:00</span></td>
                     <td class="mensaje" matTooltip="Alevín 18:00 - 19:00"
-                    matTooltipClass="tooltip"><span>Alevín 18:00 - 19:00</span></td>
+                    matTooltipClass="tooltip"><span class="ale">Alevín 18:00 - 19:00</span></td>
                   </tr>
                   <tr>
                     <td class="mensaje" matTooltip="Adultos 19:00 - 20:00"
-                    matTooltipClass="tooltip"><span>Adultos 19:00 - 20:00</span></td>
+                    matTooltipClass="tooltip"><span >Adultos 19:00 - 20:00</span></td>
                     <td class="mensaje"  matTooltip="Juvenil 19:00 - 20:00"
-                    matTooltipClass="tooltip"><span >Juvenil 19:00 - 20:00</span></td>
+                    matTooltipClass="tooltip"><span class="ju">Juvenil 19:00 - 20:00</span></td>
                     <td class="mensaje" matTooltip="Adultos 19:00 - 20:00"
                     matTooltipClass="tooltip"><span >Adultos 19:00 - 20:00</span></td>
                     <td class="mensaje" matTooltip="Adultos 19:00 - 20:00"
                     matTooltipClass="tooltip"><span >Adultos 19:00 - 20:00</span></td>
                     <td class="mensaje" matTooltip="Juvenil 19:00 - 20:00"
-                    matTooltipClass="tooltip"><span>Juvenil 19:00 - 20:00</span></td>
+                    matTooltipClass="tooltip"><span class="ju">Juvenil 19:00 - 20:00</span></td>
                   </tr>
                 </tbody>
                 </table>
@@ -113,20 +144,26 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td class="mensaje ben" matTooltip="Benjamín"
-                        matTooltipClass="tooltip"><span id="ben2">Benjamín</span></td>
+                        <td class="mensaje" matTooltip="Benjamín"
+                        matTooltipClass="tooltip"><span class="ben">Benjamín</span></td>
                         <td class="mensaje"  matTooltip="35 €"
                         matTooltipClass="tooltip"><span >35 €</span></td>
                       </tr>
                       <tr>
                         <td class="mensaje" matTooltip="Alevín"
-                        matTooltipClass="tooltip"><span>Alevín</span></td>
+                        matTooltipClass="tooltip"><span class="ale">Alevín</span></td>
                         <td class="mensaje"  matTooltip="38 €"
                         matTooltipClass="tooltip"><span >38 €</span></td>
                       </tr>
                       <tr>
                         <td class="mensaje" matTooltip="Infantil/Cadete/Juvenil"
-                        matTooltipClass="tooltip"><span>Infantil/Cadete/Juvenil</span></td>
+                        matTooltipClass="tooltip"><span class="in">Infantil/Cadete</span></td>
+                        <td class="mensaje"  matTooltip="40 €"
+                        matTooltipClass="tooltip"><span>40 €</span></td>
+                      </tr>
+                      <tr>
+                        <td class="mensaje" matTooltip="Infantil/Cadete/Juvenil"
+                        matTooltipClass="tooltip"><span class="ju">Juvenil</span></td>
                         <td class="mensaje"  matTooltip="40 €"
                         matTooltipClass="tooltip"><span>40 €</span></td>
                       </tr>

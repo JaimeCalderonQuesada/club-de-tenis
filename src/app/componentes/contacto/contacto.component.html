@@ -60,7 +60,7 @@
 
   <div *ngIf="verContactos" class="pb-2 pt-2">
     <h1>CONTACTOS</h1>
-
+    <input type="text" class="form-control mb-4 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre de usuario">
     <div class="reservas text-center">
       <table>
       <thead>
@@ -72,7 +72,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contacto of contactos | paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
+        <tr *ngFor="let contacto of contactos |nombre:buscar |paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
           <td colspan="2" class="mensaje"  matTooltip="{{contacto.name}}"
           matTooltipClass="tooltip"><span>{{contacto.name}}</span></td>
           <td colspan="2" class="mensaje"  matTooltip="{{contacto.email}}"

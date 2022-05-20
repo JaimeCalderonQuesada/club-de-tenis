@@ -9,6 +9,8 @@ export class UsuariosService {
 
   private url:string = "http://localhost/club-de-tenis/api/";
   public existe:BehaviorSubject<boolean>= new BehaviorSubject<boolean>(false);
+  public verDatos:BehaviorSubject<boolean>= new BehaviorSubject<boolean>(true);
+  public page:BehaviorSubject<number>= new BehaviorSubject<number>(1);
   constructor(private http: HttpClient) {
     
   }

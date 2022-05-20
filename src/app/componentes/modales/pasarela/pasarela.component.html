@@ -12,11 +12,11 @@
 
 <ng-template [ngIf]="apuntarse">
     <h1 mat-dialog-title>Efectuar pago</h1>
-    <mat-dialog-content>
-        <h3>Meses a reservar: {{meses}}</h3>
-        <h3 id="h3">Precio a pagar: {{this.data.precio}} €</h3>
+    <mat-dialog-content id="con">
+        <h3 class="h3">Meses seleccionados: {{meses}}</h3>
+        <h3 class="h3">Precio a pagar: {{this.data.precio}} €</h3>
         <ngx-paypal  [config]="payPalConfig"></ngx-paypal>
-        <span>Recuarda que si hace el pago no se podrá cancelar la inscripción a las clases.</span>
+        <span>Recuarda que si hace el pago no se podrá cancelar el registro a las clases.</span>
     </mat-dialog-content>
     
     <mat-dialog-actions align="center">

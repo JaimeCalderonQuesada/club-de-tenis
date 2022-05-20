@@ -10,7 +10,6 @@ import { CambiarComponent } from '../modales/cambiar/cambiar.component';
 import { Reserva } from '../../clases/reserva';
 import { Pista } from 'src/app/clases/pista';
 import { PistaService } from 'src/app/services/pista/pista.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertaService } from '../../services/alerta/alerta.service';
 import { EditarComponent } from '../modales/editar/editar/editar.component';
 import { Inscribir } from 'src/app/clases/inscribir';
@@ -20,6 +19,9 @@ import { TorneoService } from 'src/app/services/torneo/torneo.service';
 import { RegistrarService } from 'src/app/services/registrar/registrar.service';
 import { Clase } from '../../clases/clase';
 import { ClaseService } from '../../services/clase/clase.service';
+import { CalendarView,CalendarEvent, CalendarUtils, CalendarMonthViewDay, CalendarWeekViewBeforeRenderEvent  } from 'angular-calendar';
+import { Subject } from 'rxjs';
+import { PasarelaComponent } from '../modales/pasarela/pasarela.component';
 
 
 @Component({
@@ -28,8 +30,8 @@ import { ClaseService } from '../../services/clase/clase.service';
   styleUrls: ['./sesion.component.css']
 })
 export class SesionComponent implements OnInit {
-  public pistas:Pista[];
-  public reservas:Reserva[];
+  public pistas:Pista[]=[];
+  public reservas:Reserva[]=[];
   public options!: FormGroup;
   public user: User;
   public verReservas:Boolean=false;
@@ -43,7 +45,16 @@ export class SesionComponent implements OnInit {
   public mistorneos:Torneo[] = [];
   public clases:Clase[] = [];
   public misclases:Clase[] = [];
-  public inscripciones:Inscribir[];
+  public inscripciones:Inscribir[]=[];
+  public dis:Boolean=false;
+  public refresh: Subject<void> = new Subject<void>();
+  public viewDate: Date = new Date();
+  public view: CalendarView = CalendarView.Month;
+  public CalendarView = CalendarView;
+  public disable:Boolean=false;
+  public events: CalendarEvent[] = [];
+  public verCalendario:Boolean=false;
+  public buscar:string="";
 
   constructor(private _claseService:ClaseService,private _registrarService:RegistrarService,private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router,private _inscribirService:InscribirService,private _torneoService:TorneoService) {
     document.title = "Iniciar Sesión";
@@ -53,7 +64,6 @@ export class SesionComponent implements OnInit {
     });
 
   }
-
   ngOnInit(): void {
           let busca;
           let micookie;
@@ -85,7 +95,6 @@ export class SesionComponent implements OnInit {
                 }
               }
             };
-            this.verReservas=true;
 
             this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
               this.inscripciones = res;
@@ -109,7 +118,6 @@ export class SesionComponent implements OnInit {
                   this.clases = res;
                   this._registrarService.getRegistro(this.user.id).subscribe(res=>{
                     if(res){
-                      this.verClases = true;
                       for (let index = 0; index < res.length; index++) {
                         for(let i=0;i<this.clases.length;i++)
                           if(this.clases[i].id == res[index].clase_id){
@@ -121,7 +129,11 @@ export class SesionComponent implements OnInit {
                             this.misclases.push(this.clases[i]);
                         }
                       }
-
+                      console.log(this.misclases)
+                      this.addClases();
+                      this.addReservas();
+                      this.refresh.next();
+                      this.verCalendario=true;
                     }
 
                   })
@@ -170,9 +182,13 @@ export class SesionComponent implements OnInit {
                             }
                           }
                           this.misclases.push(this.clases[i]);
-                      }
+                        }
                     }
-                    this.verClases = true;
+
+                    this.addClases();
+                    this.addReservas();
+                    this.refresh.next();
+                    this.verCalendario=true;
                   }
 
                 })
@@ -184,7 +200,11 @@ export class SesionComponent implements OnInit {
       }
       );
     }
-
+    
+    
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }
     if(this.user.tipo==0){
       this._usuariosService.getUsuarios().subscribe(res=>this.usuarios=res)
     }
@@ -323,5 +343,130 @@ export class SesionComponent implements OnInit {
   }
   pageChanged(event:any){
     this.page = event;
+  }
+
+  addReservas(){
+   
+      
+      if(this.reservas.length>0){
+        for(let i=0;i<this.reservas.length;i++){
+          
+            if(new Date(this.reservas[i].fecha) < new Date()){
+
+            }else{
+              this.events.push({start:new Date(this.reservas[i].fecha),title:"Pista reservada: "+this.reservas[i].nombre,color: {
+                primary: "#e3bc08",
+                secondary: "#e3bc08"
+              }
+              });
+            }
+
+          }
+
+      }
+      
+  }
+
+
+  addClases(){
+    this.events = [];
+      if(this.misclases.length>0){
+        for(let i=0;i<this.misclases.length;i++){
+          
+            if(new Date(this.misclases[i].fecha) > new Date()){
+              this.events.push({start:new Date(this.misclases[i].fecha),title:this.misclases[i].tipo,color: {
+                primary: "#e3bc08",
+                secondary: "#e3bc08"
+              }
+              });
+            }
+
+          }
+        }
+        
+      }
+
+  mesSiguiente(){
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }else{
+      this.dis = false;
+    }
+  }
+  mesAnterior(){
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }else{
+      this.dis = false;
+    }
+  }
+  diaSiguiente(){
+    if(this.viewDate < new Date()){
+      this.disable = true;
+    }else{
+      this.disable = false;
+    }
+  }
+  diaAnterior(){
+    if(this.viewDate < new Date()){
+      this.disable = true;
+    }else{
+      this.disable = false;
+    }
+  }
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+
+    let da = new Date();
+    da.setDate(new Date().getDate()-1)
+    body.forEach( day => {
+      if(day.date.getTime() < da.getTime()){
+        day.cssClass = 'disabled-day';
+      }else{
+
+      }
+
+    });
+    
+    
+  }
+  beforeDayViewRender(body:CalendarWeekViewBeforeRenderEvent){
+
+    if(body.header[0].day == 6){
+      console.log(body.hourColumns[0].hours[6].segments[0])
+      body.hourColumns[0].hours[6].segments[0].date = new Date();
+      body.hourColumns[0].hours[7].segments[0].date = new Date();
+      body.hourColumns[0].hours[8].segments[0].date = new Date();
+
+      body.hourColumns[0].hours[6].segments[0].cssClass = 'disabled';
+      body.hourColumns[0].hours[7].segments[0].cssClass = 'disabled';
+      body.hourColumns[0].hours[8].segments[0].cssClass = 'disabled';
+    }else if(body.header[0].day == 0){
+      body.hourColumns[0].hours.splice(6,10);
+    }
+  }
+  setView(view: CalendarView) {
+    this.view = view;
+    if(this.viewDate.getMonth() == new Date().getMonth()){
+      this.dis = true;
+    }else{
+      this.dis = false;
+    }
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    let day = new Date();
+    day.setDate(new Date().getDate()-1)
+    //this.events.push({start:date,title:'new event'});
+    if(date.getTime() < day.getTime()){
+
+    }else{
+      this.viewDate = date;
+      this.setView(CalendarView.Day);
+    }
+    if(this.viewDate < new Date()){
+      this.disable = true;
+    }else{
+      this.disable = false;
+    }
   }
 }

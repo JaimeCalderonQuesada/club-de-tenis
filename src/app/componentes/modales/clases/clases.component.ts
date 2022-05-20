@@ -84,7 +84,7 @@ export class ClasesComponent implements OnInit {
                     if(new Date(this.clases[i].fecha).getMonth() == a  && new Date(this.clases[i].fecha).getFullYear() ==  today.getFullYear()){
                       for(let q=0;q<this.mesesMostrar.length;q++){
                         if(this.meses[a] == this.mesesMostrar[q]){
-                          this.mesesMostrar = this.mesesMostrar.slice(q+1,this.mesesMostrar.length);
+                          this.mesesMostrar.splice(q,1);
                         }
                       }
                     }

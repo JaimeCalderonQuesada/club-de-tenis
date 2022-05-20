@@ -3,5 +3,6 @@ export class Registrar {
     public usuario_id:number;
     public fecha:string;
     public tipo:string;
-    public usuario:string;
+    public name:string;
+    public page:number;
   }

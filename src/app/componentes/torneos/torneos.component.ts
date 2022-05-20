@@ -81,7 +81,7 @@ export class TorneosComponent implements OnInit {
                         }
                         for(let u=0;u<this.usuarios.length;u++){
                           if(this.inscripciones[i].usuario_id == this.usuarios[u].id){
-                            this.inscripciones[i].usuario = this.usuarios[u].name;
+                            this.inscripciones[i].name = this.usuarios[u].name;
                           }
                         }
                       };
@@ -128,7 +128,7 @@ export class TorneosComponent implements OnInit {
                         }
                         for(let u=0;u<this.usuarios.length;u++){
                           if(this.inscripciones[i].usuario_id == this.usuarios[u].id){
-                            this.inscripciones[i].usuario = this.usuarios[u].name;
+                            this.inscripciones[i].name = this.usuarios[u].name;
                           }
                         }
                       };
@@ -152,9 +152,8 @@ export class TorneosComponent implements OnInit {
           this.verInscripciones=false;
         }
         this._alertaService.openAlert('Inscripcion eliminada correctamente');
-        if(this.inscripciones.length==5){
-          this.page = 1;
-        }
+        this.page = 1;
+        
       }
     })
 
@@ -184,10 +183,36 @@ export class TorneosComponent implements OnInit {
       if(res){
         this._torneoService.borrarTorneo(id).subscribe();
         this.torneos.splice(index,1);
-        this._alertaService.openAlert('Torneo eliminado correctamente');
-        if(this.torneos.length==5){
-          this.pageTorneos = 1;
-        }
+        
+        this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
+          this.inscripciones = res;
+          this._usuariosService.getUsuarios().subscribe(res=>{
+            this.usuarios=res
+            if(this.inscripciones.length>0){
+              this.verInscripciones=true;
+                for(let i=0;i<this.inscripciones.length;i++){
+
+                  for(let index=0;index<this.torneos.length;index++){
+                    if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
+                      this.torneos[index].inscrito = true;
+                    }
+                    if(this.inscripciones[i].torneo_id == this.torneos[index].id){
+                      this.inscripciones[i].torneo = this.torneos[index].name;
+                    }
+                  }
+                  for(let u=0;u<this.usuarios.length;u++){
+                    if(this.inscripciones[i].usuario_id == this.usuarios[u].id){
+                      this.inscripciones[i].name = this.usuarios[u].name;
+                    }
+                  }
+                };
+                this._alertaService.openAlert('Torneo eliminado correctamente');
+                this.pageTorneos = 1;
+                this.page = 1;
+            }
+          });
+
+        });
       }
     });
 
@@ -220,6 +245,7 @@ export class TorneosComponent implements OnInit {
           this._inscribirService.insertarInscripcion(this.inscribir).subscribe(()=>{
             this.torneos[index].inscrito = true;
           });
+          this.pageTorneos=1;
         }
 
       });

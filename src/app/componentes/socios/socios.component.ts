@@ -22,11 +22,16 @@ export class SociosComponent implements OnInit {
   public registros:Registrar[];
   public usuarios:User[];
   public page:number;
+  public buscar:string="";
+  public buscarTipo:string="";
+  public select:number=13;
+  public verDatos:Boolean;
 
   constructor(private _alertaService:AlertaService,private _usuariosService:UsuariosService,private _claseService:ClaseService,private _registrarService:RegistrarService,public dialog: MatDialog) {document.title = "Clases"; }
 
   ngOnInit(): void {
-
+      this._usuariosService.page.subscribe(res=>this.page = res);
+      this._usuariosService.verDatos.subscribe(res=>{this.verDatos=res});
       let busca;
       let micookie;
       let igual;
@@ -61,7 +66,7 @@ export class SociosComponent implements OnInit {
                     for (let index = 0; index < this.registros.length; index++) {
                       for(let a=0;a<this.usuarios.length;a++){
                         if(this.usuarios[a].id == this.registros[index].usuario_id){
-                          this.registros[index].usuario = this.usuarios[a].name;
+                          this.registros[index].name = this.usuarios[a].name;
                         }
                       }
                       for(let i=0;i<this.clases.length;i++){

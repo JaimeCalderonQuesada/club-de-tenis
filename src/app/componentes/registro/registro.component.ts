@@ -114,7 +114,7 @@ export class RegistroComponent implements OnInit {
                       }
                       for(let u=0;u<this.usuarios.length;u++){
                         if(this.reservas[i].usuario_id == this.usuarios[u].id){
-                          this.reservas[i].usuario = this.usuarios[u].name;
+                          this.reservas[i].name = this.usuarios[u].name;
                         }
                       }
                     };
@@ -355,6 +355,9 @@ export class RegistroComponent implements OnInit {
         }});
         this.refresh.next();
         this._alertaService.openAlert("Reserva creada correctamente");
+      },
+      error=>{
+        this._alertaService.openAlert("Ya has reservado una pista en esta hora");
       })
   }
 
@@ -396,9 +399,7 @@ export class RegistroComponent implements OnInit {
           this.verReservas=false;
         }
         this._alertaService.openAlert('Reserva eliminada correctamente');
-        if(this.reservas.length==5){
-          this.page = 1;
-        }
+        this.page = 1;
       }
     });
 
@@ -425,10 +426,31 @@ export class RegistroComponent implements OnInit {
       if(res){
         this._pistaService.borrarPista(id).subscribe();
         this.pistas.splice(index,1);
-        this._alertaService.openAlert('Pista eliminada correctamente');
-        if(this.pistas.length==5){
-          this.pagePistas = 1;
-        }
+        this._reservaService.getReservas().subscribe((res:Reserva[])=>{
+          this.reservas = res;
+          this._usuariosService.getUsuarios().subscribe(res=>{
+            this.usuarios=res;
+            if(this.reservas.length>0){
+              this.verReservas=true;
+                for(let i=0;i<this.reservas.length;i++){
+                  for(let index=0;index<this.pistas.length;index++){
+                    if(this.reservas[i].pista_id == this.pistas[index].id){
+                      this.reservas[i].nombre = this.pistas[index].name;
+                    }
+                  }
+                  for(let u=0;u<this.usuarios.length;u++){
+                    if(this.reservas[i].usuario_id == this.usuarios[u].id){
+                      this.reservas[i].name = this.usuarios[u].name;
+                    }
+                  }
+                };
+                this._alertaService.openAlert('Pista eliminada correctamente');
+              this.pagePistas = 1;
+              this.page = 1;
+            }
+          })
+          this.reservasTodas = this.reservas;
+        });
       }
     });
 

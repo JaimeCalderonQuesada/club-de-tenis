@@ -1,6 +1,7 @@
 <ng-template [ngIf]="!user">
 <div class="container-fluid d-flex align-items-center justify-content-center">
-  <div >
+  <div class="text-center">
+    <img src="assets/img/logo.png">
     <h1 id="ti">INICIAR SESIÓN</h1>
     <div class="d-flex justify-content-center">
     <form novalidate [formGroup]="options" (ngSubmit)="onSubmit()" class="row m-0 p-0">
@@ -27,7 +28,7 @@
 
       <div class="col-12 p-2">
       <div class="form-check">
-        <label class="form-check-label">
+        <label class="form-check-label float-start">
           <input id="check" class="form-check-input" type="checkbox" name="remember"> Mantener sesion iniciada
         </label>
       </div>
@@ -47,7 +48,7 @@
 </ng-template>
 
 <ng-template [ngIf]="user && user.tipo != 0">
-    <div class="container-fluid">
+<div class="container-fluid">
       <div>
         <h1 class="titulo">MI PERFIL</h1>
         <button id="cerrar" class="btn float-end" (click)="logout()" >Cerrar Sesión</button>
@@ -77,33 +78,7 @@
 
       </div>
 
-      <div *ngIf="verReservas" class="mt-5">
-        <h1 class="titulo">MIS RESERVAS</h1>
-
-        <div class="reservas text-center">
-          <table>
-          <thead>
-            <tr>
-              <th>Pista</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let reserva of reservas | paginate: {id:'r',itemsPerPage:5,currentPage:page}">
-              <td class="mensaje" matTooltip="{{reserva.nombre}}"
-              matTooltipClass="tooltip"><span >{{reserva.nombre}}</span></td>
-              <td class="mensaje" matTooltip="{{reserva.fecha | date: 'dd-MM-Y  HH:mm:ss'}}"
-              matTooltipClass="tooltip"><span>{{reserva.fecha | date:" dd-MM-Y  HH:mm:ss"}}</span></td>
-            </tr>
-          </tbody>
-          </table>
-          <pagination-controls id="r" *ngIf="reservas.length > 5"
-        (pageChange)="pageChanged($event)"
-        ></pagination-controls>
-        </div>
-      </div>
-
-      <div *ngIf="verTorneos" class="pb-2">
+    <div *ngIf="verTorneos" class="pb-2">
         <h1 class="titulo">MIS INSCRIPCIONES</h1>
 
         <div class="reservas text-center">
@@ -130,34 +105,54 @@
         (pageChange)="pageTorneos = $event"
         ></pagination-controls>
         </div>
+    </div>
+
+    <div *ngIf="verCalendario">
+      <h1>MI CALENDARIO</h1>
+      <div class="row">
+      <div class="col-12 pb-2 d-flex justify-content-center">
+      <div class="btn-group">
+        <ng-template [ngIf]="view == CalendarView.Month" [ngIfElse]="dia">
+          <button [disabled]="dis" (click)="mesAnterior()" class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+            Mes Anterior
+          </button>
+        </ng-template>
+        <ng-template #dia>
+          <button [disabled]="disable" (click)="diaAnterior()" class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+            Día Anterior
+          </button>
+        </ng-template>
+          <button class="btn" (click)="setView(CalendarView.Month)" mwlCalendarToday [(viewDate)]="viewDate">
+              Mes Actual
+          </button>
+          <ng-template [ngIf]="view == CalendarView.Month" [ngIfElse]="dia1">
+            <button class="btn" (click)="mesSiguiente()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+              Mes Posterior
+            </button>
+          </ng-template>
+          <ng-template #dia1>
+            <button class="btn" (click)="diaSiguiente()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+              Día Posterior
+            </button>
+          </ng-template>
+      </div>
+      </div>
+      <div class="col-12 d-flex justify-content-center ">
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
       </div>
 
-      <div *ngIf="verClases" class="pb-2">
-        <h1 class="titulo">MIS CLASES</h1>
 
-        <div class="reservas text-center">
-          <table>
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Pista</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let clase of misclases | paginate: {id:'c',itemsPerPage:5,currentPage:pageClases}">
-              <td class="mensaje" matTooltip="{{clase.fecha | date:' dd-MM-Y  HH:mm:ss'}}"
-              matTooltipClass="tooltip"><span>{{clase.fecha | date:" dd-MM-Y  HH:mm:ss"}}</span></td>
-              <td class="mensaje" matTooltip="{{clase.pista}}"
-              matTooltipClass="tooltip"><span>{{clase.pista}}</span></td>
-            </tr>
-          </tbody>
-          </table>
-          <pagination-controls id="c" *ngIf="misclases.length > 5"
-        (pageChange)="pageClases = $event"
-        ></pagination-controls>
-        </div>
+      <div class="col-12 pb-2"  [ngSwitch]="view">
+      <mwl-calendar-month-view (beforeViewRender)="beforeMonthViewRender($event)" (dayClicked)="dayClicked($event.day);" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events">
+      </mwl-calendar-month-view>
+
+      <mwl-calendar-day-view (beforeViewRender)="beforeDayViewRender($event)" [refresh]="refresh" [hourDuration]="60" [hourSegments]="1" [dayStartHour]="8-0"  *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events">
+      </mwl-calendar-day-view>
       </div>
     </div>
+      
+</div>
+</div>
 </ng-template>
 
 <ng-template [ngIf]="user && user.tipo == 0">
@@ -194,6 +189,7 @@
     </div>
     <div class="float-end">
       <h1 class="titulo">USUARIOS</h1>
+      <input type="text" class="form-control mb-4 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre de usuario">
       <div class="usuarios text-center">
         <table>
         <thead>
@@ -206,7 +202,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let usuario of usuarios | paginate: {id:'u',itemsPerPage:5,currentPage:page}; let i = index">
+          <tr *ngFor="let usuario of usuarios | nombre:buscar | paginate: {id:'u',itemsPerPage:5,currentPage:page}; let i = index">
             <td colspan="2" class="mensaje" matTooltip="{{usuario.name}}"
             matTooltipClass="tooltip"><span>{{usuario.name}}</span></td>
             <td colspan="2" class="mensaje"  matTooltip="{{usuario.email}}"

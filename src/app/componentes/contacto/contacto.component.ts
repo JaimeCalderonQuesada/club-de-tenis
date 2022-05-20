@@ -20,6 +20,8 @@ export class ContactoComponent implements OnInit {
   public verContactos:Boolean=false;
   public contactos:Contacto[];
   public page:number;
+  public buscar:string="";
+
   constructor(private http: HttpClient,private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) {
     document.title = "Contacto";
     this.options = this.fb.group({
@@ -137,7 +139,7 @@ export class ContactoComponent implements OnInit {
           this.verContactos=false;
         }
         this._alertaService.openAlert('Contacto eliminado correctamente');
-          this.page=1;
+        this.page=1;
       }
     });
 

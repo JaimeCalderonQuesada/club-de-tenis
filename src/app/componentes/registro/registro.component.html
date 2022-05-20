@@ -111,10 +111,7 @@
 <ng-template [ngIf]="user && user.tipo!=0">
   <div *ngIf="!ver" class="container-fluid pb-2">
     <h1>RESERVAR PISTA</h1>
-
-    <form class="d-flex">
-      <input type="text" class="form-control mb-2 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre">
-    </form>
+    <input type="text" class="form-control mb-4 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
     <div class="col d-flex align-items-stretch" *ngFor="let pista of pistas | nombre:buscar">
       <div class="card">
@@ -218,7 +215,7 @@
     </div>
     <div *ngIf="verReservas" class="col-12 col-md-6 pb-2 pt-2">
       <h1>RESERVAS</h1>
-
+      <input type="text" class="form-control mb-4 me-5 " name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre de usuario">
       <div class="reservas text-center">
         <table>
         <thead>
@@ -230,9 +227,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let reserva of reservas | paginate: {id: 'r',itemsPerPage:5,currentPage:page} ; let i = index">
-            <td colspan="2" class="mensaje"  matTooltip="{{reserva.usuario}}"
-            matTooltipClass="tooltip"><span >{{reserva.usuario}}</span></td>
+          <tr *ngFor="let reserva of reservas | nombre:buscar | paginate: {id: 'r',itemsPerPage:10,currentPage:page} ; let i = index">
+            <td colspan="2" class="mensaje"  matTooltip="{{reserva.name}}"
+            matTooltipClass="tooltip"><span >{{reserva.name}}</span></td>
             <td colspan="2" class="mensaje"  matTooltip="{{reserva.nombre}}"
             matTooltipClass="tooltip"><span >{{reserva.nombre}}</span></td>
             <td colspan="2" class="mensaje"  matTooltip="{{reserva.fecha | date:' dd-MM-Y  HH:mm:ss'}}"
