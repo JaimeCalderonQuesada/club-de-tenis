@@ -25,7 +25,15 @@ export class ClasesComponent implements OnInit {
   public year:number;
   public options!: FormGroup;
 
-  constructor(private fb: FormBuilder,private _alertaService:AlertaService,private _registrarService:RegistrarService,private _claseService:ClaseService,public dialog: MatDialog,@Inject(MAT_DIALOG_DATA) public data:any,public dialogRef: MatDialogRef<CambiarComponent>) {
+  constructor(
+    private fb: FormBuilder,
+    private _alertaService:AlertaService,
+    private _registrarService:RegistrarService,
+    private _claseService:ClaseService,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data:any,
+    public dialogRef: MatDialogRef<CambiarComponent>
+    ) {
     this.options = this.fb.group({
       meses: [,[Validators.required]]
     });

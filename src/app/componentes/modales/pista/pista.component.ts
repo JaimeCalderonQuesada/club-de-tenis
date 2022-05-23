@@ -25,7 +25,16 @@ export class PistaComponent implements OnInit {
   public pista:Pista=new Pista();
   public modificar:Boolean=false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data:any,public dialogRef: MatDialogRef<PistaComponent>,private _alertaService:AlertaService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data:any,
+    public dialogRef: MatDialogRef<PistaComponent>,
+    private _alertaService:AlertaService,
+    public util:Utils,
+    public dialog: MatDialog,
+    protected utils: CalendarUtils,
+    private fb: FormBuilder,
+    private _pistaService:PistaService
+    ) {
     if(data){
       this.modificar=true;
       this.nuevapista = this.fb.group({

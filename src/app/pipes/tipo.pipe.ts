@@ -11,20 +11,27 @@ export class TipoPipe implements PipeTransform {
     const filter = filterBy ? filterBy.toLocaleLowerCase() : null;
     
     if (filter) {
+      
       if(filter.length > 2){
-        this._usuarioService.page.next(1);
         if(value.filter(prod => prod.tipo.toLocaleLowerCase().includes(filter)).length==0){
           this._usuarioService.verDatos.next(false);
+          return value;
         }else{
+          this._usuarioService.page.next(1);
           this._usuarioService.verDatos.next(true);
+          
           return value.filter(prod => prod.tipo.toLocaleLowerCase().includes(filter));
         }
-        
-        
+      }else{
+        this._usuarioService.verDatos.next(true);
+        return value;
       }
+
+    }
+    else{
+      return value;
     }
     
-    return value;
     
   }
 

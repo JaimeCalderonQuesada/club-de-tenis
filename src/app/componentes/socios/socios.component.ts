@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Clase } from 'src/app/clases/clase';
 import { User } from 'src/app/clases/user';
@@ -8,13 +8,14 @@ import { ClasesComponent } from '../modales/clases/clases.component';
 import { Registrar } from '../../clases/registrar';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 import { AlertaService } from 'src/app/services/alerta/alerta.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-socios',
   templateUrl: './socios.component.html',
   styleUrls: ['./socios.component.css']
 })
-export class SociosComponent implements OnInit {
+export class SociosComponent implements OnInit, AfterViewChecked {
   public user:User;
   public edad:number;
   public verClases:Boolean=false;
@@ -27,11 +28,27 @@ export class SociosComponent implements OnInit {
   public select:number=13;
   public verDatos:Boolean;
 
-  constructor(private _alertaService:AlertaService,private _usuariosService:UsuariosService,private _claseService:ClaseService,private _registrarService:RegistrarService,public dialog: MatDialog) {document.title = "Clases"; }
+  constructor(
+    private _alertaService:AlertaService,
+    private _usuariosService:UsuariosService,
+    private _claseService:ClaseService,
+    private _registrarService:RegistrarService,
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+    ) {document.title = "Clases";
+  
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
-      this._usuariosService.page.subscribe(res=>this.page = res);
-      this._usuariosService.verDatos.subscribe(res=>{this.verDatos=res});
+    this._usuariosService.page.subscribe(res=>this.page = res);
+    this._usuariosService.verDatos.subscribe((res)=>{
+        this.verDatos=res
+    })
+    
       let busca;
       let micookie;
       let igual;

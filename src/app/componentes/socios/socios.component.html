@@ -28,8 +28,11 @@
             <input type="text"  class="form-control mb-4 me-5 col" name="buscar" [(ngModel)]="buscarTipo" placeholder="Buscar por tipo">
           </div>
           </div>
-        <div class="reservas text-center">
-          <ng-template [ngIf]="verDatos" [ngIfElse]="no">
+          
+          <div *ngIf="!verDatos" class="pb-2 pt-2">
+            <h1>NO HAY REGISTROS</h1>
+          </div>
+        <div [ngClass]="{'ocultarTabla': !verDatos}"  class="reservas text-center">
             <table >
               <thead>
                 <tr>
@@ -40,7 +43,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let registro of registros |nombre:buscar | meses:select | tipo:buscarTipo | paginate: {id:'c',itemsPerPage:10,currentPage:page} let i = index">
+                <tr *ngFor="let registro of registros |nombre:buscar | meses:select | tipo:buscarTipo |paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
                   <td colspan="2" class="mensaje"  matTooltip="{{registro.name}}"
                   matTooltipClass="tooltip"><span>{{registro.name}}</span></td>
                   <td colspan="2" class="mensaje"  matTooltip="{{registro.fecha | date:'dd-MM-Y HH:mm:ss'}}"
@@ -53,13 +56,12 @@
               </table>
               <pagination-controls id="c" *ngIf="registros.length > 5"
                 (pageChange)="page = $event"
-                ></pagination-controls>
-          </ng-template>
-          <ng-template #no>
-            <p>No hay registros</p>
-          </ng-template>
-          
+              ></pagination-controls>
         </div>
+      
+        
+
+        
       </div>
 
       <div *ngIf="!verClases" class="pb-2 pt-2">

@@ -32,7 +32,10 @@
       <div *ngIf="verInscripciones" class="col-12 col-md-6 pb-2 pt-2">
         <h1>INSCRIPCIONES</h1>
         <input type="text" class="form-control mb-4 me-5" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre de usuario">
-        <div class="reservas text-center">
+        <div *ngIf="!verDatos" class="pb-2 pt-2">
+          <h1>NO HAY INSCRIPCIONES</h1>
+        </div>
+        <div [ngClass]="{'ocultarTabla': !verDatos}" class="reservas text-center">
           <table>
           <thead>
             <tr>
@@ -73,7 +76,10 @@
       </select>
       <input type="text" class="form-control mb-4 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre">
     </form>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
+    <div *ngIf="!verDatos">
+      <h1>NO HAY TORNEOS CON ESTE NOMBRE</h1>
+    </div>
+    <div [ngClass]="{'ocultarTabla': !verDatos}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 pb-2">
     <div class="col d-flex align-items-stretch" *ngFor="let torneo of torneos | nombre:buscar | fecha:select;let i = index">
       <div class="card">
       <img class="card-img-top img-fluid" [src]="torneo.url">

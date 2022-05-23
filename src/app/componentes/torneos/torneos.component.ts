@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -20,7 +20,7 @@ import { PasarelaComponent } from '../modales/pasarela/pasarela.component';
   templateUrl: './torneos.component.html',
   styleUrls: ['./torneos.component.css']
 })
-export class TorneosComponent implements OnInit {
+export class TorneosComponent implements OnInit,AfterViewChecked {
   public user:User;
   public torneos:Torneo[] = [];
   public inscripciones:Inscribir[];
@@ -34,11 +34,30 @@ export class TorneosComponent implements OnInit {
   public select:string="ascendente";
   public filtrados:Inscribir[]=[];
   public torneo:string="";
+  public verDatos:Boolean;
 
-  constructor(private _alertaService:AlertaService,private _inscribirService:InscribirService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private _torneoService:TorneoService) {document.title = "Torneos"; }
+  constructor(
+    private _alertaService:AlertaService,
+    private _inscribirService:InscribirService,
+    private _sanitizer: DomSanitizer,
+    public util:Utils,
+    public dialog: MatDialog,
+    protected utils: CalendarUtils,
+    private _usuariosService:UsuariosService,
+    private _torneoService:TorneoService,
+    private cdr: ChangeDetectorRef
+    ) {
+      document.title = "Torneos"; 
+    }
 
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
+  }
   ngOnInit(): void {
-
+    this._usuariosService.page.subscribe(res=>this.page = res);
+    this._usuariosService.verDatos.subscribe((res)=>{
+        this.verDatos=res
+    })
     this._torneoService.getTorneos().subscribe(res=>{
       this.torneos=res
       for(let i =0;i<this.torneos.length;i++){
@@ -268,11 +287,16 @@ export class TorneosComponent implements OnInit {
         }
       }
       this.inscripciones = this.filtrados;
+      if(this.inscripciones.length==0){
+        this._usuariosService.verDatos.next(false);
+      }else{
+        this._usuariosService.verDatos.next(true);
+      }
     }else if(this.torneo == nombre){
       this.filtrados = [];
       this.torneo="";
       this.inscripciones = this.inscripcionesTodas;
-
+      this._usuariosService.verDatos.next(true);
     }else{
       this.filtrados = [];
       this.torneo=nombre;
@@ -282,6 +306,11 @@ export class TorneosComponent implements OnInit {
         }
       }
       this.inscripciones = this.filtrados;
+      if(this.inscripciones.length==0){
+        this._usuariosService.verDatos.next(false);
+      }else{
+        this._usuariosService.verDatos.next(true);
+      }
     }
     
   }

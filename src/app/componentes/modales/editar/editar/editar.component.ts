@@ -17,7 +17,14 @@ export class EditarComponent implements OnInit {
   public usuario:User = new User();
 
 
-  constructor(private _alertaService:AlertaService,public dialogRef: MatDialogRef<CambiarComponent>,private _usuariosService:UsuariosService,public utils:Utils,private fb: FormBuilder,@Inject(MAT_DIALOG_DATA) public data:any) {
+  constructor(
+    private _alertaService:AlertaService,
+    public dialogRef: MatDialogRef<CambiarComponent>,
+    private _usuariosService:UsuariosService,
+    public utils:Utils,
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data:any
+    ) {
     this.editar = this.fb.group({
       name: [this.data.user.name,[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
       email: [this.data.user.email,[Validators.required,Validators.email,Validators.minLength(10),Validators.maxLength(100)]],

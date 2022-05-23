@@ -28,7 +28,16 @@ export class TorneoComponent implements OnInit {
   public torneo:Torneo=new Torneo();
   public modificar:Boolean=false;
   public fechaActual:Date;
-  constructor(@Inject(MAT_DIALOG_DATA) public data:any,public dialogRef: MatDialogRef<PistaComponent>,private _alertaService:AlertaService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog ,protected utils: CalendarUtils,private fb: FormBuilder,private route:Router,private _torneoService:TorneoService) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data:any,
+    public dialogRef: MatDialogRef<PistaComponent>,
+    private _alertaService:AlertaService,
+    public util:Utils,
+    public dialog: MatDialog ,
+    protected utils: CalendarUtils,
+    private fb: FormBuilder,
+    private _torneoService:TorneoService
+    ) {
     this.fechaActual = new Date();
     if(data){
       this.modificar=true;

@@ -8,7 +8,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class ConfirmarComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<ConfirmarComponent>) { }
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmarComponent>
+    ) { }
 
   ngOnInit(): void {
   }

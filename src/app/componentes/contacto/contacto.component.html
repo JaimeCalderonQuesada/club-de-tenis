@@ -58,10 +58,13 @@
 <ng-template [ngIf]="mostrar">
 <div class="container-fluid">
 
-  <div *ngIf="verContactos" class="pb-2 pt-2">
+  <div *ngIf="verContactos"  class="pb-2 pt-2">
     <h1>CONTACTOS</h1>
     <input type="text" class="form-control mb-4 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre de usuario">
-    <div class="reservas text-center">
+    <div *ngIf="!verDatos" class="pb-2 pt-2">
+      <h1>NO HAY CONTACTOS</h1>
+    </div>
+    <div [ngClass]="{'ocultarTabla': !verDatos}" class="reservas text-center">
       <table>
       <thead>
         <tr>

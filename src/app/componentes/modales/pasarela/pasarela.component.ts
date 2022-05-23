@@ -13,7 +13,10 @@ export class PasarelaComponent implements OnInit {
   public apuntarse:Boolean=false;
   public reserva:Boolean=false;
   public meses:string="";
-  constructor(public dialogRef: MatDialogRef<PasarelaComponent>, @Inject(MAT_DIALOG_DATA) public data:any) { }
+  constructor(
+    public dialogRef: MatDialogRef<PasarelaComponent>,
+    @Inject(MAT_DIALOG_DATA) public data:any
+    ) { }
 
   ngOnInit(): void {
     this.payPalConfig = {

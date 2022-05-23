@@ -6,7 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { finalize, Observable } from 'rxjs';
-import { SpinnerService } from '../services/spinner.service';
+import { SpinnerService } from '../services/spinner/spinner.service';
 
 @Injectable()
 export class SpinnerInterceptor implements HttpInterceptor {

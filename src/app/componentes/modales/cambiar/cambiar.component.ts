@@ -15,7 +15,13 @@ export class CambiarComponent implements OnInit {
   public usuario:User=new User();
   public anterior:string;
   public sesion:Boolean=false;
-  constructor(public dialogRef: MatDialogRef<CambiarComponent>,private _usuariosService:UsuariosService,public util:Utils,private fb: FormBuilder,@Inject(MAT_DIALOG_DATA) public data:any) {}
+  constructor(
+    public dialogRef: MatDialogRef<CambiarComponent>,
+    private _usuariosService:UsuariosService,
+    public util:Utils,
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data:any
+    ) {}
 
   ngOnInit(): void {
     let busca;

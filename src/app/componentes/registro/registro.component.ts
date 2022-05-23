@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { User } from 'src/app/clases/user';
 import { UsuariosService } from '../../services/usuarios/usuarios.service';
@@ -23,7 +23,7 @@ import { PistaComponent } from '../modales/pista/pista.component';
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
-export class RegistroComponent implements OnInit {
+export class RegistroComponent implements OnInit,AfterViewChecked {
 
   public payPalConfig: any;
   public showPaypalButtons: boolean;
@@ -56,8 +56,22 @@ export class RegistroComponent implements OnInit {
   public nombrePista:string="";
   public filtrar:Reserva[]=[];
   public reservasTodas:Reserva[];
+  public verDatos:Boolean;
 
-  constructor(private _alertaService:AlertaService,private _sanitizer: DomSanitizer,public util:Utils,public dialog: MatDialog,private _reservaService:ReservaService,private _claseService:ClaseService ,protected utils: CalendarUtils,private fb: FormBuilder,private _usuariosService:UsuariosService,private route:Router,private _pistaService:PistaService) {
+  constructor(
+    private _alertaService:AlertaService,
+    private _sanitizer: DomSanitizer,
+    public util:Utils,
+    public dialog: MatDialog,
+    private _reservaService:ReservaService,
+    private _claseService:ClaseService ,
+    protected utils: CalendarUtils,
+    private fb: FormBuilder,
+    private _usuariosService:UsuariosService,
+    private route:Router,
+    private _pistaService:PistaService,
+    private cdr: ChangeDetectorRef
+    ) {
 
     this.fechaActual = new Date();
 
@@ -75,7 +89,14 @@ export class RegistroComponent implements OnInit {
     });
   }
 
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
+  }
   ngOnInit(): void {
+    this._usuariosService.page.subscribe(res=>this.page = res);
+    this._usuariosService.verDatos.subscribe((res)=>{
+        this.verDatos=res
+    })
     let busca;
     let micookie;
     let igual;
@@ -487,10 +508,16 @@ export class RegistroComponent implements OnInit {
         }
       }
       this.reservas = this.filtrar;
+      if(this.reservas.length==0){
+        this._usuariosService.verDatos.next(false);
+      }else{
+        this._usuariosService.verDatos.next(true);
+      }
     }else if(this.nombrePista == nombre){
       this.filtrar = [];
       this.nombrePista="";
       this.reservas = this.reservasTodas;
+      this._usuariosService.verDatos.next(true);
 
     }else{
       this.filtrar = [];
@@ -501,6 +528,11 @@ export class RegistroComponent implements OnInit {
         }
       }
       this.reservas = this.filtrar;
+      if(this.reservas.length==0){
+        this._usuariosService.verDatos.next(false);
+      }else{
+        this._usuariosService.verDatos.next(true);
+      }
     }
     this.page=1;
   }

@@ -187,10 +187,13 @@
 
       </div>
     </div>
-    <div class="float-end">
+    <div>
       <h1 class="titulo">USUARIOS</h1>
       <input type="text" class="form-control mb-4 me-5 w-50" name="buscar" [(ngModel)]="buscar" placeholder="Buscar por nombre de usuario">
-      <div class="usuarios text-center">
+      <div *ngIf="!verDatos">
+        <h1>NO HAY USUARIOS</h1>
+      </div>
+      <div [ngClass]="{'ocultarTabla': !verDatos}" class="usuarios text-center pb-2">
         <table>
         <thead>
           <tr>

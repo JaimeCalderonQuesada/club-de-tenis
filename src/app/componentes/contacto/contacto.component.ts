@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, RequiredValidator } from '@angular/forms';
 import { Contacto } from 'src/app/clases/contacto';
 import { User } from 'src/app/clases/user';
 import { AlertaService } from 'src/app/services/alerta/alerta.service';
 import { ContactoService } from 'src/app/services/contacto/contacto.service';
+import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 import { Utils } from 'src/app/utils';
 
 @Component({
@@ -12,7 +13,7 @@ import { Utils } from 'src/app/utils';
   templateUrl: './contacto.component.html',
   styleUrls: ['./contacto.component.css']
 })
-export class ContactoComponent implements OnInit {
+export class ContactoComponent implements OnInit,AfterViewChecked {
   public mostrar:Boolean=false;
   public options!: FormGroup;
   public contacto:Contacto = new Contacto();
@@ -21,8 +22,16 @@ export class ContactoComponent implements OnInit {
   public contactos:Contacto[];
   public page:number;
   public buscar:string="";
-
-  constructor(private http: HttpClient,private _alertaService:AlertaService,public utils:Utils,private fb: FormBuilder,private _servicioContacto:ContactoService) {
+  public verDatos:Boolean;
+  constructor(
+    private http: HttpClient,
+    private _alertaService:AlertaService,
+    public utils:Utils,
+    private fb: FormBuilder,
+    private _servicioContacto:ContactoService,
+    private _usuariosService:UsuariosService,
+    private cdr: ChangeDetectorRef
+    ) {
     document.title = "Contacto";
     this.options = this.fb.group({
       name: ["",[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s[a-zA-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,}'?-?[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,}\\s?([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,})?)")]],
@@ -30,8 +39,14 @@ export class ContactoComponent implements OnInit {
       mensaje: ["",[Validators.required,Validators.minLength(10),Validators.maxLength(255)]]
     });
   }
-
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
+  }
   ngOnInit(): void {
+    this._usuariosService.page.subscribe(res=>this.page = res);
+    this._usuariosService.verDatos.subscribe((res)=>{
+        this.verDatos=res
+    })
           let busca;
           let micookie;
           let igual;

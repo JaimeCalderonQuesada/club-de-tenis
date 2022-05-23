@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -29,7 +29,7 @@ import { PasarelaComponent } from '../modales/pasarela/pasarela.component';
   templateUrl: './sesion.component.html',
   styleUrls: ['./sesion.component.css']
 })
-export class SesionComponent implements OnInit {
+export class SesionComponent implements OnInit,AfterViewChecked {
   public pistas:Pista[]=[];
   public reservas:Reserva[]=[];
   public options!: FormGroup;
@@ -55,8 +55,22 @@ export class SesionComponent implements OnInit {
   public events: CalendarEvent[] = [];
   public verCalendario:Boolean=false;
   public buscar:string="";
-
-  constructor(private _claseService:ClaseService,private _registrarService:RegistrarService,private _alertaService:AlertaService,private _pistaService:PistaService,private _reservaService:ReservaService,public dialog: MatDialog,public utils:Utils,private fb: FormBuilder,private _usuariosService:UsuariosService,private router:Router,private _inscribirService:InscribirService,private _torneoService:TorneoService) {
+  public verDatos:Boolean;
+  constructor(
+    private _claseService:ClaseService,
+    private _registrarService:RegistrarService,
+    private _alertaService:AlertaService,
+    private _pistaService:PistaService,
+    private _reservaService:ReservaService,
+    public dialog: MatDialog,
+    public utils:Utils,
+    private fb: FormBuilder,
+    private _usuariosService:UsuariosService,
+    private router:Router,
+    private _inscribirService:InscribirService,
+    private _torneoService:TorneoService,
+    private cdr: ChangeDetectorRef
+    ) {
     document.title = "Iniciar Sesión";
     this.options = this.fb.group({
       password:["",[Validators.required,Validators.maxLength(100),Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/)]],
@@ -64,7 +78,14 @@ export class SesionComponent implements OnInit {
     });
 
   }
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
+  }
   ngOnInit(): void {
+    this._usuariosService.page.subscribe(res=>this.page = res);
+    this._usuariosService.verDatos.subscribe((res)=>{
+        this.verDatos=res
+    })
           let busca;
           let micookie;
           let igual;
