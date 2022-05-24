@@ -58,7 +58,7 @@ label{
   border: 1px solid var(--gris);
 }
 .datagrid table thead th {
-  background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
+  background-color:var(--naranja); color:var(--gris); font-size: 16px; font-weight: bold;
 
 }
 
@@ -100,7 +100,7 @@ label{
   border: 1px solid var(--gris);
 }
 .reservas table thead th {
-  background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
+  background-color:var(--naranja); color:var(--gris); font-size: 16px; font-weight: bold;
 
 }
 
@@ -136,7 +136,7 @@ label{
   border: 1px solid var(--gris);
 }
 .usuarios table thead th {
-  background-color:var(--naranja1); color:var(--gris); font-size: 16px; font-weight: bold;
+  background-color:var(--naranja); color:var(--gris); font-size: 16px; font-weight: bold;
 
 }
 
