@@ -93,8 +93,6 @@ export class ContactoComponent implements OnInit,AfterViewChecked {
       }
     }
     if(valor){
-      console.log(valor)
-      console.log(this.options.get('email')?.value)
       if(valor == this.options.get('email')?.value){
         this.options.get('mensaje')?.reset();
         this._alertaService.openAlert("Hoy ya has enviado un mensaje");

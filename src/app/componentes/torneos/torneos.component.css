@@ -1,5 +1,5 @@
 .container-fluid{
-    background-color: var(--gris);
+    background-color: var(--azul);
   }
   #img{
     width: 100%;
@@ -17,23 +17,27 @@
   }
   .reservas table td, .reservas table th {
     padding: 4px 4px;
-    border: 1px solid var(--gris);
+    border: 1px solid var(--azul1);
   }
   .reservas table thead th {
-    background-color:var(--naranja); color:var(--gris); font-size: 16px; font-weight: bold;
+    background-color:var(--azul1); color:white; font-size: 16px; font-weight: bold;
   
   }
   
   .reservas table tbody tr td {
-    color: var(--gris); font-size: 14px;
-    background-color: var(--naranja2);
+    color: var(--azul1); font-size: 14px;
     font-weight: bold;
   }
   
   .reservas table tbody td a:hover{
     font-size: 18px;
   }
-  
+  .reservas table tbody tr:nth-child(odd){
+    background-color: var(--naranja1);
+  }
+  .reservas table tbody tr:nth-child(even){
+    background-color: var(--naranja);
+  }
   .mensaje{
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -83,22 +87,26 @@
   }
   .datagrid table td, .datagrid table th {
     padding: 4px 4px;
-    border: 1px solid var(--gris);
+    border: 1px solid var(--azul1);
   }
   .datagrid table thead th {
-    background-color:var(--naranja); color:var(--gris); font-size: 16px; font-weight: bold;
+    background-color:var(--azul1); color:white; font-size: 16px; font-weight: bold;
   
   }
   
   .datagrid table tbody tr td {
-    color: var(--gris); font-size: 14px;
-    background-color: var(--naranja2);
+    color: var(--azul1); font-size: 14px;
     font-weight: bold;
   }
   .datagrid table tbody td a{
     font-size: 18px;
   }
-  
+  .datagrid table tbody tr:nth-child(odd){
+    background-color: var(--naranja1);
+  }
+  .datagrid table tbody tr:nth-child(even){
+    background-color: var(--naranja);
+  }
   .datagrid table tbody td a:hover{
     font-size: 22px;
   }

@@ -1,3 +1,10 @@
 li{
+    color: white;
     font-size: 18px;
+}
+p{
+    color: white;
+}
+.container-fluid{
+    background-color: var(--azul);
 }

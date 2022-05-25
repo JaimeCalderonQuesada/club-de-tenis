@@ -9,7 +9,10 @@ a{
 }
 
 a:hover{
-  color:var(--gris);
+  color:var(--azul1);
+}
+a:focus{
+  color:var(--azul1);
 }
 
 
@@ -24,7 +27,7 @@ a:hover{
 }
 
 .activado{
-  color:var(--gris);
+  color:var(--azul1);
 }
 
 

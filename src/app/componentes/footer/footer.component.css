@@ -11,7 +11,7 @@ a{
   color: white ;
 }
 a:hover{
-  color:var(--gris);
+  color:var(--azul1);
 }
 
 .container-fluid{

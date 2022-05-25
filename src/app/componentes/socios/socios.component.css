@@ -1,5 +1,5 @@
 .container-fluid{
-    background-color: var(--gris);
+  background-color: var(--azul);
 }
 
 .mensaje{
@@ -35,21 +35,23 @@
   }
   .horario table td, .horario table th {
     padding: 4px 4px;
-    border: 1px solid var(--gris);
+    border: 1px solid var(--azul1);
   }
   .horario table thead th {
-    background-color:var(--naranja); color:var(--gris); font-size: 16px; font-weight: bold;
+    background-color:var(--azul1); color:white; font-size: 16px; font-weight: bold;
   
   }
   
   .horario table tbody tr td {
-    color: var(--gris); font-size: 14px;
-    background-color: var(--naranja2);
+    color: var(--azul1); font-size: 14px;
     font-weight: bold;
   }
   
-  .horario table tbody td a:hover{
-    font-size: 18px;
+  .horario table tbody tr:nth-child(odd){
+    background-color: var(--naranja1);
+  }
+  .horario table tbody tr:nth-child(even){
+    background-color: var(--naranja);
   }
 
   #a{
@@ -80,21 +82,25 @@
     }
     .reservas table td, .reservas table th {
       padding: 4px 4px;
-      border: 1px solid var(--gris);
+      border: 1px solid var(--azul1);
     }
     .reservas table thead th {
-      background-color:var(--naranja); color:var(--gris); font-size: 16px; font-weight: bold;
+      background-color:var(--azul1); color:white; font-size: 16px; font-weight: bold;
     
     }
     
     .reservas table tbody tr td {
-      color: var(--gris); font-size: 14px;
-      background-color: var(--naranja2);
+      color: var(--azul1); font-size: 14px;
       font-weight: bold;
     }
-    
     .reservas table tbody td a:hover{
       font-size: 18px;
+    }
+    .reservas table tbody tr:nth-child(odd){
+      background-color: var(--naranja1);
+    }
+    .reservas table tbody tr:nth-child(even){
+      background-color: var(--naranja);
     }
   .mensaje{
       white-space: nowrap;
@@ -107,15 +113,25 @@
     border-radius: 6px;
     position: relative;
   }
-.ben{
-  color: white;  
-}
-.ale{
-  color: black;
-}
-.in{
-  color: blue;
-}
-.ju{
-  color: red;
-}
+
+  ::ng-deep .ngx-pagination .current{
+    color: black !important;
+    background: none !important;
+  }
+  
+  ::ng-deep .ngx-pagination{
+    margin: 0px !important;
+  padding:0px !important;
+  padding-top: 2% !important;
+  padding-bottom: 2% !important;
+  text-align: center !important;
+  }
+  
+  ::ng-deep .ngx-pagination a{
+    color: white !important;
+    text-decoration: none !important;
+  }
+  
+  ::ng-deep .ngx-pagination a:hover {
+    background: black !important;
+  }
