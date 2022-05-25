@@ -17,6 +17,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AlertaService } from 'src/app/services/alerta/alerta.service';
 import { ThisReceiver } from '@angular/compiler';
 import { PistaComponent } from '../modales/pista/pista.component';
+import { RegistrarService } from 'src/app/services/registrar/registrar.service';
 
 @Component({
   selector: 'app-registro',
@@ -70,7 +71,8 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
     private _usuariosService:UsuariosService,
     private route:Router,
     private _pistaService:PistaService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private _registrarService:RegistrarService
     ) {
 
     this.fechaActual = new Date();
@@ -341,29 +343,54 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
 
     this.r = false;
     this.horaReserva=hora;
-    for (let index = 0; index < this.events.length; index++) {
-      let ho = this.events[index].start.getTime();
-      if(ho == hora.getTime() ){
-        this.r = true;
-        break;
-      }
-    }
-    if( hora.getDate() === new Date().getDate() ){
-      this.r = true;
+    this._claseService.getClases().subscribe(clases=>{
 
-    }
-    if(!this.r){
-      const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
-      modalRef.afterClosed().subscribe((response) => {
+      this._registrarService.getRegistro(this.user.id).subscribe(res=>{
+        if(res){
 
-        if (response) {
-          this.crearReserva();
+          for (let index = 0; index < res.length; index++) {
+            for(let i=0;i<clases.length;i++)
+              if(clases[i].id == res[index].clase_id){
+                console.log(new Date(clases[i].fecha))
+                console.log(new Date(this.horaReserva))
+                if(new Date(clases[i].fecha).getTime() == new Date(this.horaReserva).getTime()){
+                  this.r = true;
+                  this._alertaService.openAlert("Ya has reservado una pista en esta hora");
+                  break;
+                }
+
+              }
+          }
+          for (let index = 0; index < this.events.length; index++) {
+            let ho = this.events[index].start.getTime();
+            if(ho == hora.getTime() ){
+              this.r = true;
+              break;
+            }
+          }
+          if( hora.getDate() === new Date().getDate() ){
+            this.r = true;
+
+          }
+          if(!this.r){
+            const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
+            modalRef.afterClosed().subscribe((response) => {
+
+              if (response) {
+                this.crearReserva();
+              }
+
+            });
+          }
         }
 
-      });
-    }
+
+      })
+
+    })
   }
   crearReserva(){
+
       this.reserva.fecha = ""+this.horaReserva.getFullYear()+"-"+(this.horaReserva.getMonth()+1)+"-"+this.horaReserva.getDate()+" "+this.horaReserva.getHours()+":"+this.horaReserva.getMinutes()+0+":"+this.horaReserva.getSeconds()+0+"";
       this.reserva.pista_id = this.idPista;
       this.reserva.usuario_id = this.user.id;

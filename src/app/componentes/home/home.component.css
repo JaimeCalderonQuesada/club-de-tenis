@@ -16,8 +16,8 @@ opacity: 0.5;
     pointer-events: none;
 }
 .rounded-circle{
-    width: 20vw;
-    height: 30vh;
+    width: 18vw;
+    height: 20vh;
 }
 
 @media screen and (max-width: 576px){
@@ -26,13 +26,13 @@ opacity: 0.5;
       height: 40vh;
     }
   }
-  
+
   @media screen and  (min-width: 576px)and (max-width: 768px){
     .rounded-circle{
       width: 40vw ;
     }
   }
-  
+
   @media screen and  (min-width: 768px) and (max-width: 992px){
     .rounded-circle{
       width: 28vw ;
