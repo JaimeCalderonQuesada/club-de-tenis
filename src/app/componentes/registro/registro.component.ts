@@ -343,11 +343,10 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
 
     this.r = false;
     this.horaReserva=hora;
+
     this._claseService.getClases().subscribe(clases=>{
 
       this._registrarService.getRegistro(this.user.id).subscribe(res=>{
-        if(res){
-
           for (let index = 0; index < res.length; index++) {
             for(let i=0;i<clases.length;i++)
               if(clases[i].id == res[index].clase_id){
@@ -363,14 +362,15 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
           }
           for (let index = 0; index < this.events.length; index++) {
             let ho = this.events[index].start.getTime();
+
             if(ho == hora.getTime() ){
               this.r = true;
               break;
             }
           }
-          if( hora.getDate() === new Date().getDate() ){
+          if( hora.getDate() === new Date().getDate() && hora.getHours()<= new Date().getHours() && hora.getMonth() == new Date().getMonth() ){
             this.r = true;
-
+            this._alertaService.openAlert("Tienes que elegir una fecha proxima!");
           }
           if(!this.r){
             const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
@@ -382,9 +382,30 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
 
             });
           }
+
+
+      },error=>{
+        for (let index = 0; index < this.events.length; index++) {
+          let ho = this.events[index].start.getTime();
+          if(ho == hora.getTime() ){
+            this.r = true;
+            break;
+          }
         }
+        if( hora.getDate() === new Date().getDate() && hora.getHours()<= new Date().getHours() && hora.getMonth() == new Date().getMonth() ){
+          this.r = true;
+          this._alertaService.openAlert("Tienes que elegir una fecha proxima!");
+        }
+        if(!this.r){
+          const modalRef = this.dialog.open(PasarelaComponent,{data:{hora:hora},disableClose: true});
+          modalRef.afterClosed().subscribe((response) => {
 
+            if (response) {
+              this.crearReserva();
+            }
 
+          });
+        }
       })
 
     })
@@ -437,12 +458,12 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
       body.hourColumns[0].hours.splice(6,10);
     }
   }
-  borrarReserva(icontrol:number,fecha:string){
+  borrarReserva(icontrol:Reserva,fecha:string){
     this._alertaService.openConfirmDialog()
     .afterClosed().subscribe(res=>{
       if(res){
         this._reservaService.borrarReserva(fecha).subscribe();
-        this.reservas.splice(icontrol,1);
+        this.reservas = this.reservas.filter((item)=>item != icontrol)
         if(this.reservas.length==0){
           this.verReservas=false;
         }

@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, Subject, throwError } from 'rxjs';
 import { User } from 'src/app/clases/user';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
-  private url:string = "http://localhost/club-de-tenis/api/";
+  private url:string = environment.url;
   public existe:BehaviorSubject<boolean>= new BehaviorSubject<boolean>(false);
   public verDatos:BehaviorSubject<boolean>= new BehaviorSubject<boolean>(true);
   public page:BehaviorSubject<number>= new BehaviorSubject<number>(1);
   constructor(private http: HttpClient) {
-    
+
   }
 
   insertarUser(user:User): Observable<any>{

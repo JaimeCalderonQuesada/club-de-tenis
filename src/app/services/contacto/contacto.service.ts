@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Contacto } from 'src/app/clases/contacto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactoService {
-  private url:string = "http://localhost/club-de-tenis/api/";
+  private url:string = environment.url;
   constructor(private http: HttpClient) { }
   insertarContacto(form:Contacto): Observable<any>{
     return this.http.post(this.url+"?contactos=1",form);

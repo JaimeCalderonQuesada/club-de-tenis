@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Torneo } from '../../clases/torneo';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TorneoService {
-  private url:string = "http://localhost/club-de-tenis/api/";
+  private url:string = environment.url;
   constructor(private http: HttpClient) { }
   insertarTorneo(torneo:Torneo): Observable<any>{
     return this.http.post(this.url+"?torneo=1",torneo);

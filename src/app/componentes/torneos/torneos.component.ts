@@ -47,7 +47,7 @@ export class TorneosComponent implements OnInit,AfterViewChecked {
     private _torneoService:TorneoService,
     private cdr: ChangeDetectorRef
     ) {
-      document.title = "Torneos"; 
+      document.title = "Torneos";
     }
 
   ngAfterViewChecked(): void {
@@ -83,7 +83,7 @@ export class TorneosComponent implements OnInit,AfterViewChecked {
       if(this.user){
               this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
                 this.inscripciones = res;
-                
+
                 this._usuariosService.getUsuarios().subscribe(res=>{
                   this.usuarios=res
                   if(this.inscripciones.length>0){
@@ -160,19 +160,19 @@ export class TorneosComponent implements OnInit,AfterViewChecked {
     });
 
   }
-  
-  borrarInscripcion(icontrol:number,inscripcion:Inscribir){
+
+  borrarInscripcion(inscripcion:Inscribir){
     this._alertaService.openConfirmDialog()
     .afterClosed().subscribe(res=>{
       if(res){
         this._inscribirService.borrarInscripcion(inscripcion).subscribe();
-        this.inscripciones.splice(icontrol,1);
+        this.inscripciones = this.inscripciones.filter((item)=>item != inscripcion)
         if(this.inscripciones.length==0){
           this.verInscripciones=false;
         }
         this._alertaService.openAlert('Inscripcion eliminada correctamente');
         this.page = 1;
-        
+
       }
     })
 
@@ -182,7 +182,7 @@ export class TorneosComponent implements OnInit,AfterViewChecked {
     modalRef.afterClosed().subscribe((response) => {
 
       if (response) {
-        
+
         this.torneos=[];
         this._torneoService.getTorneos().subscribe(res=>{
           this.torneos=[];
@@ -202,7 +202,7 @@ export class TorneosComponent implements OnInit,AfterViewChecked {
       if(res){
         this._torneoService.borrarTorneo(id).subscribe();
         this.torneos.splice(index,1);
-        
+
         this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
           this.inscripciones = res;
           this._usuariosService.getUsuarios().subscribe(res=>{
@@ -278,7 +278,7 @@ export class TorneosComponent implements OnInit,AfterViewChecked {
     this.pageTorneos = event;
   }
   clicarTorneo(nombre:string){
-    
+
     if(this.torneo.length==0){
       this.torneo = nombre;
       for(let i=0;i<this.inscripcionesTodas.length;i++){
@@ -312,6 +312,6 @@ export class TorneosComponent implements OnInit,AfterViewChecked {
         this._usuariosService.verDatos.next(true);
       }
     }
-    
+
   }
 }

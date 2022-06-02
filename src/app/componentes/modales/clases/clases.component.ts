@@ -8,6 +8,8 @@ import { ClaseService } from 'src/app/services/clase/clase.service';
 import { RegistrarService } from '../../../services/registrar/registrar.service';
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReservaService } from 'src/app/services/reserva/reserva.service';
+import { Reserva } from 'src/app/clases/reserva';
 
 @Component({
   selector: 'app-clases',
@@ -24,11 +26,12 @@ export class ClasesComponent implements OnInit {
   public clases:Clase[];
   public year:number;
   public options!: FormGroup;
-
+  public misReservas:Reserva[]=[];
   constructor(
     private fb: FormBuilder,
     private _alertaService:AlertaService,
     private _registrarService:RegistrarService,
+    private _reservaService:ReservaService,
     private _claseService:ClaseService,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data:any,
@@ -37,7 +40,7 @@ export class ClasesComponent implements OnInit {
     this.options = this.fb.group({
       meses: [,[Validators.required]]
     });
-    
+
     this.meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
     const today:Date = new Date();
     if(today.getMonth()+1 == this.meses.length){
@@ -47,7 +50,7 @@ export class ClasesComponent implements OnInit {
       this.year = today.getFullYear();
       this.mesesMostrar = this.meses.slice(today.getMonth()+1,this.meses.length);
     }
-    
+
     const cumple:Date = new Date(data.user.fecha);
     this.edad =today.getFullYear() - cumple.getFullYear();
     const mes:number = today.getMonth() - cumple.getMonth();
@@ -75,7 +78,7 @@ export class ClasesComponent implements OnInit {
       this.clases = res
       this._registrarService.getRegistro(this.data.user.id).subscribe(res=>{
         if(res){
-          
+
           for (let index = 0; index < res.length; index++) {
             for(let i=0;i<this.clases.length;i++)
               if(this.clases[i].id == res[index].clase_id){
@@ -97,21 +100,24 @@ export class ClasesComponent implements OnInit {
                       }
                     }
                   }
-                  
+
                 }
-                
+
               }
           }
-          
+
         }
-        
+
       })
-    
+
     });
-    
+
   }
 
   ngOnInit(): void {
+    this._reservaService.getReserva(this.data.user.id).subscribe(res=>{
+      this.misReservas=res
+    });
   }
 
   apuntarse(){
@@ -125,7 +131,6 @@ export class ClasesComponent implements OnInit {
     }
     this.precio = this.precio * array.length;
     this.dialogRef.close(true);
-    console.log(array)
     const modalRef = this.dialog.open(PasarelaComponent,{data:{apuntarse:array,precio:this.precio},disableClose: true});
       modalRef.afterClosed().subscribe((response) => {
 
@@ -141,18 +146,22 @@ export class ClasesComponent implements OnInit {
               }
             }
           }
-        
+
           for(let i=0;i<mesesAinscribir.length;i++){
             for(let a=0;a<this.clases.length;a++){
-              console.log(new Date(this.clases[a].fecha).getMonth())
               if(new Date(this.clases[a].fecha).getMonth() == mesesAinscribir[i] && this.clases[a].tipo==this.categoria){
+                for(let index=0;index<this.misReservas.length;index++){
+                  if(new Date(this.misReservas[index].fecha).getTime() == new Date(this.clases[a].fecha).getTime()){
+                    this._reservaService.borrarReserva(this.misReservas[index].fecha).subscribe()
+                  }
+                }
                 this.registrar.usuario_id = this.data.user.id;
                 this.registrar.clase_id = this.clases[a].id;
                 this._registrarService.insertarRegistro(this.registrar).subscribe();
               }
             }
           }
-          
+
         }
 
       })

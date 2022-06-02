@@ -104,125 +104,95 @@ export class SesionComponent implements OnInit,AfterViewChecked {
     }
     if(this.user){
     if(this.user.tipo==1){
-      this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
-        this.reservas = res;
-        if(this.reservas.length>0){
-          this._pistaService.getPistas().subscribe(resp=>{
-            this.pistas=resp;
-            for(let i=0;i<this.reservas.length;i++){
-              for(let index=0;index<this.pistas.length;index++){
-                if(this.reservas[i].pista_id == this.pistas[index].id){
-                  this.reservas[i].nombre = this.pistas[index].name;
+      this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
+        this.inscripciones = res;
+        this._torneoService.getTorneos().subscribe(res=>{
+          this.torneos=res
+          if(this.inscripciones.length>0){
+              for(let i=0;i<this.inscripciones.length;i++){
+
+                for(let index=0;index<this.torneos.length;index++){
+                  if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
+                    this.torneos[index].inscrito = true;
+                    this.mistorneos.push(this.torneos[index]);
+                  }
                 }
+              };
+              if(this.mistorneos.length>0){
+                this.verTorneos=true;
               }
-            };
+          }
 
-            this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
-              this.inscripciones = res;
-              this._torneoService.getTorneos().subscribe(res=>{
-                this.torneos=res
-                if(this.inscripciones.length>0){
-                    for(let i=0;i<this.inscripciones.length;i++){
-
-                      for(let index=0;index<this.torneos.length;index++){
-                        if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
-                          this.torneos[index].inscrito = true;
-                          this.mistorneos.push(this.torneos[index]);
-                        }
-                      }
-                    };
-                    if(this.mistorneos.length>0){
-                      this.verTorneos=true;
+        });
+      });
+      this._claseService.getClases().subscribe(res=>{
+        this.clases = res;
+        this._registrarService.getRegistro(this.user.id).subscribe(res=>{
+            for (let index = 0; index < res.length; index++) {
+              for(let i=0;i<this.clases.length;i++)
+                if(this.clases[i].id == res[index].clase_id){
+                  for(let a=0;a<this.pistas.length;a++){
+                    if(this.clases[i].pista_id == this.pistas[a].id){
+                      this.clases[i].pista = this.pistas[a].name;
                     }
-                }
-                this._claseService.getClases().subscribe(res=>{
-                  this.clases = res;
-                  this._registrarService.getRegistro(this.user.id).subscribe(res=>{
-                    if(res){
-                      for (let index = 0; index < res.length; index++) {
-                        for(let i=0;i<this.clases.length;i++)
-                          if(this.clases[i].id == res[index].clase_id){
-                            for(let a=0;a<this.pistas.length;a++){
-                              if(this.clases[i].pista_id == this.pistas[a].id){
-                                this.clases[i].pista = this.pistas[a].name;
-                              }
-                            }
-                            this.misclases.push(this.clases[i]);
-                        }
-                      }
-                      console.log(this.misclases)
-                      this.addClases();
-                      this.addReservas();
-                      this.refresh.next();
-                      this.verCalendario=true;
-                    }
-
-                  })
-
-                })
-              });
-            });
-          });
-        }
-
-      },
-      error=>{
-        console.log(error)
-        this._pistaService.getPistas().subscribe(resp=>{
-          this.pistas=resp;
-
-          this._inscribirService.getInscripciones().subscribe((res:Inscribir[])=>{
-            this.inscripciones = res;
-            this._torneoService.getTorneos().subscribe(res=>{
-              this.torneos=res
-              if(this.inscripciones.length>0){
-                  for(let i=0;i<this.inscripciones.length;i++){
-
-                    for(let index=0;index<this.torneos.length;index++){
-                      if(this.inscripciones[i].usuario_id == this.user.id && this.torneos[index].id == this.inscripciones[i].torneo_id){
-                        this.torneos[index].inscrito = true;
-                        this.mistorneos.push(this.torneos[index]);
+                  }
+                  this.misclases.push(this.clases[i]);
+              }
+            }
+            this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
+              this.reservas = res;
+              if(this.reservas.length>0){
+                this._pistaService.getPistas().subscribe(resp=>{
+                  this.pistas=resp;
+                  for(let i=0;i<this.reservas.length;i++){
+                    for(let index=0;index<this.pistas.length;index++){
+                      if(this.reservas[i].pista_id == this.pistas[index].id){
+                        this.reservas[i].nombre = this.pistas[index].name;
                       }
                     }
                   };
-                  if(this.mistorneos.length>0){
-                    this.verTorneos=true;
-                  }
+                  this.addClases();
+                  this.addReservas();
+                  this.refresh.next();
+                  this.verCalendario=true;
+                });
+
               }
-              this._claseService.getClases().subscribe(res=>{
-                this.clases = res;
-                this._registrarService.getRegistro(this.user.id).subscribe(res=>{
-                  if(res){
 
-                    for (let index = 0; index < res.length; index++) {
-                      for(let i=0;i<this.clases.length;i++)
-                        if(this.clases[i].id == res[index].clase_id){
-                          for(let a=0;a<this.pistas.length;a++){
-                            if(this.clases[i].pista_id == this.pistas[a].id){
-                              this.clases[i].pista = this.pistas[a].name;
-                            }
-                          }
-                          this.misclases.push(this.clases[i]);
-                        }
+             },error=>{
+              this.addClases();
+              this.refresh.next();
+              this.verCalendario=true;
+             });
+
+        },error=>{
+          this._reservaService.getReserva(this.user.id).subscribe((res:Reserva[])=>{
+            this.reservas = res;
+            if(this.reservas.length>0){
+              this._pistaService.getPistas().subscribe(resp=>{
+                this.pistas=resp;
+                for(let i=0;i<this.reservas.length;i++){
+                  for(let index=0;index<this.pistas.length;index++){
+                    if(this.reservas[i].pista_id == this.pistas[index].id){
+                      this.reservas[i].nombre = this.pistas[index].name;
                     }
-
-                    this.addClases();
-                    this.addReservas();
-                    this.refresh.next();
-                    this.verCalendario=true;
                   }
+                };
+                this.addReservas();
+                this.refresh.next();
+                this.verCalendario=true;
+              });
 
-                })
+            }
 
-              })
-            });
-          });
-        });
-      }
-      );
+           });
+        })
+
+      });
+
     }
-    
-    
+
+
     if(this.viewDate.getMonth() == new Date().getMonth()){
       this.dis = true;
     }
@@ -325,7 +295,7 @@ export class SesionComponent implements OnInit,AfterViewChecked {
     });
   }
 
-  borrarUsuario(id:number,index:number){
+  borrarUsuario(id:number,index:User){
     this._alertaService.openConfirmDialog()
     .afterClosed().subscribe(res=>{
       if(res){
@@ -343,7 +313,7 @@ export class SesionComponent implements OnInit,AfterViewChecked {
           });
           }
           this._alertaService.openAlert('Usuario eliminado correctamente');
-          this.usuarios.splice(index,1);
+          this.usuarios = this.usuarios.filter((item)=>item != index)
           if(this.usuarios.length==5){
             this.page = 1;
           }
@@ -367,11 +337,11 @@ export class SesionComponent implements OnInit,AfterViewChecked {
   }
 
   addReservas(){
-   
-      
+
+
       if(this.reservas.length>0){
         for(let i=0;i<this.reservas.length;i++){
-          
+
             if(new Date(this.reservas[i].fecha) < new Date()){
 
             }else{
@@ -385,15 +355,14 @@ export class SesionComponent implements OnInit,AfterViewChecked {
           }
 
       }
-      
+
   }
 
 
   addClases(){
-    this.events = [];
       if(this.misclases.length>0){
         for(let i=0;i<this.misclases.length;i++){
-          
+
             if(new Date(this.misclases[i].fecha) > new Date()){
               this.events.push({start:new Date(this.misclases[i].fecha),title:this.misclases[i].tipo,color: {
                 primary: "#e3bc08",
@@ -404,7 +373,7 @@ export class SesionComponent implements OnInit,AfterViewChecked {
 
           }
         }
-        
+
       }
 
   mesSiguiente(){
@@ -447,8 +416,8 @@ export class SesionComponent implements OnInit,AfterViewChecked {
       }
 
     });
-    
-    
+
+
   }
   beforeDayViewRender(body:CalendarWeekViewBeforeRenderEvent){
 

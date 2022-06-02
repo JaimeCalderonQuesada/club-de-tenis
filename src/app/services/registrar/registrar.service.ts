@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Inscribir } from 'src/app/clases/inscribir';
+import { environment } from 'src/environments/environment';
 import { Registrar } from '../../clases/registrar';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Registrar } from '../../clases/registrar';
 })
 export class RegistrarService {
 
-  private url:string = "http://localhost/club-de-tenis/api/";
+  private url:string = environment.url;
   constructor(private http: HttpClient) { }
 
   insertarRegistro(registrar:Registrar): Observable<any>{

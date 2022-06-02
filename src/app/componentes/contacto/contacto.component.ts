@@ -142,12 +142,12 @@ export class ContactoComponent implements OnInit,AfterViewChecked {
 
   }
 
-  borrarContacto(id:number,index:number){
+  borrarContacto(id:number,index:Contacto){
     this._alertaService.openConfirmDialog()
     .afterClosed().subscribe(res=>{
       if(res){
         this._servicioContacto.borrarContacto(id).subscribe();
-        this.contactos.splice(index,1);
+        this.contactos = this.contactos.filter((item)=>item != index)
         if(this.contactos.length==0){
           this.verContactos=false;
         }

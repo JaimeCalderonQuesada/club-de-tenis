@@ -36,7 +36,7 @@ export class SociosComponent implements OnInit, AfterViewChecked {
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef
     ) {document.title = "Clases";
-  
+
   }
 
   ngAfterViewChecked(): void {
@@ -48,7 +48,7 @@ export class SociosComponent implements OnInit, AfterViewChecked {
     this._usuariosService.verDatos.subscribe((res)=>{
         this.verDatos=res
     })
-    
+
       let busca;
       let micookie;
       let igual;
@@ -99,7 +99,6 @@ export class SociosComponent implements OnInit, AfterViewChecked {
             })
           })
         }
-
   }
 
   abrirApuntarse(){
@@ -109,12 +108,12 @@ export class SociosComponent implements OnInit, AfterViewChecked {
     modalRef.afterClosed().subscribe((response) => {
     });
   }
-  borrarRegistro(registro:Registrar,icontrol:number){
+  borrarRegistro(registro:Registrar){
     this._alertaService.openConfirmDialog()
     .afterClosed().subscribe(res=>{
       if(res){
         this._registrarService.borrarRegistro(registro).subscribe();
-        this.registros.splice(icontrol,1);
+        this.registros = this.registros.filter((item)=>item != registro)
         if(this.registros.length==0){
           this.verClases=false;
         }
