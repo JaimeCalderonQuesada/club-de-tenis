@@ -35,6 +35,7 @@ import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { TipoPipe } from './pipes/tipo.pipe';
 import { MesesPipe } from './pipes/meses.pipe';
 import { ModificarComponent } from './componentes/modales/modificar/modificar.component';
+import { AsistirPipe } from './pipes/asistir.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +60,8 @@ import { ModificarComponent } from './componentes/modales/modificar/modificar.co
     SpinnerComponent,
     TipoPipe,
     MesesPipe,
-    ModificarComponent
+    ModificarComponent,
+    AsistirPipe
   ],
   imports: [
     BrowserModule,

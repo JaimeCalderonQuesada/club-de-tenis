@@ -56,7 +56,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let registro of registros |nombre:buscar | meses:select | tipo:buscarTipo |paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
+                <tr *ngFor="let registro of registros |nombre:buscar | meses:select | tipo:buscarTipo | asistir:select1|paginate: {id:'c',itemsPerPage:10,currentPage:page}; let i = index">
                   <td colspan="2" class="mensaje"  matTooltip="{{registro.name}}"
                   matTooltipClass="tooltip"><span>{{registro.name}}</span></td>
                   <td colspan="2" class="mensaje"  matTooltip="{{registro.fecha | date:'dd-MM-Y HH:mm:ss'}}"
