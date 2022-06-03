@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS clases (
 CREATE TABLE IF NOT EXISTS registrar (
      clase_id int(10) UNSIGNED NOT NULL,
      usuario_id int(10) UNSIGNED NOT NULL,
+     asistido int(1) UNSIGNED NOT NULL,
      PRIMARY KEY (clase_id,usuario_id),
      CONSTRAINT `fk_registrar_usuarios`
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
@@ -99,8 +100,8 @@ CREATE TABLE IF NOT EXISTS contactos(
      PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
--- INSERT INTO `clases` (`fecha`, `tipo`, `pista_id`) 
--- VALUES 
+-- INSERT INTO `clases` (`fecha`, `tipo`, `pista_id`)
+-- VALUES
 --  ('2022-06-01 17:00:00', 'Benjamin', '1'),
 --  ('2022-06-01 18:00:00', 'Infantil/Cadete', '1'),
 --  ('2022-06-01 19:00:00', 'Adultos', '1'),

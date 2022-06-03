@@ -25,4 +25,7 @@ export class RegistrarService {
   borrarRegistro(registrar:Registrar):Observable<any>{
     return this.http.post(this.url+"?borrarRegistro=1",registrar);
   }
+  modificarRegistro(registrar:Registrar): Observable<any>{
+    return this.http.put(this.url+"?actualizarRegistro=1",registrar);
+  }
 }
