@@ -47,7 +47,7 @@ export class TorneoComponent implements OnInit {
         fecha:[this.data.torneo.fecha,[Validators.required]],
         fechaActual:[this.fechaActual]
       }, {validator: this.fechaMayor('fecha','fechaActual')});
-      
+
     }else{
       this.nuevapista = this.fb.group({
         name: ["",[Validators.required,Validators.maxLength(100),Validators.pattern("^([a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.']{10,})")]],
@@ -57,7 +57,7 @@ export class TorneoComponent implements OnInit {
         imagen:["",[Validators.required]]
       }, {validator: this.fechaMayor('fecha','fechaActual')});
     }
-    
+
    }
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class TorneoComponent implements OnInit {
       if(matchingcontrol.errors && !matchingcontrol.errors?.["MustMatch"]){
         return
       }
-      
+
       if(new Date(control.value) <= matchingcontrol.value){
         control.setErrors({MustMatch:true});
       }else{
@@ -118,7 +118,8 @@ export class TorneoComponent implements OnInit {
       }else{
         this.torneo.name = this.nuevapista.get('name')?.value;
         this.torneo.localidad = this.nuevapista.get('descripcion')?.value;
-        this.torneo.fecha = new Date(this.nuevapista.get('fecha')?.value);
+        let fe = new Date(this.nuevapista.get('fecha')?.value);
+        this.torneo.fecha = ""+fe.getFullYear()+"-"+(fe.getMonth()+1)+"-"+fe.getDate();
         if(this.imgDetails.length==0){
           this.torneo.imagen = "";
         }else{
@@ -137,7 +138,8 @@ export class TorneoComponent implements OnInit {
       this.torneo.name = this.nuevapista.get('name')?.value;
       this.torneo.localidad = this.nuevapista.get('descripcion')?.value;
       this.torneo.imagen = this.imgDetails[0].content;
-      this.torneo.fecha = new Date(this.nuevapista.get('fecha')?.value);
+      let fe = new Date(this.nuevapista.get('fecha')?.value);
+      this.torneo.fecha = ""+fe.getFullYear()+"-"+(fe.getMonth()+1)+"-"+fe.getDate();
       this._torneoService.insertarTorneo(this.torneo).subscribe(
         result=>{
           this.nuevapista.reset();
@@ -154,7 +156,7 @@ export class TorneoComponent implements OnInit {
     }
 
 
-    
+
   }
 
 }

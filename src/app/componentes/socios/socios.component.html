@@ -27,6 +27,13 @@
           <div class="col">
             <input type="text"  class="form-control mb-4 me-5 col" name="buscar" [(ngModel)]="buscarTipo" placeholder="Buscar por tipo">
           </div>
+          <div class="col">
+            <select name="select1" class="form-select mb-4 me-5" [(ngModel)]="select1">
+              <option value=2>Todos los registros</option>
+              <option value=1>Asistidos</option>
+              <option value=0>No Asistidos</option>
+            </select>
+          </div>
           </div>
 
           <div *ngIf="!verDatos" class="pb-2 pt-2">
@@ -36,10 +43,16 @@
             <table >
               <thead>
                 <tr>
-                  <th colspan="2">Usuario</th>
-                  <th colspan="2">Fecha</th>
-                  <th colspan="2">Tipo</th>
-                  <th colspan="1">Borrar</th>
+                  <th colspan="2" class="mensaje"  matTooltip="Usuario"
+                  matTooltipClass="tooltip">Usuario</th>
+                  <th colspan="2" class="mensaje"  matTooltip="Fecha"
+                  matTooltipClass="tooltip">Fecha</th>
+                  <th colspan="2" class="mensaje"  matTooltip="Tipo"
+                  matTooltipClass="tooltip">Tipo</th>
+                  <th colspan="1" class="mensaje"  matTooltip="Asistido"
+                  matTooltipClass="tooltip">Asistido</th>
+                  <th colspan="1" class="mensaje"  matTooltip="Acciones"
+                  matTooltipClass="tooltip">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -50,7 +63,11 @@
                   matTooltipClass="tooltip"><span>{{registro.fecha | date:'dd-MM-Y HH:mm:ss'}}</span></td>
                   <td colspan="2" class="mensaje"  matTooltip="{{registro.tipo}}"
                   matTooltipClass="tooltip"><span >{{registro.tipo}}</span></td>
-                  <td colspan="1"><a type="button" (click)="borrarRegistro(registro)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
+                  <td colspan="1" class="mensaje" *ngIf="registro.asistido==0"  matTooltip="NO"
+                  matTooltipClass="tooltip"><span >NO</span></td>
+                  <td colspan="1" class="mensaje" *ngIf="registro.asistido==1"  matTooltip="SI"
+                  matTooltipClass="tooltip"><span >SI</span></td>
+                  <td colspan="1"><a type="button" (click)="modificarRegistro(registro)"><i class="bi bi-pen d-inline me-2"></i></a><a type="button" (click)="borrarRegistro(registro)"><i class="bi bi-trash3 d-inline me-1"></i></a></td>
                 </tr>
               </tbody>
               </table>

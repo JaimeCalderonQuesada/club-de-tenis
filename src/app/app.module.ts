@@ -34,6 +34,7 @@ import { SpinnerComponent } from './componentes/spinner/spinner.component';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { TipoPipe } from './pipes/tipo.pipe';
 import { MesesPipe } from './pipes/meses.pipe';
+import { ModificarComponent } from './componentes/modales/modificar/modificar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +58,8 @@ import { MesesPipe } from './pipes/meses.pipe';
     FechaPipe,
     SpinnerComponent,
     TipoPipe,
-    MesesPipe
+    MesesPipe,
+    ModificarComponent
   ],
   imports: [
     BrowserModule,

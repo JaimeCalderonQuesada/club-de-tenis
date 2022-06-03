@@ -7,5 +7,5 @@ export class User {
     public sexo: string;
     public movil: string;
     public dni: string;
-    public fecha: Date;
+    public fecha: string;
 }

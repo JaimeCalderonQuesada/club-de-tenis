@@ -26,6 +26,7 @@ export class SociosComponent implements OnInit, AfterViewChecked {
   public buscar:string="";
   public buscarTipo:string="";
   public select:number=13;
+  public select1:number=2;
   public verDatos:Boolean;
 
   constructor(
@@ -122,5 +123,27 @@ export class SociosComponent implements OnInit, AfterViewChecked {
       }
     })
   }
+  modificarRegistro(registro:Registrar){
+    this._alertaService.openModificarDialog()
+        .afterClosed().subscribe(res=>{
+          if(res){
+            registro.asistido=1;
+            this._registrarService.modificarRegistro(registro).subscribe((res)=>{
+              this._alertaService.openAlert('Registro modificado correctamente');
+            },
+            error=>{
+              console.log(error)
+            });
+          }else{
+            registro.asistido=0;
+            this._registrarService.modificarRegistro(registro).subscribe((res)=>{
+              this._alertaService.openAlert('Registro modificado correctamente');
+            },
+            error=>{
+              console.log(error)
+            });
+          }
+        })
+      }
 
 }

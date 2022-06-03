@@ -181,7 +181,8 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
     this.usuario.sexo = this.options.get('sexo')?.value;
     this.usuario.movil = this.options.get('movil')?.value;
     this.usuario.dni = this.options.get('dni')?.value;
-    this.usuario.fecha = new Date(this.options.get('fecha')?.value);
+    let fe = new Date(this.options.get('fecha')?.value);
+    this.usuario.fecha = ""+fe.getFullYear()+"-"+(fe.getMonth()+1)+"-"+fe.getDate();
     this._usuariosService.insertarUser(this.usuario).subscribe(
       result => {
         // Handle result
