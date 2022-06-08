@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url:"https://clubdetenisjaime.com/api/"
+  url:"http://clubdetenisjaime.com/api/"
 };

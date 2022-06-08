@@ -214,6 +214,7 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
     }else{
       this.dis = false;
     }
+    this.events = [];
     this.addReservas(index);
     if(index==1){
       this.addClases(index);
@@ -226,7 +227,7 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
 
   addReservas(index:number){
     this._reservaService.getReservas().subscribe((res:any)=>{
-        this.events = [];
+
       if(res.length>0){
         for(let i=0;i<res.length;i++){
           if(res[i].pista_id == index){
@@ -340,11 +341,8 @@ export class RegistroComponent implements OnInit,AfterViewChecked {
 
 
   horaClicked(hora:Date){
-
-
     this.r = false;
     this.horaReserva=hora;
-
     this._claseService.getClases().subscribe(clases=>{
 
       this._registrarService.getRegistro(this.user.id).subscribe(res=>{
