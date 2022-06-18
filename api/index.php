@@ -267,16 +267,6 @@ if (isset($_GET["borrarInscripcion"])){
     }
     else{  echo json_encode(["success"=>0]); }
   }
-// // Actualizar valoracion
-// if(isset($_GET["actualizarValoracion"])){
-
-//     $data = json_decode(file_get_contents("php://input"));
-//     $contenido=$data->contenido;
-
-//     $sqlEmpleaados = mysqli_query($conexionBD,"UPDATE valoraciones SET contenido=".$contenido." WHERE id=".$_GET["actualizarValoracion"]);
-//     echo json_encode(["success"=>1]);
-//     exit();
-// }
 
 
 // Inserta una pista
@@ -403,16 +393,6 @@ if (isset($_GET["clases"])){
     }else{  echo json_encode("".mysqli_error($sql).",".mysqli_connect_error($conexionBD)); }
   }
 
-// // Consulta todos los posts de un usuario concreto
-// if (isset($_GET["tusPosts"])){
-//     $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM posts WHERE usuario_id = ".$_GET["tusPosts"]);
-//     if(mysqli_num_rows($sqlEmpleaados) > 0){
-//         $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
-//         echo json_encode($empleaados);
-//         exit();
-//     }
-//     else{  echo json_encode(["success"=>0]); }
-// }
 
 //Inserta un nuevo registro a clases
 if(isset($_GET["registrar"])){
